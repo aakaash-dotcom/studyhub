@@ -2,71 +2,50 @@ import { Link } from 'react-router-dom'
 
 export default function Footer() {
   return (
-    <footer className="pb-20 lg:pb-0" style={{ backgroundColor: '#1A1A1A' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1 mb-4 md:mb-0">
-            <h3 className="text-lg font-bold text-white mb-1">Ravi's Tuition</h3>
-            <p className="text-xs mb-3" style={{ color: '#C0C8D9' }}>MADURAI · SINCE 1999</p>
-            <p className="text-sm" style={{ color: '#C0C8D9' }}>
-              Free study materials for TN State Board Samacheer Kalvi. Classes 8–12.
-            </p>
-            <a href="tel:8610653352" className="text-sm font-medium mt-2 inline-block" style={{ color: '#ffffff' }}>
-              📞 86106 53352
-            </a>
+    <footer style={{ backgroundColor: '#1A1A1A', color: 'white' }}>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <h3 className="font-bold text-lg mb-3">Ravi's Tuition</h3>
+            <p className="text-sm opacity-80 mb-2">MADURAI · SINCE 1999</p>
+            <p className="text-sm opacity-80">ravistuition.in</p>
+            <p className="text-sm opacity-80">86106 53352</p>
           </div>
 
-          {/* Classes */}
           <div>
-            <h4 className="text-white font-semibold mb-3 text-sm">Classes</h4>
-            <ul className="space-y-2">
-              {['8', '9', '10', '11', '12'].map((c) => (
-                <li key={c}>
-                  <Link to={`/class/${c}`} className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>
-                    {c}th Standard
-                  </Link>
-                </li>
-              ))}
+            <h4 className="font-bold mb-3">Classes</h4>
+            <ul className="space-y-2 text-sm opacity-80">
+              <li><Link to="/class/12" className="hover:opacity-100">12th Standard</Link></li>
+              <li><Link to="/class/11" className="hover:opacity-100">11th Standard</Link></li>
+              <li><Link to="/class/10" className="hover:opacity-100">10th Standard</Link></li>
+              <li><Link to="/class/9" className="hover:opacity-100">9th Standard</Link></li>
+              <li><Link to="/class/8" className="hover:opacity-100">8th Standard</Link></li>
             </ul>
           </div>
 
-          {/* Resources */}
           <div>
-            <h4 className="text-white font-semibold mb-3 text-sm">Resources</h4>
-            <ul className="space-y-2">
-              {['Important Questions', 'Model Papers', 'Question Papers', 'Answer Keys', 'Study Material'].map((c) => (
-                <li key={c}>
-                  <Link to="/class/10" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>
-                    {c}
-                  </Link>
-                </li>
-              ))}
+            <h4 className="font-bold mb-3">Resources</h4>
+            <ul className="space-y-2 text-sm opacity-80">
+              <li><Link to="/class/10" className="hover:opacity-100">Question Papers</Link></li>
+              <li><Link to="/class/10" className="hover:opacity-100">Model Papers</Link></li>
+              <li><Link to="/class/10" className="hover:opacity-100">Important Questions</Link></li>
+              <li><Link to="/class/10" className="hover:opacity-100">Study Materials</Link></li>
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
-            <h4 className="text-white font-semibold mb-3 text-sm">Legal</h4>
-            <ul className="space-y-2">
-              <li><Link to="/privacy" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Privacy Policy</Link></li>
-              <li><Link to="/terms" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Terms of Service</Link></li>
-              <li><Link to="/refund" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Refund Policy</Link></li>
-              <li><Link to="/content-policy" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Content Policy</Link></li>
+            <h4 className="font-bold mb-3">Legal</h4>
+            <ul className="space-y-2 text-sm opacity-80">
+              <li><Link to="/privacy" className="hover:opacity-100">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:opacity-100">Terms of Service</Link></li>
+              <li><Link to="/refund" className="hover:opacity-100">Refund Policy</Link></li>
+              <li><Link to="/content-policy" className="hover:opacity-100">Content Policy</Link></li>
             </ul>
           </div>
         </div>
-      </div>
 
-      {/* Bottom bar */}
-      <div className="border-t" style={{ borderColor: '#333' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs" style={{ color: '#C0C8D9' }}>
-            Ravi's Tuition · ravistuition.in | 86106 53352
-          </p>
-          <p className="text-xs" style={{ color: '#C0C8D9' }}>
-            © 2026 Ravi's Tuition, Madurai. All rights reserved.
-          </p>
+        <div className="border-t border-gray-700 mt-8 pt-6 text-center text-sm opacity-80">
+          <p>© 2026 Ravi's Tuition, Madurai. All rights reserved.</p>
         </div>
       </div>
     </footer>

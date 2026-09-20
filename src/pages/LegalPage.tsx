@@ -1,10 +1,13 @@
-import { useLocation, Link } from 'react-router-dom'
-import { ChevronLeft } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
 
-const legalContent: Record<string, { title: string; content: string }> = {
-  privacy: {
-    title: 'Privacy Policy',
-    content: `
+export default function LegalPage() {
+  const location = useLocation()
+  const page = location.pathname.replace('/', '')
+
+  const content: Record<string, { title: string; content: string }> = {
+    privacy: {
+      title: 'Privacy Policy',
+      content: `
 Last Updated: January 2026
 
 Ravi's Tuition ("we", "our", "us") is committed to protecting your privacy in compliance with India's Digital Personal Data Protection Act (DPDP Act) 2023.
@@ -36,11 +39,11 @@ We retain your data only as long as necessary for the purposes stated above. You
 For privacy concerns: privacy@ravistuition.in
 Phone: 86106 53352
 Address: Ravi's Tuition, Madurai, Tamil Nadu
-    `
-  },
-  terms: {
-    title: 'Terms of Service',
-    content: `
+      `
+    },
+    terms: {
+      title: 'Terms of Service',
+      content: `
 Last Updated: January 2026
 
 By accessing Ravi's Tuition study materials, you agree to these terms.
@@ -71,11 +74,11 @@ We reserve the right to terminate accounts for misuse or violation of these term
 **Contact**
 For questions: support@ravistuition.in
 Phone: 86106 53352
-    `
-  },
-  refund: {
-    title: 'Refund Policy',
-    content: `
+      `
+    },
+    refund: {
+      title: 'Refund Policy',
+      content: `
 Last Updated: January 2026
 
 **Free Materials**
@@ -100,11 +103,11 @@ When we introduce paid content:
 **Contact**
 For refund requests: support@ravistuition.in
 Phone: 86106 53352
-    `
-  },
-  'content-policy': {
-    title: 'Content Policy',
-    content: `
+      `
+    },
+    'content-policy': {
+      title: 'Content Policy',
+      content: `
 Last Updated: January 2026
 
 **Our Content**
@@ -135,37 +138,34 @@ If you find content that violates this policy:
 **Contact**
 For content inquiries: content@ravistuition.in
 Phone: 86106 53352
-    `
+      `
+    }
   }
-}
 
-export default function LegalPage() {
-  const location = useLocation()
-  const page = location.pathname.replace('/', '')
-  const content = legalContent[page || '']
+  const pageContent = content[page]
 
-  if (!content) {
+  if (!pageContent) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
         <div className="text-5xl mb-4">📄</div>
         <h1 className="text-2xl font-bold mb-4" style={{ color: '#1A1A1A' }}>Page not found</h1>
         <Link to="/" className="text-sm flex items-center justify-center gap-1" style={{ color: '#17528C' }}>
-          <ChevronLeft className="w-4 h-4" /> Go Home
+          ← Go Home
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+    <div className="max-w-3xl mx-auto px-4 py-8">
       <Link to="/" className="flex items-center gap-1 text-sm mb-6" style={{ color: '#17528C' }}>
-        <ChevronLeft className="w-4 h-4" /> Back to Home
+        ← Back to Home
       </Link>
 
-      <article className="bg-white rounded-2xl border p-6 sm:p-8" style={{ borderColor: '#C0C8D9' }}>
-        <h1 className="text-2xl sm:text-3xl font-bold mb-6" style={{ color: '#1A1A1A' }}>{content.title}</h1>
+      <article className="bg-white rounded-2xl border p-6" style={{ borderColor: '#C0C8D9' }}>
+        <h1 className="text-2xl font-bold mb-6" style={{ color: '#1A1A1A' }}>{pageContent.title}</h1>
         <div className="prose prose-sm max-w-none" style={{ color: '#1A1A1A' }}>
-          {content.content.split('\n').map((line, i) => {
+          {pageContent.content.split('\n').map((line, i) => {
             if (line.startsWith('**') && line.endsWith('**')) {
               return <h2 key={i} className="text-lg font-bold mt-6 mb-3" style={{ color: '#17528C' }}>{line.replace(/\*\*/g, '')}</h2>
             }
