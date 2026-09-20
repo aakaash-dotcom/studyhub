@@ -1,40 +1,49 @@
-import { HashRouter, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
-import Layout from './components/Layout'
-import HomePage from './pages/HomePage'
-import ClassPage from './pages/ClassPage'
-import CategoryPage from './pages/CategoryPage'
-import SubjectPage from './pages/SubjectPage'
-import ResourcePage from './pages/ResourcePage'
-import LoginPage from './pages/LoginPage'
-import ProfilePage from './pages/ProfilePage'
-import SearchPage from './pages/SearchPage'
-import LegalPage from './pages/LegalPage'
-import AdminFunnel from './pages/AdminFunnel'
+import { HashRouter, Routes, Route, Link } from 'react-router-dom'
+
+function HomePage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'system-ui' }}>
+      <h1 style={{ color: '#17528C' }}>🏠 Ravi's Tuition - Home</h1>
+      <p style={{ color: '#595959' }}>If you see this, routing is working!</p>
+      <nav style={{ marginTop: '20px' }}>
+        <Link to="/class/10" style={{ color: '#17528C', marginRight: '16px' }}>10th Class</Link>
+        <Link to="/login" style={{ color: '#17528C' }}>Login</Link>
+      </nav>
+    </div>
+  )
+}
+
+function ClassPage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'system-ui' }}>
+      <h1 style={{ color: '#17528C' }}>📚 Class Page</h1>
+      <p style={{ color: '#595959' }}>This is a class page</p>
+      <Link to="/" style={{ color: '#17528C' }}>← Back to Home</Link>
+    </div>
+  )
+}
+
+function LoginPage() {
+  return (
+    <div style={{ padding: '20px', fontFamily: 'system-ui' }}>
+      <h1 style={{ color: '#17528C' }}>🔐 Login Page</h1>
+      <p style={{ color: '#595959' }}>This is the login page</p>
+      <Link to="/" style={{ color: '#17528C' }}>← Back to Home</Link>
+    </div>
+  )
+}
 
 function App() {
+  console.log('📱 App component rendering...')
+  
   return (
-    <AuthProvider>
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="class/:classId" element={<ClassPage />} />
-            <Route path="class/:classId/:category" element={<CategoryPage />} />
-            <Route path="class/:classId/:category/:subject" element={<SubjectPage />} />
-            <Route path="resource/:resourceId" element={<ResourcePage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="search" element={<SearchPage />} />
-            <Route path="admin/funnel" element={<AdminFunnel />} />
-            <Route path="privacy" element={<LegalPage />} />
-            <Route path="terms" element={<LegalPage />} />
-            <Route path="refund" element={<LegalPage />} />
-            <Route path="content-policy" element={<LegalPage />} />
-          </Route>
-        </Routes>
-      </HashRouter>
-    </AuthProvider>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/class/:classId" element={<ClassPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </HashRouter>
   )
 }
 

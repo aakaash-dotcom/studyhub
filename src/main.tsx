@@ -2,9 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import ErrorBoundary from "./components/ErrorBoundary";
 
 console.log('🚀 Ravi\'s Tuition App starting...');
+
+// Global error handler
+window.addEventListener('error', (event) => {
+  console.error('Global error:', event.error);
+});
+
+window.addEventListener('unhandledrejection', (event) => {
+  console.error('Unhandled promise rejection:', event.reason);
+});
 
 try {
   const root = document.getElementById("root");
@@ -12,22 +20,31 @@ try {
     throw new Error('Root element not found');
   }
   
-  console.log('✅ Root element found, rendering app...');
+  console.log('✅ Root element found, creating React root...');
   
-  ReactDOM.createRoot(root).render(
-    <ErrorBoundary>
+  const reactRoot = ReactDOM.createRoot(root);
+  console.log('✅ React root created, rendering App...');
+  
+  reactRoot.render(
+    <React.StrictMode>
       <App />
-    </ErrorBoundary>
+    </React.StrictMode>
   );
   
-  console.log('✅ App rendered successfully');
+  console.log('✅ App render initiated successfully');
 } catch (error) {
   console.error('❌ Failed to start app:', error);
-  document.body.innerHTML = `
-    <div style="padding: 20px; font-family: system-ui;">
-      <h1 style="color: #B91C1C;">App Failed to Load</h1>
-      <p style="color: #595959;">Error: ${error instanceof Error ? error.message : 'Unknown error'}</p>
-      <p style="color: #595959;">Please check the browser console for details.</p>
-    </div>
-  `;
+  const root = document.getElementById("root");
+  if (root) {
+    root.innerHTML = `
+      <div style="padding: 20px; font-family: system-ui; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #B91C1C; font-size: 24px; margin-bottom: 16px;">⚠️ App Failed to Load</h1>
+        <p style="color: #595959; margin-bottom: 8px;"><strong>Error:</strong> ${error instanceof Error ? error.message : 'Unknown error'}</p>
+        <p style="color: #595959; margin-bottom: 16px;">Please check the browser console (F12) for more details.</p>
+        <button onclick="window.location.reload()" style="padding: 12px 24px; background: #17528C; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px;">
+          Reload Page
+        </button>
+      </div>
+    `;
+  }
 }
