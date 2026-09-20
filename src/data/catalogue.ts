@@ -16,6 +16,7 @@ export interface CatalogueRecord {
   title_ta: string
   description_en: string
   pages: number
+  size: string
   marks_pattern: string
   total_marks: number
   question_count: number
@@ -42,7 +43,7 @@ interface LoadResult {
 const REQUIRED_FIELDS = [
   'id', 'class', 'subject', 'subject_ta', 'medium', 'exam', 'year',
   'resource_type', 'resource_type_ta', 'title_en', 'title_ta', 'description_en',
-  'pages', 'marks_pattern', 'total_marks', 'question_count', 'duration',
+  'pages', 'size', 'marks_pattern', 'total_marks', 'question_count', 'duration',
   'price_tier', 'price_inr', 'preview_pages', 'file_pdf', 'tags', 'status'
 ]
 
@@ -241,9 +242,9 @@ export const SUBJECTS: Record<string, { name: string; name_ta: string; icon: str
 
 // Classes - ordered 12 to 8 (reverse)
 export const CLASSES = [
-  { id: '12', name: '12th Standard', name_ta: '12ம் வகுப்பு', icon: '🎖️' },
-  { id: '11', name: '11th Standard', name_ta: '11ம் வகுப்பு', icon: '📖' },
-  { id: '10', name: '10th Standard', name_ta: '10ம் வகுப்பு', icon: '🏆' },
-  { id: '9', name: '9th Standard', name_ta: '9ம் வகுப்பு', icon: '📗' },
-  { id: '8', name: '8th Standard', name_ta: '8ம் வகுப்பு', icon: '📘' },
+  { id: '12', name: '12th Standard', name_ta: '12ம் வகுப்பு', icon: '🎖️', drive_folder_id: '' },
+  { id: '11', name: '11th Standard', name_ta: '11ம் வகுப்பு', icon: '📖', drive_folder_id: '' },
+  { id: '10', name: '10th Standard', name_ta: '10ம் வகுப்பு', icon: '🏆', drive_folder_id: '' },
+  { id: '9', name: '9th Standard', name_ta: '9ம் வகுப்பு', icon: '📗', drive_folder_id: '' },
+  { id: '8', name: '8th Standard', name_ta: '8ம் வகுப்பு', icon: '📘', drive_folder_id: '' },
 ]
