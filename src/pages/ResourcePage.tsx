@@ -1,6 +1,6 @@
 import { Link, useParams, useNavigate } from 'react-router-dom'
-import { ChevronRight, Download, Eye, Lock, FileText, Clock, Users, BookOpen, Share2, ChevronLeft } from 'lucide-react'
-import { resources } from '../data/resources'
+import { ChevronRight, Download, Eye, Lock, FileText, Clock, BookOpen, Share2, ChevronLeft } from 'lucide-react'
+import { resources, tnClasses, categories } from '../data/resources'
 import { useAuth } from '../context/AuthContext'
 import { useState } from 'react'
 
@@ -12,6 +12,8 @@ export default function ResourcePage() {
   const [downloading, setDownloading] = useState(false)
 
   const resource = resources.find(r => r.id === resourceId)
+  const classData = resource ? tnClasses.find(c => c.id === resource.class) : null
+  const categoryData = resource ? categories.find(c => c.id === resource.category) : null
 
   if (!resource) {
     return (
@@ -29,7 +31,6 @@ export default function ResourcePage() {
       return
     }
     setDownloading(true)
-    // Simulate download
     await new Promise(resolve => setTimeout(resolve, 1500))
     setDownloading(false)
     window.open(resource.driveLink, '_blank')
@@ -37,36 +38,38 @@ export default function ResourcePage() {
 
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
-      'Notes': 'bg-blue-100 text-blue-700',
+      'Study Material': 'bg-blue-100 text-blue-700',
       'Question Paper': 'bg-red-100 text-red-700',
-      'Sample Paper': 'bg-orange-100 text-orange-700',
-      'NCERT Solutions': 'bg-purple-100 text-purple-700',
-      'Study Material': 'bg-green-100 text-green-700',
-      'Previous Year Paper': 'bg-amber-100 text-amber-700',
-      'Syllabus': 'bg-teal-100 text-teal-700',
+      'Model Paper': 'bg-green-100 text-green-700',
+      'Important Questions': 'bg-yellow-100 text-yellow-700',
+      'Notes': 'bg-purple-100 text-purple-700',
+      'Solutions': 'bg-emerald-100 text-emerald-700',
+      'Syllabus': 'bg-orange-100 text-orange-700',
     }
     return colors[type] || 'bg-gray-100 text-gray-700'
   }
 
   const relatedResources = resources
-    .filter(r => r.id !== resource.id && (r.subject === resource.subject || r.class === resource.class))
+    .filter(r => r.id !== resource.id && r.class === resource.class && r.subject === resource.subject)
     .slice(0, 4)
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
       {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 mb-4 overflow-x-auto pb-2">
+      <nav className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 mb-4 overflow-x-auto pb-2">
         <button onClick={() => navigate(-1)} className="flex items-center gap-1 hover:text-blue-600 whitespace-nowrap">
           <ChevronLeft className="w-3 h-3" /> Back
         </button>
         <ChevronRight className="w-3 h-3 flex-shrink-0" />
         <Link to="/" className="hover:text-blue-600 whitespace-nowrap">Home</Link>
         <ChevronRight className="w-3 h-3 flex-shrink-0" />
-        <Link to={resource.category === 'school' ? '/school' : resource.category === 'entrance' ? '/exams' : '/govt-exams'} className="hover:text-blue-600 whitespace-nowrap">
-          {resource.category === 'school' ? 'School' : resource.category === 'entrance' ? 'Entrance' : 'Govt'}
+        <Link to={`/class/${resource.class}`} className="hover:text-blue-600 whitespace-nowrap">
+          {classData?.name}
         </Link>
         <ChevronRight className="w-3 h-3 flex-shrink-0" />
-        <span className="text-gray-800 font-medium truncate">{resource.class}</span>
+        <Link to={`/class/${resource.class}/${resource.category}`} className="hover:text-blue-600 whitespace-nowrap">
+          {categoryData?.name}
+        </Link>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -77,7 +80,7 @@ export default function ResourcePage() {
             <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50">
               <div className="flex items-center gap-2">
                 <Eye className="w-4 h-4 text-blue-600" />
-                <span className="text-sm font-medium text-gray-700">Preview</span>
+                <span className="text-sm font-medium text-gray-700">PDF Preview</span>
               </div>
               <button
                 onClick={() => setShowPreview(!showPreview)}
@@ -99,7 +102,7 @@ export default function ResourcePage() {
                 </div>
                 {/* Overlay for non-logged in users */}
                 {!isAuthenticated && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-8">
+                  <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent flex items-end justify-center pb-6 sm:pb-8">
                     <div className="text-center px-4">
                       <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 max-w-sm mx-auto border border-gray-100">
                         <Lock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
@@ -133,9 +136,9 @@ export default function ResourcePage() {
                   </span>
                   <span className="text-xs text-gray-500">{resource.subject}</span>
                   <span className="text-xs text-gray-400">•</span>
-                  <span className="text-xs text-gray-500">{resource.class}</span>
+                  <span className="text-xs text-gray-500">{classData?.name}</span>
                   <span className="text-xs text-gray-400">•</span>
-                  <span className="text-xs text-gray-500">{resource.board}</span>
+                  <span className="text-xs text-gray-500">{resource.medium} Medium</span>
                 </div>
               </div>
             </div>
@@ -210,10 +213,9 @@ export default function ResourcePage() {
 
         {/* Sidebar */}
         <div className="lg:col-span-1">
-          {/* Related Resources */}
           <div className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm sticky top-20">
             <h3 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-              <Users className="w-4 h-4 text-blue-600" />
+              <BookOpen className="w-4 h-4 text-blue-600" />
               Related Materials
             </h3>
             <div className="space-y-3">

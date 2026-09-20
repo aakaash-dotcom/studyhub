@@ -29,11 +29,11 @@ export default function Header() {
             <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-1.5 sm:p-2 rounded-lg">
               <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <div className="hidden sm:block">
-              <h1 className="text-lg font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent leading-tight">
-                StudyHub
+            <div>
+              <h1 className="text-base sm:text-lg font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent leading-tight">
+                TN StudyHub
               </h1>
-              <p className="text-[9px] text-gray-500 -mt-0.5">Free Study Materials</p>
+              <p className="text-[9px] text-gray-500 -mt-0.5 hidden sm:block">Samacheer Kalvi Materials</p>
             </div>
           </Link>
 
@@ -42,14 +42,14 @@ export default function Header() {
             <Link to="/" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
               Home
             </Link>
-            <Link to="/school" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-              School
+            <Link to="/class/10" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+              10th
             </Link>
-            <Link to="/exams" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-              Entrance Exams
+            <Link to="/class/12" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+              12th
             </Link>
-            <Link to="/govt-exams" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
-              Govt Exams
+            <Link to="/class/9" className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors">
+              9th
             </Link>
           </nav>
 
@@ -139,14 +139,17 @@ export default function Header() {
             <Link to="/" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
               🏠 Home
             </Link>
-            <Link to="/school" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
-              📚 School Materials
+            <Link to="/class/10" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
+              🏆 10th Standard
             </Link>
-            <Link to="/exams" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
-              🎯 Entrance Exams
+            <Link to="/class/12" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
+              🎖️ 12th Standard
             </Link>
-            <Link to="/govt-exams" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
-              🏛️ Government Exams
+            <Link to="/class/9" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
+              🎓 9th Standard
+            </Link>
+            <Link to="/class/11" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition-colors font-medium">
+              📖 11th Standard
             </Link>
             {!isAuthenticated && (
               <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="block px-4 py-3 text-blue-600 hover:bg-blue-50 rounded-xl transition-colors font-medium">

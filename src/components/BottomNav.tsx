@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { Home, BookOpen, Target, Building, User } from 'lucide-react'
+import { Home, BookOpen, GraduationCap, FileText, User } from 'lucide-react'
 
 export default function BottomNav() {
   const location = useLocation()
@@ -13,9 +13,9 @@ export default function BottomNav() {
 
   const navItems = [
     { path: '/', icon: Home, label: 'Home' },
-    { path: '/school', icon: BookOpen, label: 'School' },
-    { path: '/exams', icon: Target, label: 'Exams' },
-    { path: '/govt-exams', icon: Building, label: 'Govt' },
+    { path: '/class/10', icon: BookOpen, label: '10th' },
+    { path: '/class/12', icon: GraduationCap, label: '12th' },
+    { path: '/class/9', icon: FileText, label: '9th' },
     { path: '/profile', icon: User, label: 'Profile' },
   ]
 
