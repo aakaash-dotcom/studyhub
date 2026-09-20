@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { ChevronLeft } from 'lucide-react'
 
 const legalContent: Record<string, { title: string; content: string }> = {
@@ -140,7 +140,8 @@ Phone: 86106 53352
 }
 
 export default function LegalPage() {
-  const { page } = useParams()
+  const location = useLocation()
+  const page = location.pathname.replace('/', '')
   const content = legalContent[page || '']
 
   if (!content) {

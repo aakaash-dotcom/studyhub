@@ -27,7 +27,10 @@ function App() {
             <Route path="profile" element={<ProfilePage />} />
             <Route path="search" element={<SearchPage />} />
             <Route path="admin/funnel" element={<AdminFunnel />} />
-            <Route path=":page" element={<LegalPage />} />
+            <Route path="privacy" element={<LegalPage />} />
+            <Route path="terms" element={<LegalPage />} />
+            <Route path="refund" element={<LegalPage />} />
+            <Route path="content-policy" element={<LegalPage />} />
           </Route>
         </Routes>
       </HashRouter>
