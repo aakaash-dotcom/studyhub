@@ -1,31 +1,29 @@
 import { Link } from 'react-router-dom'
-import { GraduationCap, Heart } from 'lucide-react'
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300 pb-20 lg:pb-0">
+    <footer className="pb-20 lg:pb-0" style={{ backgroundColor: '#1A1A1A' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1 mb-4 md:mb-0">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-2 rounded-lg">
-                <GraduationCap className="w-5 h-5 text-white" />
-              </div>
-              <h3 className="text-lg font-bold text-white">TN StudyHub</h3>
-            </div>
-            <p className="text-gray-400 text-sm">
-              Free study materials for Tamil Nadu State Board - Samacheer Kalvi. Class 1 to 12.
+            <h3 className="text-lg font-bold text-white mb-1">Ravi's Tuition</h3>
+            <p className="text-xs mb-3" style={{ color: '#C0C8D9' }}>MADURAI · SINCE 1999</p>
+            <p className="text-sm" style={{ color: '#C0C8D9' }}>
+              Free study materials for TN State Board Samacheer Kalvi. Classes 8–12.
             </p>
+            <a href="tel:8610653352" className="text-sm font-medium mt-2 inline-block" style={{ color: '#ffffff' }}>
+              📞 86106 53352
+            </a>
           </div>
 
           {/* Classes */}
           <div>
             <h4 className="text-white font-semibold mb-3 text-sm">Classes</h4>
             <ul className="space-y-2">
-              {['10', '11', '12', '9', '8'].map((c) => (
+              {['8', '9', '10', '11', '12'].map((c) => (
                 <li key={c}>
-                  <Link to={`/class/${c}`} className="text-sm text-gray-400 hover:text-white transition-colors">
+                  <Link to={`/class/${c}`} className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>
                     {c}th Standard
                   </Link>
                 </li>
@@ -33,13 +31,13 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Categories */}
+          {/* Resources */}
           <div>
-            <h4 className="text-white font-semibold mb-3 text-sm">Categories</h4>
+            <h4 className="text-white font-semibold mb-3 text-sm">Resources</h4>
             <ul className="space-y-2">
-              {['Study Material', 'Question Papers', 'Model Papers', 'Notes', 'Solutions'].map((c) => (
+              {['Important Questions', 'Model Papers', 'Question Papers', 'Answer Keys', 'Study Material'].map((c) => (
                 <li key={c}>
-                  <Link to="/class/10" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  <Link to="/class/10" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>
                     {c}
                   </Link>
                 </li>
@@ -47,30 +45,27 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Subjects */}
+          {/* Legal */}
           <div>
-            <h4 className="text-white font-semibold mb-3 text-sm">Subjects</h4>
+            <h4 className="text-white font-semibold mb-3 text-sm">Legal</h4>
             <ul className="space-y-2">
-              {['Maths', 'Science', 'English', 'Tamil', 'Social Science'].map((s) => (
-                <li key={s}>
-                  <Link to="/class/10" className="text-sm text-gray-400 hover:text-white transition-colors">
-                    {s}
-                  </Link>
-                </li>
-              ))}
+              <li><Link to="/privacy" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Terms of Service</Link></li>
+              <li><Link to="/refund" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Refund Policy</Link></li>
+              <li><Link to="/content-policy" className="text-sm hover:text-white transition-colors" style={{ color: '#C0C8D9' }}>Content Policy</Link></li>
             </ul>
           </div>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-gray-800">
+      <div className="border-t" style={{ borderColor: '#333' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-gray-500">
-            © 2026 TN StudyHub. All rights reserved.
+          <p className="text-xs" style={{ color: '#C0C8D9' }}>
+            Ravi's Tuition · ravistuition.in | 86106 53352
           </p>
-          <p className="text-xs text-gray-500 flex items-center gap-1">
-            Made with <Heart className="w-3 h-3 text-red-500 fill-red-500" /> for TN Students
+          <p className="text-xs" style={{ color: '#C0C8D9' }}>
+            © 2026 Ravi's Tuition, Madurai. All rights reserved.
           </p>
         </div>
       </div>

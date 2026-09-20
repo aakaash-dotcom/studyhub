@@ -1,116 +1,192 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
-interface User {
-  name: string
-  email: string
+// Progressive profiling stages
+export type ProfileStage = 'phone' | 'name_class' | 'school_medium' | 'district_intent' | 'complete'
+
+export interface ConsentRecord {
+  purpose: string
+  granted: boolean
+  timestamp: number
+  source: string
+}
+
+export interface UserProfile {
   phone: string
+  name?: string
   class?: string
-  board?: string
-  avatar?: string
-  joinedAt: string
+  school?: string
+  medium?: string
+  district?: string
+  after12thIntent?: string
+  profileStage: ProfileStage
+  consents: ConsentRecord[]
+  createdAt: number
 }
 
 interface AuthContextType {
-  user: User | null
+  user: UserProfile | null
   isAuthenticated: boolean
-  login: (email: string, password: string) => Promise<boolean>
-  register: (data: RegisterData) => Promise<boolean>
+  profileStage: ProfileStage
+  sendOtp: (phone: string) => Promise<{ success: boolean; message: string }>
+  verifyOtp: (phone: string, otp: string) => Promise<boolean>
+  updateProfile: (data: Partial<UserProfile>) => void
+  addConsent: (consent: Omit<ConsentRecord, 'timestamp'>) => void
   logout: () => void
-  updateProfile: (data: Partial<User>) => void
-}
-
-interface RegisterData {
-  name: string
-  email: string
-  phone: string
-  password: string
-  class?: string
-  board?: string
+  exportUserData: () => string
+  deleteUserData: () => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
+// Simulated OTP store (in production, this is Supabase Auth)
+const OTP_STORE_KEY = 'rt_otp_store'
+
+function storeOtp(phone: string, otp: string) {
+  const store = JSON.parse(localStorage.getItem(OTP_STORE_KEY) || '{}')
+  store[phone] = { otp, expires: Date.now() + 5 * 60 * 1000 } // 5 min
+  localStorage.setItem(OTP_STORE_KEY, JSON.stringify(store))
+}
+
+function verifyStoredOtp(phone: string, otp: string): boolean {
+  const store = JSON.parse(localStorage.getItem(OTP_STORE_KEY) || '{}')
+  const entry = store[phone]
+  if (!entry) return false
+  if (Date.now() > entry.expires) return false
+  return entry.otp === otp
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<UserProfile | null>(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem('studyhub_user')
+    const stored = localStorage.getItem('rt_user')
     if (stored) {
       setUser(JSON.parse(stored))
     }
   }, [])
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  // Step 1: Send OTP to phone
+  const sendOtp = async (phone: string): Promise<{ success: boolean; message: string }> => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 800))
-    
-    const storedUsers = JSON.parse(localStorage.getItem('studyhub_users') || '[]')
-    const found = storedUsers.find((u: any) => u.email === email && u.password === password)
-    
-    if (found) {
-      const { password: _, ...userData } = found
-      setUser(userData)
-      localStorage.setItem('studyhub_user', JSON.stringify(userData))
-      return true
+
+    if (!/^\d{10}$/.test(phone)) {
+      return { success: false, message: 'Please enter a valid 10-digit phone number' }
     }
-    
-    // Demo login
-    if (email === 'demo@studyhub.com' && password === 'demo123') {
-      const demoUser: User = {
-        name: 'Demo Student',
-        email: 'demo@studyhub.com',
-        phone: '9876543210',
-        class: 'Class 12',
-        board: 'CBSE',
-        joinedAt: new Date().toISOString()
-      }
-      setUser(demoUser)
-      localStorage.setItem('studyhub_user', JSON.stringify(demoUser))
-      return true
+
+    // Generate 6-digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString()
+    storeOtp(phone, otp)
+
+    // In production: Supabase auth.signInWithOtp({ phone })
+    // For demo: show OTP in console/alert
+    console.log(`[DEMO] OTP for ${phone}: ${otp}`)
+
+    return {
+      success: true,
+      message: `OTP sent to ${phone}. For demo, OTP is: ${otp}`
     }
-    
-    return false
   }
 
-  const register = async (data: RegisterData): Promise<boolean> => {
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    const storedUsers = JSON.parse(localStorage.getItem('studyhub_users') || '[]')
-    
-    if (storedUsers.find((u: any) => u.email === data.email)) {
-      return false
+  // Step 2: Verify OTP and create/load user
+  const verifyOtp = async (phone: string, otp: string): Promise<boolean> => {
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    const valid = verifyStoredOtp(phone, otp)
+    if (!valid) return false
+
+    // Load existing user or create new
+    const stored = localStorage.getItem('rt_user')
+    let profile: UserProfile
+
+    if (stored) {
+      profile = JSON.parse(stored)
+      profile.phone = phone
+    } else {
+      profile = {
+        phone,
+        profileStage: 'name_class',
+        consents: [{
+          purpose: 'otp_authentication',
+          granted: true,
+          timestamp: Date.now(),
+          source: 'login_flow'
+        }],
+        createdAt: Date.now()
+      }
     }
-    
-    const newUser = {
-      ...data,
-      joinedAt: new Date().toISOString()
-    }
-    
-    storedUsers.push(newUser)
-    localStorage.setItem('studyhub_users', JSON.stringify(storedUsers))
-    
-    const { password: _, ...userData } = newUser
-    setUser(userData)
-    localStorage.setItem('studyhub_user', JSON.stringify(userData))
-    
+
+    setUser(profile)
+    localStorage.setItem('rt_user', JSON.stringify(profile))
+    localStorage.setItem('rt_user_id', phone)
+
     return true
+  }
+
+  // Progressive profiling update
+  const updateProfile = (data: Partial<UserProfile>) => {
+    if (!user) return
+
+    const updated = { ...user, ...data }
+
+    // Advance profile stage based on what's filled
+    if (updated.name && updated.class) {
+      updated.profileStage = 'school_medium'
+    }
+    if (updated.school && updated.medium) {
+      updated.profileStage = 'district_intent'
+    }
+    if (updated.district) {
+      updated.profileStage = 'complete'
+    }
+
+    setUser(updated)
+    localStorage.setItem('rt_user', JSON.stringify(updated))
+  }
+
+  // DPDP consent management
+  const addConsent = (consent: Omit<ConsentRecord, 'timestamp'>) => {
+    if (!user) return
+    const updated = {
+      ...user,
+      consents: [...user.consents, { ...consent, timestamp: Date.now() }]
+    }
+    setUser(updated)
+    localStorage.setItem('rt_user', JSON.stringify(updated))
   }
 
   const logout = () => {
     setUser(null)
-    localStorage.removeItem('studyhub_user')
+    localStorage.removeItem('rt_user')
+    localStorage.removeItem('rt_user_id')
   }
 
-  const updateProfile = (data: Partial<User>) => {
-    if (user) {
-      const updated = { ...user, ...data }
-      setUser(updated)
-      localStorage.setItem('studyhub_user', JSON.stringify(updated))
-    }
+  // DPDP: Export user data
+  const exportUserData = (): string => {
+    if (!user) return '{}'
+    return JSON.stringify(user, null, 2)
+  }
+
+  // DPDP: Delete user data
+  const deleteUserData = () => {
+    localStorage.removeItem('rt_user')
+    localStorage.removeItem('rt_user_id')
+    setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, register, logout, updateProfile }}>
+    <AuthContext.Provider value={{
+      user,
+      isAuthenticated: !!user,
+      profileStage: user?.profileStage || 'phone',
+      sendOtp,
+      verifyOtp,
+      updateProfile,
+      addConsent,
+      logout,
+      exportUserData,
+      deleteUserData,
+    }}>
       {children}
     </AuthContext.Provider>
   )

@@ -9,6 +9,8 @@ import ResourcePage from './pages/ResourcePage'
 import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import SearchPage from './pages/SearchPage'
+import LegalPage from './pages/LegalPage'
+import AdminFunnel from './pages/AdminFunnel'
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="profile" element={<ProfilePage />} />
             <Route path="search" element={<SearchPage />} />
+            <Route path="admin/funnel" element={<AdminFunnel />} />
+            <Route path=":page" element={<LegalPage />} />
           </Route>
         </Routes>
       </HashRouter>

@@ -1,310 +1,189 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { GraduationCap, Mail, Lock, User, Phone, BookOpen, Eye, EyeOff, CheckCircle, ArrowRight } from 'lucide-react'
+import { GraduationCap, Phone, KeyRound, ArrowRight, ArrowLeft, Shield } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { trackLoginSuccess } from '../lib/events'
 
 export default function LoginPage() {
-  const [isLogin, setIsLogin] = useState(true)
-  const [showPassword, setShowPassword] = useState(false)
+  const [step, setStep] = useState<'phone' | 'otp'>('phone')
+  const [phone, setPhone] = useState('')
+  const [otp, setOtp] = useState('')
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, register } = useAuth()
+  const { sendOtp, verifyOtp } = useAuth()
 
   const from = (location.state as any)?.from || '/'
 
-  // Login form state
-  const [loginData, setLoginData] = useState({ email: '', password: '' })
-  
-  // Register form state
-  const [registerData, setRegisterData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    password: '',
-    class: '',
-    board: '',
-  })
-
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    setMessage('')
     setLoading(true)
 
-    const result = await login(loginData.email, loginData.password)
+    const result = await sendOtp(phone)
     setLoading(false)
 
-    if (result) {
-      navigate(from)
+    if (result.success) {
+      setMessage(result.message)
+      setStep('otp')
     } else {
-      setError('Invalid email or password. Try demo@studyhub.com / demo123')
+      setError(result.message)
     }
   }
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setLoading(true)
 
-    if (!registerData.name || !registerData.email || !registerData.password) {
-      setError('Please fill in all required fields')
-      setLoading(false)
-      return
-    }
-
-    const result = await register(registerData)
+    const success = await verifyOtp(phone, otp)
     setLoading(false)
 
-    if (result) {
-      setSuccess('Account created successfully!')
-      setTimeout(() => navigate(from), 1000)
+    if (success) {
+      trackLoginSuccess('phone_otp')
+      navigate(from)
     } else {
-      setError('Email already registered. Try logging in instead.')
+      setError('Invalid OTP. Please try again.')
     }
   }
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-8 px-4 bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-      <div className="w-full max-w-md">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-8 px-4" style={{ backgroundColor: '#F5F8FC' }}>
+      <div className="w-full max-w-sm">
         {/* Logo */}
         <div className="text-center mb-6">
           <Link to="/" className="inline-flex items-center gap-2">
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-2.5 rounded-xl">
+            <div className="p-2.5 rounded-xl" style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}>
               <GraduationCap className="w-7 h-7 text-white" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent">
-              StudyHub
-            </span>
           </Link>
+          <h2 className="text-lg font-bold mt-3" style={{ color: '#1A1A1A' }}>Ravi's Tuition</h2>
+          <p className="text-xs" style={{ color: '#595959' }}>MADURAI · SINCE 1999</p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          {/* Tabs */}
-          <div className="flex border-b border-gray-100">
-            <button
-              onClick={() => { setIsLogin(true); setError(''); }}
-              className={`flex-1 py-3.5 text-sm font-medium transition-colors ${
-                isLogin ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Login
-            </button>
-            <button
-              onClick={() => { setIsLogin(false); setError(''); }}
-              className={`flex-1 py-3.5 text-sm font-medium transition-colors ${
-                !isLogin ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50' : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              Register
-            </button>
-          </div>
-
+        <div className="bg-white rounded-2xl shadow-lg border overflow-hidden" style={{ borderColor: '#C0C8D9' }}>
           <div className="p-5 sm:p-6">
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600 flex items-center gap-2">
-                <span className="text-lg">⚠️</span> {error}
+              <div className="mb-4 p-3 rounded-xl text-sm flex items-center gap-2" style={{ backgroundColor: '#FEF2F2', color: '#B91C1C', border: '1px solid #FECACA' }}>
+                ⚠️ {error}
               </div>
             )}
-            {success && (
-              <div className="mb-4 p-3 bg-green-50 border border-green-100 rounded-xl text-sm text-green-600 flex items-center gap-2">
-                <CheckCircle className="w-4 h-4" /> {success}
+            {message && step === 'otp' && (
+              <div className="mb-4 p-3 rounded-xl text-sm" style={{ backgroundColor: '#F5F8FC', color: '#17528C', border: '1px solid #C0C8D9' }}>
+                {message}
               </div>
             )}
 
-            {isLogin ? (
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="email"
-                      value={loginData.email}
-                      onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                      placeholder="your@email.com"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      required
-                    />
+            {step === 'phone' ? (
+              <form onSubmit={handleSendOtp} className="space-y-4">
+                <div className="text-center mb-2">
+                  <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
+                    <Phone className="w-6 h-6" style={{ color: '#17528C' }} />
                   </div>
+                  <h3 className="font-bold text-lg" style={{ color: '#1A1A1A' }}>Login with Phone</h3>
+                  <p className="text-xs mt-1" style={{ color: '#595959' }}>Enter your 10-digit mobile number</p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <div className="relative flex items-center border rounded-xl overflow-hidden" style={{ borderColor: '#C0C8D9' }}>
+                    <span className="px-3 py-3 text-sm font-medium" style={{ backgroundColor: '#F5F8FC', color: '#595959' }}>+91</span>
                     <input
-                      type={showPassword ? 'text' : 'password'}
-                      value={loginData.password}
-                      onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                      placeholder="Enter password"
-                      className="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      placeholder="9876543210"
+                      className="flex-1 px-3 py-3 outline-none"
+                      style={{ color: '#1A1A1A', fontSize: '16px' }}
                       required
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
                   </div>
                 </div>
 
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl text-sm font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                  disabled={loading || phone.length !== 10}
+                  className="w-full text-white py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                  style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}
                 >
                   {loading ? (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    <>Login <ArrowRight className="w-4 h-4" /></>
+                    <>Send OTP <ArrowRight className="w-4 h-4" /></>
                   )}
                 </button>
 
-                <div className="text-center">
-                  <p className="text-xs text-gray-500">
-                    Demo: demo@studyhub.com / demo123
-                  </p>
+                <div className="flex items-center gap-2 justify-center text-xs" style={{ color: '#595959' }}>
+                  <Shield className="w-3 h-3" />
+                  <span>Secured by OTP verification · DPDP compliant</span>
                 </div>
               </form>
             ) : (
-              <form onSubmit={handleRegister} className="space-y-3.5">
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Full Name *</label>
-                  <div className="relative">
-                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      value={registerData.name}
-                      onChange={(e) => setRegisterData({ ...registerData, name: e.target.value })}
-                      placeholder="Your full name"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      required
-                    />
+              <form onSubmit={handleVerifyOtp} className="space-y-4">
+                <div className="text-center mb-2">
+                  <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
+                    <KeyRound className="w-6 h-6" style={{ color: '#17528C' }} />
                   </div>
+                  <h3 className="font-bold text-lg" style={{ color: '#1A1A1A' }}>Enter OTP</h3>
+                  <p className="text-xs mt-1" style={{ color: '#595959' }}>Sent to +91 {phone}</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Email *</label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="email"
-                      value={registerData.email}
-                      onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-                      placeholder="your@email.com"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Phone Number</label>
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="tel"
-                      value={registerData.phone}
-                      onChange={(e) => setRegisterData({ ...registerData, phone: e.target.value })}
-                      placeholder="9876543210"
-                      className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Class</label>
-                    <div className="relative">
-                      <BookOpen className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <select
-                        value={registerData.class}
-                        onChange={(e) => setRegisterData({ ...registerData, class: e.target.value })}
-                        className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white"
-                      >
-                        <option value="">Select</option>
-                        {Array.from({ length: 12 }, (_, i) => (
-                          <option key={i} value={`Class ${12 - i}`}>Class {12 - i}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Board</label>
-                    <select
-                      value={registerData.board}
-                      onChange={(e) => setRegisterData({ ...registerData, board: e.target.value })}
-                      className="w-full px-3 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white"
-                    >
-                      <option value="">Select</option>
-                      <option value="CBSE">CBSE</option>
-                      <option value="ICSE">ICSE</option>
-                      <option value="State Board">State Board</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Password *</label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type={showPassword ? 'text' : 'password'}
-                      value={registerData.password}
-                      onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                      placeholder="Create a password"
-                      className="w-full pl-10 pr-10 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                      required
-                      minLength={6}
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                    >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
+                  <input
+                    type="tel"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    placeholder="6-digit OTP"
+                    className="w-full px-4 py-3 border rounded-xl text-center text-lg tracking-widest outline-none"
+                    style={{ color: '#1A1A1A', borderColor: '#C0C8D9', fontSize: '16px' }}
+                    required
+                    maxLength={6}
+                    autoFocus
+                  />
                 </div>
 
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 rounded-xl text-sm font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-70"
+                  disabled={loading || otp.length !== 6}
+                  className="w-full text-white py-3 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition-all disabled:opacity-50"
+                  style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}
                 >
                   {loading ? (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    <>Create Account <ArrowRight className="w-4 h-4" /></>
+                    <>Verify & Login <ArrowRight className="w-4 h-4" /></>
                   )}
                 </button>
 
-                <p className="text-[10px] text-gray-400 text-center">
-                  By registering, you agree to our Terms of Service and Privacy Policy
-                </p>
+                <button
+                  type="button"
+                  onClick={() => { setStep('phone'); setOtp(''); setError(''); }}
+                  className="w-full flex items-center justify-center gap-2 py-2 text-sm"
+                  style={{ color: '#17528C' }}
+                >
+                  <ArrowLeft className="w-4 h-4" /> Change number
+                </button>
               </form>
             )}
           </div>
         </div>
 
         {/* Benefits */}
-        <div className="mt-6 bg-white rounded-2xl border border-gray-100 p-4 shadow-sm">
-          <h4 className="font-semibold text-gray-800 text-sm mb-3">Why register?</h4>
-          <div className="grid grid-cols-2 gap-3">
+        <div className="mt-4 bg-white rounded-2xl border p-4 shadow-sm" style={{ borderColor: '#C0C8D9' }}>
+          <h4 className="font-semibold text-sm mb-3" style={{ color: '#1A1A1A' }}>Why login?</h4>
+          <div className="grid grid-cols-2 gap-2">
             {[
-              { icon: '📥', text: 'Download unlimited PDFs' },
+              { icon: '📥', text: 'Download full PDFs' },
               { icon: '📱', text: 'Access on all devices' },
-              { icon: '🔔', text: 'Get exam updates' },
-              { icon: '⭐', text: 'Save favorites' },
-            ].map((item) => (
+              { icon: '🔔', text: 'Exam updates' },
+              { icon: '🆓', text: '100% Free' },
+            ].map(item => (
               <div key={item.text} className="flex items-center gap-2">
-                <span className="text-lg">{item.icon}</span>
-                <span className="text-xs text-gray-600">{item.text}</span>
+                <span className="text-base">{item.icon}</span>
+                <span className="text-xs" style={{ color: '#595959' }}>{item.text}</span>
               </div>
             ))}
           </div>
