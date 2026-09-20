@@ -25,6 +25,8 @@ export interface CatalogueRecord {
   preview_pages: number
   file_pdf: string
   file_preview_base?: string
+  drive_file_id?: string
+  apps_script_url?: string
   tags: string[]
   status: string
 }
