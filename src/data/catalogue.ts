@@ -237,11 +237,11 @@ export const SUBJECTS: Record<string, { name: string; name_ta: string; icon: str
   ],
 }
 
-// Classes
+// Classes - ordered 12 to 8 (reverse)
 export const CLASSES = [
-  { id: '8', name: '8th Standard', name_ta: '8ம் வகுப்பு', icon: '📘' },
-  { id: '9', name: '9th Standard', name_ta: '9ம் வகுப்பு', icon: '📗' },
-  { id: '10', name: '10th Standard', name_ta: '10ம் வகுப்பு', icon: '🏆' },
-  { id: '11', name: '11th Standard', name_ta: '11ம் வகுப்பு', icon: '📖' },
   { id: '12', name: '12th Standard', name_ta: '12ம் வகுப்பு', icon: '🎖️' },
+  { id: '11', name: '11th Standard', name_ta: '11ம் வகுப்பு', icon: '📖' },
+  { id: '10', name: '10th Standard', name_ta: '10ம் வகுப்பு', icon: '🏆' },
+  { id: '9', name: '9th Standard', name_ta: '9ம் வகுப்பு', icon: '📗' },
+  { id: '8', name: '8th Standard', name_ta: '8ம் வகுப்பு', icon: '📘' },
 ]

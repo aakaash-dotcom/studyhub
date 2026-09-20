@@ -11,7 +11,7 @@ interface ResourceReaderProps {
 }
 
 export default function ResourceReader({ resource }: ResourceReaderProps) {
-  const { isAuthenticated } = useAuth()
+  const { isAuthenticated, user } = useAuth()
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1)
   const [showGate, setShowGate] = useState(false)
@@ -63,23 +63,58 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
     setDownloading(true)
     trackDownload(resource.id)
 
-    // Simulate download preparation
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    setDownloading(false)
+    // Try Apps Script endpoint first
+    const appsScriptUrl = import.meta.env.VITE_APPS_SCRIPT_URL
+    if (appsScriptUrl) {
+      try {
+        const response = await fetch(`${appsScriptUrl}?action=download&id=${resource.id}&user=${user?.phone}`)
+        if (response.ok) {
+          const blob = await response.blob()
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = resource.file_pdf
+          a.click()
+          URL.revokeObjectURL(url)
+          setDownloading(false)
+          return
+        }
+      } catch (err) {
+        console.error('Apps Script download failed:', err)
+      }
+    }
 
-    // In production: fetch signed URL from server
-    // For demo: open the file_pdf path
+    // Fall back to direct file access
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    setDownloading(false)
+    
     const baseUrl = import.meta.env.BASE_URL || '/'
     window.open(`${baseUrl}pdfs/${resource.file_pdf}`, '_blank')
   }
 
   // Generate tile for current page
   const getTileUrl = (pageNum: number) => {
-    // Try real tile first
+    // Try Apps Script endpoint first
+    const appsScriptUrl = import.meta.env.VITE_APPS_SCRIPT_URL
+    if (appsScriptUrl) {
+      // Return Apps Script preview URL (will be loaded async)
+      return `${appsScriptUrl}?action=preview&id=${resource.id}&page=${pageNum}`
+    }
+
+    // Try real tile from static files
     if (resource.file_preview_base) {
       const baseUrl = import.meta.env.BASE_URL || '/'
-      // In production, check if file exists via API
-      // For now, use sample tile
+      const realTilePath = `${baseUrl}previews/${resource.file_preview_base}-p${pageNum}.webp`
+      
+      // Check if file exists
+      const img = new Image()
+      let tileExists = false
+      img.onload = () => { tileExists = true }
+      img.src = realTilePath
+      
+      if (tileExists) {
+        return realTilePath
+      }
     }
 
     // Fall back to sample tile
