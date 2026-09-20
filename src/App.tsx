@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage'
 import ProfilePage from './pages/ProfilePage'
 import SearchPage from './pages/SearchPage'
 import LegalPage from './pages/LegalPage'
+import AdminFunnel from './pages/AdminFunnel'
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route path="terms" element={<LegalPage />} />
             <Route path="refund" element={<LegalPage />} />
             <Route path="content-policy" element={<LegalPage />} />
+            <Route path="admin/funnel" element={<AdminFunnel />} />
           </Route>
         </Routes>
       </HashRouter>
