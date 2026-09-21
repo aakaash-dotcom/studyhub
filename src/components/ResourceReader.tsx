@@ -149,7 +149,9 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
                   <Download className="w-4 h-4" /> Download PDF
                 </button>
                 <p className="text-xs mt-3" style={{ color: '#595959' }}>
-                  Free 2-page watermarked preview. Full paper later.
+                  {resource.price_tier === 'premium'
+                    ? 'Preview free. Full Topper paper ₹49 — WhatsApp 86106 53352'
+                    : 'TN previous-year question paper. Free after login.'}
                 </p>
               </>
             ) : (
@@ -167,7 +169,9 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
                   <Lock className="w-4 h-4" /> Download PDF
                 </Link>
                 <p className="text-xs mt-3" style={{ color: '#595959' }}>
-                  Free 2-page watermarked preview. Full paper later.
+                  {resource.price_tier === 'premium'
+                    ? 'Preview free. Full Topper paper ₹49 — WhatsApp 86106 53352'
+                    : 'TN previous-year question paper. Free after login.'}
                 </p>
               </>
             )}

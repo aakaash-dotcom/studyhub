@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Search, Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import { useAuth } from '../context/AuthContext'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { user, isAuthenticated } = useAuth()
 
   return (
     <header style={{ backgroundColor: '#17528C', color: 'white' }}>
@@ -24,9 +26,15 @@ export default function Header() {
             <Link to="/class/10" className="hover:opacity-80">10th</Link>
             <Link to="/class/11" className="hover:opacity-80">11th</Link>
             <Link to="/class/12" className="hover:opacity-80">12th</Link>
-            <Link to="/login" className="bg-white px-4 py-2 rounded-lg font-medium" style={{ color: '#17528C' }}>
-              Login
-            </Link>
+            {isAuthenticated && user?.name ? (
+              <Link to="/profile" className="bg-white px-4 py-2 rounded-lg font-medium" style={{ color: '#17528C' }}>
+                {user.name.split(' ')[0]}
+              </Link>
+            ) : (
+              <Link to="/login" className="bg-white px-4 py-2 rounded-lg font-medium" style={{ color: '#17528C' }}>
+                Login
+              </Link>
+            )}
           </nav>
 
           <button 
@@ -43,9 +51,15 @@ export default function Header() {
             <Link to="/class/10" onClick={() => setMenuOpen(false)}>10th Standard</Link>
             <Link to="/class/11" onClick={() => setMenuOpen(false)}>11th Standard</Link>
             <Link to="/class/12" onClick={() => setMenuOpen(false)}>12th Standard</Link>
-            <Link to="/login" onClick={() => setMenuOpen(false)} className="bg-white px-4 py-2 rounded-lg font-medium text-center" style={{ color: '#17528C' }}>
-              Login
-            </Link>
+            {isAuthenticated && user?.name ? (
+              <Link to="/profile" onClick={() => setMenuOpen(false)} className="bg-white px-4 py-2 rounded-lg font-medium text-center" style={{ color: '#17528C' }}>
+                {user.name.split(' ')[0]}
+              </Link>
+            ) : (
+              <Link to="/login" onClick={() => setMenuOpen(false)} className="bg-white px-4 py-2 rounded-lg font-medium text-center" style={{ color: '#17528C' }}>
+                Login
+              </Link>
+            )}
           </nav>
         )}
       </div>

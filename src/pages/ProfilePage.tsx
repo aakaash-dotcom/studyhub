@@ -1,9 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { LogOut, User, Phone } from 'lucide-react'
+import { LogOut, User, Phone, MapPin, GraduationCap } from 'lucide-react'
 
 export default function ProfilePage() {
   const { user, isAuthenticated, logout } = useAuth()
+  const navigate = useNavigate()
 
   if (!isAuthenticated || !user) {
     return (
@@ -27,13 +28,21 @@ export default function ProfilePage() {
       <div className="bg-white rounded-2xl border overflow-hidden shadow-sm" style={{ borderColor: '#C0C8D9' }}>
         <div className="p-6 text-white text-center" style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}>
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3 border-2 border-white/30">
-            <span className="text-2xl font-bold">{user.phone.slice(-2)}</span>
+            <span className="text-2xl font-bold">{user.name.charAt(0).toUpperCase()}</span>
           </div>
-          <h1 className="text-xl font-bold">{user.phone}</h1>
+          <h1 className="text-xl font-bold">{user.name}</h1>
           <p className="text-sm opacity-80 mt-1">Student Account</p>
         </div>
 
         <div className="p-6 space-y-3">
+          <div className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F5F8FC' }}>
+            <User className="w-4 h-4" style={{ color: '#595959' }} />
+            <div>
+              <p className="text-xs" style={{ color: '#595959' }}>Name</p>
+              <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>{user.name}</p>
+            </div>
+          </div>
+
           <div className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F5F8FC' }}>
             <Phone className="w-4 h-4" style={{ color: '#595959' }} />
             <div>
@@ -43,17 +52,25 @@ export default function ProfilePage() {
           </div>
 
           <div className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F5F8FC' }}>
-            <User className="w-4 h-4" style={{ color: '#595959' }} />
+            <GraduationCap className="w-4 h-4" style={{ color: '#595959' }} />
             <div>
-              <p className="text-xs" style={{ color: '#595959' }}>Status</p>
-              <p className="text-sm font-medium" style={{ color: '#15803D' }}>✓ Verified</p>
+              <p className="text-xs" style={{ color: '#595959' }}>Class</p>
+              <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>{user.class}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 p-3 rounded-xl" style={{ backgroundColor: '#F5F8FC' }}>
+            <MapPin className="w-4 h-4" style={{ color: '#595959' }} />
+            <div>
+              <p className="text-xs" style={{ color: '#595959' }}>District</p>
+              <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>{user.district}</p>
             </div>
           </div>
         </div>
 
         <div className="border-t p-6" style={{ borderColor: '#C0C8D9' }}>
           <button
-            onClick={() => { logout(); window.location.href = '/'; }}
+            onClick={() => { logout(); navigate('/'); }}
             className="w-full flex items-center justify-center gap-2 py-2.5 border rounded-xl text-sm font-medium"
             style={{ borderColor: '#FECACA', color: '#B91C1C' }}
           >
