@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
-import { CLASSES, SUBJECTS, getRecordsByClassAndSubject } from '../data/catalogue'
+import { CLASSES, SUBJECTS, getPublishedRecords } from '../data/catalogue'
 import { useState, useMemo } from 'react'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
@@ -49,28 +49,38 @@ export default function SubjectBrowsePage() {
 
   const filteredRecords = useMemo(() => {
     if (!classId || !subject) return []
+
+    const subjectName = subject.replace(/-/g, ' ').toLowerCase()
     
-    const records = getRecordsByClassAndSubject(classId, subject)
-    
+    let records = getPublishedRecords().filter(r =>
+      r.class === classId &&
+      r.subject.toLowerCase() === subjectName
+    )
+
+    if (typeFilter) {
+      records = records.filter(r => r.resource_type === typeFilter)
+    }
+
+    if (examFilter) {
+      records = records.filter(r => r.exam === examFilter)
+    }
+
+    if (yearFilter) {
+      records = records.filter(r => r.year === parseInt(yearFilter))
+    }
+
+    // Sort: year desc, exam order, type order
+    records.sort((a, b) => {
+      if (b.year !== a.year) return b.year - a.year
+      const examA = EXAM_ORDER.indexOf(a.exam)
+      const examB = EXAM_ORDER.indexOf(b.exam)
+      if (examA !== examB) return examA - examB
+      const typeA = TYPE_ORDER.indexOf(a.resource_type)
+      const typeB = TYPE_ORDER.indexOf(b.resource_type)
+      return typeA - typeB
+    })
+
     return records
-      .filter(r => {
-        if (typeFilter && r.resource_type !== typeFilter) return false
-        if (examFilter && r.exam !== examFilter) return false
-        if (yearFilter && r.year !== parseInt(yearFilter)) return false
-        return true
-      })
-      .sort((a, b) => {
-        // Sort by year desc
-        if (b.year !== a.year) return b.year - a.year
-        // Then by exam order
-        const examOrderA = EXAM_ORDER.indexOf(a.exam)
-        const examOrderB = EXAM_ORDER.indexOf(b.exam)
-        if (examOrderA !== examOrderB) return examOrderA - examOrderB
-        // Then by type order
-        const typeOrderA = TYPE_ORDER.indexOf(a.resource_type)
-        const typeOrderB = TYPE_ORDER.indexOf(b.resource_type)
-        return typeOrderA - typeOrderB
-      })
   }, [classId, subject, typeFilter, examFilter, yearFilter])
 
   if (!classData || !subjectData) {
@@ -108,7 +118,7 @@ export default function SubjectBrowsePage() {
             <div className="text-3xl sm:text-4xl">{subjectData.icon}</div>
             <div>
               <h1 className="text-xl sm:text-2xl font-bold">{subjectData.name}</h1>
-              <p className="text-white/80 text-sm mt-1">{classData.name} · Tamil Nadu State Board</p>
+              <p className="text-white/80 text-sm mt-1">{classData.name} · {subjectData.name_ta}</p>
             </div>
           </div>
         </div>
@@ -116,8 +126,8 @@ export default function SubjectBrowsePage() {
 
       {/* Filters */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-2xl border p-4 sm:p-6 mb-6" style={{ borderColor: '#C0C8D9' }}>
-          {/* Type Chips */}
+        <div className="bg-white rounded-xl border p-4 mb-6" style={{ borderColor: '#C0C8D9' }}>
+          {/* Type chips */}
           <div className="mb-4">
             <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Type</p>
             <div className="flex flex-wrap gap-2">
@@ -138,7 +148,7 @@ export default function SubjectBrowsePage() {
             </div>
           </div>
 
-          {/* Exam Chips */}
+          {/* Exam chips */}
           <div className="mb-4">
             <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Exam</p>
             <div className="flex flex-wrap gap-2">
@@ -159,7 +169,7 @@ export default function SubjectBrowsePage() {
             </div>
           </div>
 
-          {/* Year Chips */}
+          {/* Year chips */}
           <div className="mb-4">
             <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Year</p>
             <div className="flex flex-wrap gap-2">
@@ -180,9 +190,9 @@ export default function SubjectBrowsePage() {
             </div>
           </div>
 
-          {/* Count */}
-          <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: '#C0C8D9' }}>
-            <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>
+          {/* Count and clear */}
+          <div className="flex items-center justify-between pt-3 border-t" style={{ borderColor: '#C0C8D9' }}>
+            <p className="text-sm font-medium" style={{ color: '#17528C' }}>
               {filteredRecords.length} {filteredRecords.length === 1 ? 'material' : 'materials'}
             </p>
             {(typeFilter || examFilter || yearFilter) && (
@@ -230,17 +240,15 @@ export default function SubjectBrowsePage() {
             <div className="text-5xl mb-4">📚</div>
             <h3 className="font-semibold text-lg mb-2" style={{ color: '#1A1A1A' }}>Materials Coming Soon</h3>
             <p className="text-sm mb-4" style={{ color: '#595959' }}>
-              {subjectData.name} materials for {classData.name} will be added shortly.
+              No materials match your filters.
             </p>
-            {(typeFilter || examFilter || yearFilter) && (
-              <button
-                onClick={clearFilters}
-                className="inline-flex items-center gap-2 text-sm font-medium"
-                style={{ color: '#17528C' }}
-              >
-                Clear filters
-              </button>
-            )}
+            <button
+              onClick={clearFilters}
+              className="text-sm font-medium"
+              style={{ color: '#17528C' }}
+            >
+              Clear filters
+            </button>
           </div>
         )}
       </div>
