@@ -193,6 +193,75 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Plans Strip */}
+      <section className="py-10 sm:py-16" style={{ backgroundColor: '#F5F8FC' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-3" style={{ color: '#1A1A1A' }}>
+              Upgrade to PRO
+            </h2>
+            <p className="text-sm sm:text-base" style={{ color: '#595959' }}>
+              Get access to all premium materials for just ₹499/year
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+            <Link
+              to="/plans"
+              className="group bg-white rounded-2xl p-6 border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              style={{ borderColor: '#C0C8D9' }}
+            >
+              <div className="text-center">
+                <div className="text-3xl mb-3">📚</div>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>FREE</h3>
+                <div className="text-3xl font-bold mb-2" style={{ color: '#17528C' }}>₹0</div>
+                <p className="text-sm mb-4" style={{ color: '#595959' }}>Past question papers</p>
+                <div className="text-xs font-medium px-4 py-2 rounded-full inline-block" style={{ backgroundColor: '#EFF6FF', color: '#17528C' }}>
+                  Current Plan
+                </div>
+              </div>
+            </Link>
+
+            <Link
+              to="/plans"
+              className="group bg-white rounded-2xl p-6 border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative"
+              style={{ borderColor: '#D4AF37', boxShadow: '0 8px 24px rgba(212, 175, 55, 0.2)' }}
+            >
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#D4AF37' }}>
+                MOST POPULAR
+              </div>
+              <div className="text-center">
+                <div className="text-3xl mb-3">⭐</div>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>PRO</h3>
+                <div className="text-3xl font-bold mb-2" style={{ color: '#D4AF37' }}>₹499</div>
+                <p className="text-sm mb-4" style={{ color: '#595959' }}>All Ravi PDFs + updates + weekly test</p>
+                <div className="text-xs font-medium px-4 py-2 rounded-full inline-block text-white" style={{ backgroundColor: '#D4AF37' }}>
+                  Pay ₹499
+                </div>
+              </div>
+            </Link>
+
+            <a
+              href="https://wa.me/918610653352"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white rounded-2xl p-6 border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              style={{ borderColor: '#C0C8D9' }}
+            >
+              <div className="text-center">
+                <div className="text-3xl mb-3">🎓</div>
+                <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>CENTUM</h3>
+                <div className="text-2xl font-bold mb-2" style={{ color: '#17528C' }}>Opening soon</div>
+                <p className="text-sm mb-4" style={{ color: '#595959' }}>Recordings + WhatsApp group + weekly live</p>
+                <div className="text-xs font-medium px-4 py-2 rounded-full inline-block text-white" style={{ backgroundColor: '#25D366' }}>
+                  WhatsApp 8610653352
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Recent Materials */}
       <section className="py-10 sm:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

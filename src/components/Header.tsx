@@ -7,6 +7,20 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const { user, isAuthenticated } = useAuth()
 
+  // Check if user has pro plan
+  const hasProPlan = (() => {
+    try {
+      const plan = localStorage.getItem('ravi_plan')
+      if (plan) {
+        const planData = JSON.parse(plan)
+        return planData.plan === 'pro' && planData.valid_until > Date.now()
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+    return false
+  })()
+
   return (
     <header style={{ backgroundColor: '#17528C', color: 'white' }}>
       <div className="max-w-7xl mx-auto px-4 py-4">
@@ -26,10 +40,18 @@ export default function Header() {
             <Link to="/class/10" className="hover:opacity-80">10th</Link>
             <Link to="/class/11" className="hover:opacity-80">11th</Link>
             <Link to="/class/12" className="hover:opacity-80">12th</Link>
+            <Link to="/plans" className="hover:opacity-80">Plans</Link>
             {isAuthenticated && user?.name ? (
-              <Link to="/profile" className="bg-white px-4 py-2 rounded-lg font-medium" style={{ color: '#17528C' }}>
-                {user.name.split(' ')[0]}
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link to="/profile" className="bg-white px-4 py-2 rounded-lg font-medium" style={{ color: '#17528C' }}>
+                  {user.name.split(' ')[0]}
+                </Link>
+                {hasProPlan && (
+                  <span className="px-2 py-1 rounded text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+                    PRO
+                  </span>
+                )}
+              </div>
             ) : (
               <Link to="/login" className="bg-white px-4 py-2 rounded-lg font-medium" style={{ color: '#17528C' }}>
                 Login
@@ -51,10 +73,18 @@ export default function Header() {
             <Link to="/class/10" onClick={() => setMenuOpen(false)}>10th Standard</Link>
             <Link to="/class/11" onClick={() => setMenuOpen(false)}>11th Standard</Link>
             <Link to="/class/12" onClick={() => setMenuOpen(false)}>12th Standard</Link>
+            <Link to="/plans" onClick={() => setMenuOpen(false)}>Plans</Link>
             {isAuthenticated && user?.name ? (
-              <Link to="/profile" onClick={() => setMenuOpen(false)} className="bg-white px-4 py-2 rounded-lg font-medium text-center" style={{ color: '#17528C' }}>
-                {user.name.split(' ')[0]}
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link to="/profile" onClick={() => setMenuOpen(false)} className="bg-white px-4 py-2 rounded-lg font-medium text-center flex-1" style={{ color: '#17528C' }}>
+                  {user.name.split(' ')[0]}
+                </Link>
+                {hasProPlan && (
+                  <span className="px-2 py-1 rounded text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+                    PRO
+                  </span>
+                )}
+              </div>
             ) : (
               <Link to="/login" onClick={() => setMenuOpen(false)} className="bg-white px-4 py-2 rounded-lg font-medium text-center" style={{ color: '#17528C' }}>
                 Login

@@ -13,6 +13,8 @@ import ProfilePage from './pages/ProfilePage'
 import SearchPage from './pages/SearchPage'
 import LegalPage from './pages/LegalPage'
 import AdminFunnel from './pages/AdminFunnel'
+import PlansPage from './pages/PlansPage'
+import PayProPage from './pages/PayProPage'
 
 // Disable browser scroll restoration
 if (typeof window !== 'undefined') {
@@ -40,6 +42,8 @@ function App() {
             <Route path="refund" element={<LegalPage />} />
             <Route path="content-policy" element={<LegalPage />} />
             <Route path="admin/funnel" element={<AdminFunnel />} />
+            <Route path="plans" element={<PlansPage />} />
+            <Route path="pay/pro" element={<PayProPage />} />
           </Route>
         </Routes>
       </HashRouter>
