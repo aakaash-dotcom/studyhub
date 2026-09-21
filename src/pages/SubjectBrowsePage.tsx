@@ -11,6 +11,7 @@ const TYPE_OPTIONS = [
   { label: 'Important Questions', value: 'ImportantQuestions' },
   { label: 'Model Papers', value: 'ModelQuestionPaper' },
   { label: 'Answer Keys', value: 'AnswerKey' },
+  { label: 'Topper Materials', value: '__topper__' },
 ]
 
 const EXAM_OPTIONS = [
@@ -58,7 +59,11 @@ export default function SubjectBrowsePage() {
     )
 
     if (typeFilter) {
-      records = records.filter(r => r.resource_type === typeFilter)
+      if (typeFilter === '__topper__') {
+        records = records.filter(r => r.price_tier === 'premium')
+      } else {
+        records = records.filter(r => r.resource_type === typeFilter)
+      }
     }
 
     if (examFilter) {
@@ -229,7 +234,9 @@ export default function SubjectBrowsePage() {
                     <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
                     <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
                     <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                    <span className="text-[10px] sm:text-xs font-medium" style={{ color: '#15803D' }}>FREE</span>
+                    <span className="text-[10px] sm:text-xs font-medium" style={{ color: resource.price_inr === 0 ? '#15803D' : '#B45309' }}>
+                      {resource.price_inr === 0 ? 'FREE' : `₹${resource.price_inr}`}
+                    </span>
                   </div>
                 </div>
               </Link>

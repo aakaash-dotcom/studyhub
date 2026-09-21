@@ -9,6 +9,7 @@ const TYPE_OPTIONS = [
   { label: 'Important Questions', value: 'ImportantQuestions' },
   { label: 'Model Papers', value: 'ModelQuestionPaper' },
   { label: 'Answer Keys', value: 'AnswerKey' },
+  { label: 'Topper Materials', value: '__topper__' },
 ]
 
 const EXAM_OPTIONS = [
@@ -47,12 +48,19 @@ export default function SearchPage() {
         r.title_en.toLowerCase().includes(query.toLowerCase()) ||
         r.subject.toLowerCase().includes(query.toLowerCase()) ||
         r.class.toLowerCase().includes(query.toLowerCase()) ||
-        r.resource_type.toLowerCase().includes(query.toLowerCase())
+        r.resource_type.toLowerCase().includes(query.toLowerCase()) ||
+        (r.tags && r.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase())))
       
       if (!matchesQuery) return false
       
       // Chip filters
-      if (typeFilter && r.resource_type !== typeFilter) return false
+      if (typeFilter) {
+        if (typeFilter === '__topper__') {
+          if (r.price_tier !== 'premium') return false
+        } else {
+          if (r.resource_type !== typeFilter) return false
+        }
+      }
       if (examFilter && r.exam !== examFilter) return false
       if (yearFilter && r.year !== parseInt(yearFilter)) return false
       
@@ -208,6 +216,10 @@ export default function SearchPage() {
                   <span className="text-xs" style={{ color: '#595959' }}>{resource.subject}</span>
                   <span className="text-xs" style={{ color: '#C0C8D9' }}>•</span>
                   <span className="text-xs" style={{ color: '#595959' }}>{classData?.name}</span>
+                  <span className="text-xs" style={{ color: '#C0C8D9' }}>•</span>
+                  <span className="text-xs font-medium" style={{ color: resource.price_inr === 0 ? '#15803D' : '#B45309' }}>
+                    {resource.price_inr === 0 ? 'FREE' : `₹${resource.price_inr}`}
+                  </span>
                 </div>
               </div>
             </Link>
