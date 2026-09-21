@@ -30,15 +30,11 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
     setDownloading(true)
     trackDownload(resource.id)
 
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    await new Promise(resolve => setTimeout(resolve, 800))
     setDownloading(false)
 
-    // Google Drive direct download
-    if (resource.drive_file_id) {
-      window.open(`https://drive.google.com/uc?export=download&id=${resource.drive_file_id}`, '_blank')
-    } else {
-      alert(`Download not configured yet.\n\nPlease add drive_file_id to catalogue.json for: ${resource.id}\n\nSee SETUP_GUIDE.md for instructions.`)
-    }
+    // Full paper download not yet available
+    // Preview above shows 2 watermarked pages from Google Drive
   }
 
   const marksPattern = parseMarksPattern(resource.marks_pattern)
@@ -132,10 +128,10 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
               <>
                 <Download className="w-10 h-10 mx-auto mb-3" style={{ color: '#15803D' }} />
                 <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>
-                  Download this paper
+                  Full paper download coming soon
                 </h3>
                 <p className="text-sm mb-4" style={{ color: '#595959' }}>
-                  Get the complete {totalPages}-page paper as PDF
+                  The preview above shows {totalPages} watermarked pages. Full paper download will be available after review.
                 </p>
                 <button
                   onClick={handleDownload}
@@ -150,7 +146,7 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
                     </>
                   ) : (
                     <>
-                      <Download className="w-4 h-4" /> Download PDF ({resource.size})
+                      <Download className="w-4 h-4" /> Notify me when ready
                     </>
                   )}
                 </button>
