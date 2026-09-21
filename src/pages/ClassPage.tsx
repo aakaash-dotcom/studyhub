@@ -1,28 +1,12 @@
 import { Link, useParams } from 'react-router-dom'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
-import { CLASSES, SUBJECTS, getRecordsByClass, isProItem } from '../data/catalogue'
-import { useEffect, useState } from 'react'
+import { CLASSES, SUBJECTS, getRecordsByClass } from '../data/catalogue'
+import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
-import LockModal from '../components/LockModal'
 
 export default function ClassPage() {
   const { classId } = useParams()
   const classData = CLASSES.find(c => c.id === classId)
-  const [showLockModal, setShowLockModal] = useState(false)
-
-  // Check if user has pro plan
-  const hasProPlan = (() => {
-    try {
-      const plan = localStorage.getItem('ravi_plan')
-      if (plan) {
-        const planData = JSON.parse(plan)
-        return planData.plan === 'pro' && planData.valid_until > Date.now()
-      }
-    } catch (e) {
-      // Ignore parse errors
-    }
-    return false
-  })()
 
   useEffect(() => {
     if (classData) {
@@ -67,10 +51,10 @@ export default function ClassPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>What are you looking for?</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {/* Question Papers */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          {/* Question Papers - Free Shelf */}
           <Link
-            to={`/class/${classId}?type=QuestionPaper`}
+            to={`/class/${classId}/subject/maths?type=QuestionPaper`}
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
             style={{ borderColor: '#C0C8D9' }}
           >
@@ -83,37 +67,7 @@ export default function ClassPage() {
             </p>
           </Link>
 
-          {/* Model Questions */}
-          <Link
-            to={`/class/${classId}?type=ModelQuestionPaper`}
-            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
-            style={{ borderColor: '#C0C8D9' }}
-          >
-            <div className="text-4xl mb-3">📋</div>
-            <h3 className="font-bold text-lg mb-2 group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-              Model Questions
-            </h3>
-            <p className="text-sm" style={{ color: '#595959' }}>
-              Practice papers with marking scheme. Pro access.
-            </p>
-          </Link>
-
-          {/* Answer Keys */}
-          <Link
-            to={`/class/${classId}?type=AnswerKey`}
-            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
-            style={{ borderColor: '#C0C8D9' }}
-          >
-            <div className="text-4xl mb-3">✅</div>
-            <h3 className="font-bold text-lg mb-2 group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-              Answer Keys
-            </h3>
-            <p className="text-sm" style={{ color: '#595959' }}>
-              Detailed solutions and marking scheme. Pro access.
-            </p>
-          </Link>
-
-          {/* Topper Material */}
+          {/* Topper Material - Pro Shelf */}
           <Link
             to="/plans"
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
@@ -121,10 +75,10 @@ export default function ClassPage() {
           >
             <div className="text-4xl mb-3">👑</div>
             <h3 className="font-bold text-lg mb-2 text-white">
-              Topper Material
+              Topper Pack
             </h3>
             <p className="text-sm text-white/80">
-              Important questions, model papers, and topper notes. The stuff that actually gets you marks.
+              Important questions, model papers, and answer keys. The stuff that actually gets you marks.
             </p>
             <div className="mt-3 px-4 py-2 rounded-full text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
               PRO ACCESS
@@ -137,7 +91,10 @@ export default function ClassPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
           {(SUBJECTS[classId!] || []).map((subject) => {
             const slug = subject.name.toLowerCase().replace(/\s+/g, '-')
-            const count = getRecordsByClass(classId!).filter(r => r.subject.toLowerCase() === subject.name.toLowerCase()).length
+            const count = getRecordsByClass(classId!).filter(r => 
+              r.subject.toLowerCase() === subject.name.toLowerCase() && 
+              (r.resource_type === 'QuestionPaper' || r.id === '10-science-english-quarterlyimpq-2026-free')
+            ).length
             return (
               <Link
                 key={subject.name}
@@ -150,67 +107,46 @@ export default function ClassPage() {
                   {subject.name}
                 </h3>
                 <p className="text-xs mt-1" style={{ color: '#595959' }}>
-                  {count > 0 ? `${count} materials` : 'Coming soon'}
+                  {count > 0 ? `${count} papers` : 'Coming soon'}
                 </p>
               </Link>
             )
           })}
         </div>
 
-        {/* Recent Materials */}
+        {/* Popular Materials - PYQ Only */}
         <div>
-          <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>🔥 Popular Materials</h2>
+          <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>🔥 Popular Question Papers</h2>
           <div className="space-y-3">
             {getRecordsByClass(classId!)
+              .filter(r => r.resource_type === 'QuestionPaper')
               .sort((a, b) => b.year - a.year)
               .slice(0, 5)
-              .map((resource) => {
-                const isPro = isProItem(resource)
-                
-                const handleClick = (e: React.MouseEvent) => {
-                  if (isPro && !hasProPlan) {
-                    e.preventDefault()
-                    setShowLockModal(true)
-                  }
-                }
-
-                return (
-                  <Link
-                    key={resource.id}
-                    to={`/resource/${resource.id}`}
-                    onClick={handleClick}
-                    className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
-                    style={{ borderColor: isPro && !hasProPlan ? '#D4AF37' : '#C0C8D9' }}
-                  >
-                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
-                      <span className="text-xl sm:text-2xl">📄</span>
+              .map((resource) => (
+                <Link
+                  key={resource.id}
+                  to={`/resource/${resource.id}`}
+                  className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
+                  style={{ borderColor: '#C0C8D9' }}
+                >
+                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
+                    <span className="text-xl sm:text-2xl">📄</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
+                      {resource.title_en}
+                    </h4>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.exam} {resource.year}</span>
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
-                          {resource.title_en}
-                        </h4>
-                        {isPro && (
-                          <span className="flex-shrink-0 text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
-                            👑 PRO
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.resource_type}</span>
-                        <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                        <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
+                  </div>
+                </Link>
+              ))}
           </div>
         </div>
       </div>
-
-      {/* Lock Modal */}
-      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }

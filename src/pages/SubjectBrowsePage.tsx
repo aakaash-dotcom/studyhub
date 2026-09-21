@@ -1,12 +1,16 @@
-import { Link, useParams, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
 import { CLASSES, SUBJECTS, getPublishedRecords, isProItem } from '../data/catalogue'
 import { useState, useMemo } from 'react'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
-import LockModal from '../components/LockModal'
 
-const TYPE_OPTIONS = [
+const TYPE_OPTIONS_FREE = [
+  { label: 'All', value: '' },
+  { label: 'Question Papers', value: 'QuestionPaper' },
+]
+
+const TYPE_OPTIONS_PRO = [
   { label: 'All', value: '' },
   { label: 'Question Papers', value: 'QuestionPaper' },
   { label: 'Model Questions', value: 'ModelQuestionPaper' },
@@ -36,7 +40,6 @@ const TYPE_ORDER = ['ImportantQuestions', 'ModelQuestionPaper', 'QuestionPaper',
 export default function SubjectBrowsePage() {
   const { classId, subject } = useParams()
   const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
   const classData = CLASSES.find(c => c.id === classId)
   const subjectData = SUBJECTS[classId!]?.find(s => s.name.toLowerCase().replace(/\s+/g, '-') === subject)
 
@@ -45,7 +48,6 @@ export default function SubjectBrowsePage() {
   const [typeFilter, setTypeFilter] = useState(initialType)
   const [examFilter, setExamFilter] = useState('')
   const [yearFilter, setYearFilter] = useState('')
-  const [showLockModal, setShowLockModal] = useState(false)
 
   // Check if user has pro plan
   const hasProPlan = (() => {
@@ -76,6 +78,11 @@ export default function SubjectBrowsePage() {
       r.class === classId &&
       r.subject.toLowerCase() === subjectName
     )
+
+    // Filter out premium items for non-pro users (unless they specifically filter for topper material)
+    if (!hasProPlan && typeFilter !== '__topper__') {
+      records = records.filter(r => !isProItem(r))
+    }
 
     if (typeFilter) {
       if (typeFilter === '__topper__') {
@@ -155,7 +162,7 @@ export default function SubjectBrowsePage() {
           <div className="mb-4">
             <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Type</p>
             <div className="flex flex-wrap gap-2">
-              {TYPE_OPTIONS.map((option) => (
+              {(hasProPlan ? TYPE_OPTIONS_PRO : TYPE_OPTIONS_FREE).map((option) => (
                 <button
                   key={option.value}
                   onClick={() => setTypeFilter(option.value)}
@@ -235,22 +242,14 @@ export default function SubjectBrowsePage() {
         {filteredRecords.length > 0 ? (
           <div className="space-y-3">
             {filteredRecords.map((resource) => {
-              const isPro = isProItem(resource)
+              const isPro = hasProPlan && isProItem(resource)
               
-              const handleClick = (e: React.MouseEvent) => {
-                if (isPro && !hasProPlan) {
-                  e.preventDefault()
-                  setShowLockModal(true)
-                }
-              }
-
               return (
                 <Link
                   key={resource.id}
                   to={`/resource/${resource.id}`}
-                  onClick={handleClick}
                   className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
-                  style={{ borderColor: isPro && !hasProPlan ? '#D4AF37' : '#C0C8D9' }}
+                  style={{ borderColor: '#C0C8D9' }}
                 >
                   <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
                     <span className="text-xl sm:text-2xl">📄</span>
@@ -293,9 +292,6 @@ export default function SubjectBrowsePage() {
           </div>
         )}
       </div>
-
-      {/* Lock Modal */}
-      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }

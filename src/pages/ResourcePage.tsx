@@ -2,11 +2,9 @@ import { useParams, Link } from 'react-router-dom'
 import { CLASSES, RESOURCE_TYPES, getRecordById, getPublishedRecords, isProItem } from '../data/catalogue'
 import ResourceReader from '../components/ResourceReader'
 import LockModal from '../components/LockModal'
-import { useState } from 'react'
 
 export default function ResourcePage() {
   const { resourceId } = useParams()
-  const [showLockModal, setShowLockModal] = useState(false)
 
   const resource = resourceId ? getRecordById(resourceId) : undefined
   const classData = resource ? CLASSES.find(c => c.id === resource.class) : null
@@ -40,7 +38,15 @@ export default function ResourcePage() {
   }
 
   const relatedResources = getPublishedRecords()
-    .filter(r => r.id !== resource.id && r.class === resource.class && r.subject === resource.subject)
+    .filter(r => {
+      // Exclude current resource
+      if (r.id === resource.id) return false
+      // Must be same class and subject
+      if (r.class !== resource.class || r.subject !== resource.subject) return false
+      // Filter out premium items for non-pro users
+      if (!hasProPlan && isProItem(r)) return false
+      return true
+    })
     .slice(0, 4)
 
   return (
@@ -101,22 +107,14 @@ export default function ResourcePage() {
             <h2 className="text-xl font-bold mb-4" style={{ color: '#1A1A1A' }}>📚 Related Materials</h2>
             <div className="space-y-3">
               {relatedResources.map((rel) => {
-                const isPro = isProItem(rel)
+                const isPro = hasProPlan && isProItem(rel)
                 
-                const handleClick = (e: React.MouseEvent) => {
-                  if (isPro && !hasProPlan) {
-                    e.preventDefault()
-                    setShowLockModal(true)
-                  }
-                }
-
                 return (
                   <Link
                     key={rel.id}
                     to={`/resource/${rel.id}`}
-                    onClick={handleClick}
                     className="flex items-center gap-4 bg-white hover:bg-blue-50 rounded-xl p-4 border transition-all"
-                    style={{ borderColor: isPro && !hasProPlan ? '#D4AF37' : '#C0C8D9' }}
+                    style={{ borderColor: '#C0C8D9' }}
                   >
                     <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
                       <span className="text-xl">📄</span>
@@ -140,8 +138,8 @@ export default function ResourcePage() {
         )}
       </div>
 
-      {/* Lock Modal */}
-      <LockModal isOpen={showLockModal || !!isLocked} onClose={() => setShowLockModal(false)} />
+      {/* Lock Modal - Only for direct URL access to locked resources */}
+      <LockModal isOpen={!!isLocked} onClose={() => {}} />
     </div>
   )
 }

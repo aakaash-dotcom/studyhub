@@ -2,7 +2,6 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { getPublishedRecords, CLASSES, isProItem } from '../data/catalogue'
 import { useState, useMemo } from 'react'
-import LockModal from '../components/LockModal'
 
 const TYPE_OPTIONS = [
   { label: 'All', value: '' },
@@ -38,7 +37,6 @@ export default function SearchPage() {
   const [examFilter, setExamFilter] = useState('')
   const [yearFilter, setYearFilter] = useState('')
   const [searchInput, setSearchInput] = useState(query)
-  const [showLockModal, setShowLockModal] = useState(false)
 
   // Check if user has pro plan
   const hasProPlan = (() => {
@@ -68,6 +66,11 @@ export default function SearchPage() {
       
       if (!matchesQuery) return false
       
+      // Filter out premium items for non-pro users (unless they specifically filter for topper material)
+      if (!hasProPlan && typeFilter !== '__topper__' && isProItem(r)) {
+        return false
+      }
+      
       // Chip filters
       if (typeFilter) {
         if (typeFilter === '__topper__') {
@@ -81,7 +84,7 @@ export default function SearchPage() {
       
       return true
     })
-  }, [query, allRecords, typeFilter, examFilter, yearFilter])
+  }, [query, allRecords, typeFilter, examFilter, yearFilter, hasProPlan])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -211,22 +214,14 @@ export default function SearchPage() {
       <div className="space-y-3">
         {results.map((resource) => {
           const classData = CLASSES.find(c => c.id === resource.class)
-          const isPro = isProItem(resource)
+          const isPro = hasProPlan && isProItem(resource)
           
-          const handleClick = (e: React.MouseEvent) => {
-            if (isPro && !hasProPlan) {
-              e.preventDefault()
-              setShowLockModal(true)
-            }
-          }
-
           return (
             <Link
               key={resource.id}
               to={`/resource/${resource.id}`}
-              onClick={handleClick}
               className="flex items-center gap-4 bg-white hover:bg-blue-50 rounded-xl p-4 border transition-all shadow-sm hover:shadow-md"
-              style={{ borderColor: isPro && !hasProPlan ? '#D4AF37' : '#C0C8D9' }}
+              style={{ borderColor: '#C0C8D9' }}
             >
               <div className="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
                 <span className="text-2xl">📄</span>
@@ -248,14 +243,6 @@ export default function SearchPage() {
                   <span className="text-xs" style={{ color: '#595959' }}>{resource.subject}</span>
                   <span className="text-xs" style={{ color: '#C0C8D9' }}>•</span>
                   <span className="text-xs" style={{ color: '#595959' }}>{classData?.name}</span>
-                  {!isPro && (
-                    <>
-                      <span className="text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                      <span className="text-xs font-medium" style={{ color: '#15803D' }}>
-                        FREE
-                      </span>
-                    </>
-                  )}
                 </div>
               </div>
             </Link>
@@ -273,9 +260,6 @@ export default function SearchPage() {
           </Link>
         </div>
       )}
-
-      {/* Lock Modal */}
-      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }

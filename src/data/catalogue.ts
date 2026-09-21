@@ -169,6 +169,14 @@ export function isProItem(record: CatalogueRecord): boolean {
   return record.price_tier === 'premium'
 }
 
+// Helper to check if a resource is free (for the free shelf)
+// Free = QuestionPaper OR the Science free ImpQ teaser
+export function isFreeItem(record: CatalogueRecord): boolean {
+  if (record.resource_type === 'QuestionPaper') return true
+  if (record.id === '10-science-english-quarterlyimpq-2026-free') return true
+  return false
+}
+
 // Parse marks_pattern into structured data
 export function parseMarksPattern(pattern: string): { part: string; questions: string; marks_each: string; note?: string }[] {
   const parts: { part: string; questions: string; marks_each: string; note?: string }[] = []
