@@ -157,6 +157,13 @@ export function getRecordsByClassTypeSubject(classNum: string, resourceType: str
   )
 }
 
+export function getRecordsByClassAndSubject(classNum: string, subject: string): CatalogueRecord[] {
+  const s = subject.replace(/-/g, ' ').toLowerCase()
+  return getPublishedRecords().filter(r =>
+    r.class === classNum && r.subject.toLowerCase() === s
+  )
+}
+
 // Parse marks_pattern into structured data
 export function parseMarksPattern(pattern: string): { part: string; questions: string; marks_each: string; note?: string }[] {
   const parts: { part: string; questions: string; marks_each: string; note?: string }[] = []

@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import ScrollToTop from './components/ScrollToTop'
 import HomePage from './pages/HomePage'
 import ClassPage from './pages/ClassPage'
+import SubjectBrowsePage from './pages/SubjectBrowsePage'
 import CategoryPage from './pages/CategoryPage'
 import SubjectPage from './pages/SubjectPage'
 import ResourcePage from './pages/ResourcePage'
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="class/:classId" element={<ClassPage />} />
+            <Route path="class/:classId/subject/:subject" element={<SubjectBrowsePage />} />
             <Route path="class/:classId/:category" element={<CategoryPage />} />
             <Route path="class/:classId/:category/:subject" element={<SubjectPage />} />
             <Route path="resource/:resourceId" element={<ResourcePage />} />

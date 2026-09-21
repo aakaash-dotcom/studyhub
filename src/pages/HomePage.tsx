@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Search, BookOpen, FileText, Award, ArrowRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { CLASSES, RESOURCE_TYPES, getRecordsByClass, getPublishedRecords } from '../data/catalogue'
@@ -6,6 +6,7 @@ import { trackPageView } from '../lib/events'
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('')
+  const navigate = useNavigate()
   const catalogue = getPublishedRecords()
 
   useEffect(() => {
@@ -45,7 +46,12 @@ export default function HomePage() {
 
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto mb-8">
-              <div className="flex items-center bg-white rounded-2xl shadow-2xl p-2">
+              <form onSubmit={(e) => {
+                e.preventDefault()
+                if (searchQuery.trim()) {
+                  navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
+                }
+              }} className="flex items-center bg-white rounded-2xl shadow-2xl p-2">
                 <Search className="w-5 h-5 ml-4" style={{ color: '#595959' }} />
                 <input
                   type="text"
@@ -55,10 +61,10 @@ export default function HomePage() {
                   className="flex-1 px-4 py-3 text-gray-700 bg-transparent outline-none text-base"
                   style={{ fontSize: '16px' }}
                 />
-                <button className="text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}>
+                <button type="submit" className="text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}>
                   Search
                 </button>
-              </div>
+              </form>
             </div>
 
             {/* Quick search tags */}

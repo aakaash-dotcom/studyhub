@@ -125,9 +125,9 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
           ) : (
             <div className="bg-white rounded-xl border p-8 text-center" style={{ borderColor: '#C0C8D9' }}>
               <div className="text-5xl mb-4">📄</div>
-              <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>Preview Coming Soon</h3>
+              <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>Preview PDF is being prepared</h3>
               <p className="text-sm mb-4" style={{ color: '#595959' }}>
-                Add <code className="px-2 py-0.5 rounded text-xs" style={{ backgroundColor: '#F5F8FC', color: '#17528C' }}>drive_file_id</code> to catalogue.json to enable preview.
+                This paper is listed. Check back soon.
               </p>
               <p className="text-xs font-mono p-2 rounded-lg" style={{ backgroundColor: '#F5F8FC', color: '#595959' }}>
                 File: {resource.file_pdf}
