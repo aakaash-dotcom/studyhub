@@ -13,7 +13,7 @@ Last Updated: January 2026
 Ravi's Tuition ("we", "our", "us") is committed to protecting your privacy in compliance with India's Digital Personal Data Protection Act (DPDP Act) 2023.
 
 **Information We Collect**
-- Phone number (for OTP-based authentication)
+- Phone number (for account authentication)
 - Name, class, school, medium, district (progressive profiling, optional)
 - Usage data (page views, downloads, search queries)
 

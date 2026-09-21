@@ -12,7 +12,6 @@ interface ResourceReaderProps {
 export default function ResourceReader({ resource }: ResourceReaderProps) {
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
-  const [downloading, setDownloading] = useState(false)
 
   const totalPages = resource.pages
 
@@ -20,21 +19,35 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
     trackPreviewPage(resource.id, 1)
   }, [resource.id])
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
     if (!isAuthenticated) {
       trackLoginWallHit(resource.id)
       navigate('/login', { state: { from: `/resource/${resource.id}` } })
       return
     }
 
-    setDownloading(true)
+    if (!resource.drive_file_id) {
+      return
+    }
+
     trackDownload(resource.id)
+    
+    // Save download event to localStorage
+    const downloadEvent = {
+      type: 'download',
+      id: resource.id,
+      phone: localStorage.getItem('rt_user_phone') || '',
+      at: new Date().toISOString()
+    }
+    const events = JSON.parse(localStorage.getItem('rt_download_events') || '[]')
+    events.push(downloadEvent)
+    localStorage.setItem('rt_download_events', JSON.stringify(events))
 
-    await new Promise(resolve => setTimeout(resolve, 800))
-    setDownloading(false)
-
-    // Full paper download not yet available
-    // Preview above shows 2 watermarked pages from Google Drive
+    // Download the preview PDF from Google Drive
+    window.open(
+      `https://drive.google.com/uc?export=download&id=${resource.drive_file_id}`,
+      '_blank'
+    )
   }
 
   const marksPattern = parseMarksPattern(resource.marks_pattern)
@@ -127,49 +140,34 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
             {isAuthenticated ? (
               <>
                 <Download className="w-10 h-10 mx-auto mb-3" style={{ color: '#15803D' }} />
-                <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>
-                  Full paper download coming soon
-                </h3>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>
-                  The preview above shows {totalPages} watermarked pages. Full paper download will be available after review.
-                </p>
                 <button
                   onClick={handleDownload}
-                  disabled={downloading}
-                  className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50"
+                  disabled={!resource.drive_file_id}
+                  className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ background: 'linear-gradient(135deg, #15803D, #166534)' }}
                 >
-                  {downloading ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Preparing...
-                    </>
-                  ) : (
-                    <>
-                      <Download className="w-4 h-4" /> Notify me when ready
-                    </>
-                  )}
+                  <Download className="w-4 h-4" /> Download PDF
                 </button>
+                <p className="text-xs mt-3" style={{ color: '#595959' }}>
+                  Free 2-page watermarked preview. Full paper later.
+                </p>
               </>
             ) : (
               <>
                 <Lock className="w-10 h-10 mx-auto mb-3" style={{ color: '#17528C' }} />
                 <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>
-                  Login to download the full paper
+                  Login to download
                 </h3>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>
-                  Preview is free · Download requires free login
-                </p>
                 <Link
                   to="/login"
                   state={{ from: `/resource/${resource.id}` }}
                   className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl text-sm font-medium"
                   style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}
                 >
-                  <Lock className="w-4 h-4" /> Login to Download
+                  <Lock className="w-4 h-4" /> Download PDF
                 </Link>
                 <p className="text-xs mt-3" style={{ color: '#595959' }}>
-                  Free · Takes 30 seconds · No spam
+                  Free 2-page watermarked preview. Full paper later.
                 </p>
               </>
             )}
