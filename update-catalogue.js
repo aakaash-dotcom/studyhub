@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-// Read current catalogue
+// Read the catalogue
 const cataloguePath = path.join(__dirname, 'src/data/catalogue.json');
 const catalogue = JSON.parse(fs.readFileSync(cataloguePath, 'utf8'));
 
