@@ -1,15 +1,14 @@
 import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
-import { getPublishedRecords, CLASSES } from '../data/catalogue'
+import { getPublishedRecords, CLASSES, isProItem } from '../data/catalogue'
 import { useState, useMemo } from 'react'
 
 const TYPE_OPTIONS = [
   { label: 'All', value: '' },
   { label: 'Question Papers', value: 'QuestionPaper' },
-  { label: 'Important Questions', value: 'ImportantQuestions' },
-  { label: 'Model Papers', value: 'ModelQuestionPaper' },
+  { label: 'Model Questions', value: 'ModelQuestionPaper' },
   { label: 'Answer Keys', value: 'AnswerKey' },
-  { label: 'Topper Materials', value: '__topper__' },
+  { label: 'Topper Material', value: '__topper__' },
 ]
 
 const EXAM_OPTIONS = [
@@ -39,6 +38,20 @@ export default function SearchPage() {
   const [yearFilter, setYearFilter] = useState('')
   const [searchInput, setSearchInput] = useState(query)
 
+  // Check if user has pro plan
+  const hasProPlan = (() => {
+    try {
+      const plan = localStorage.getItem('ravi_plan')
+      if (plan) {
+        const planData = JSON.parse(plan)
+        return planData.plan === 'pro' && planData.valid_until > Date.now()
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+    return false
+  })()
+
   const results = useMemo(() => {
     if (!query) return []
     
@@ -53,6 +66,11 @@ export default function SearchPage() {
       
       if (!matchesQuery) return false
       
+      // Filter out premium items for non-pro users (unless they specifically filter for topper material)
+      if (!hasProPlan && typeFilter !== '__topper__' && isProItem(r)) {
+        return false
+      }
+      
       // Chip filters
       if (typeFilter) {
         if (typeFilter === '__topper__') {
@@ -66,7 +84,7 @@ export default function SearchPage() {
       
       return true
     })
-  }, [query, allRecords, typeFilter, examFilter, yearFilter])
+  }, [query, allRecords, typeFilter, examFilter, yearFilter, hasProPlan])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -196,6 +214,8 @@ export default function SearchPage() {
       <div className="space-y-3">
         {results.map((resource) => {
           const classData = CLASSES.find(c => c.id === resource.class)
+          const isPro = hasProPlan && isProItem(resource)
+          
           return (
             <Link
               key={resource.id}
@@ -207,19 +227,22 @@ export default function SearchPage() {
                 <span className="text-2xl">📄</span>
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="font-medium truncate" style={{ color: '#1A1A1A' }}>
-                  {resource.title_en}
-                </h4>
+                <div className="flex items-center gap-2">
+                  <h4 className="font-medium truncate" style={{ color: '#1A1A1A' }}>
+                    {resource.title_en}
+                  </h4>
+                  {isPro && (
+                    <span className="flex-shrink-0 text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+                      👑 PRO
+                    </span>
+                  )}
+                </div>
                 <div className="flex flex-wrap items-center gap-2 mt-1">
                   <span className="text-xs" style={{ color: '#595959' }}>{resource.resource_type}</span>
                   <span className="text-xs" style={{ color: '#C0C8D9' }}>•</span>
                   <span className="text-xs" style={{ color: '#595959' }}>{resource.subject}</span>
                   <span className="text-xs" style={{ color: '#C0C8D9' }}>•</span>
                   <span className="text-xs" style={{ color: '#595959' }}>{classData?.name}</span>
-                  <span className="text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                  <span className="text-xs font-medium" style={{ color: resource.price_inr === 0 ? '#15803D' : '#B45309' }}>
-                    {resource.price_inr === 0 ? 'FREE' : `₹${resource.price_inr}`}
-                  </span>
                 </div>
               </div>
             </Link>

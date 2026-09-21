@@ -1,271 +1,85 @@
-import { Link, useNavigate } from 'react-router-dom'
-import { Search, BookOpen, FileText, Award, ArrowRight } from 'lucide-react'
-import { useState, useEffect } from 'react'
-import { CLASSES, RESOURCE_TYPES, getRecordsByClass, getPublishedRecords } from '../data/catalogue'
+import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { CLASSES } from '../data/catalogue'
 import { trackPageView } from '../lib/events'
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const navigate = useNavigate()
-  const catalogue = getPublishedRecords()
-
   useEffect(() => {
     trackPageView('/', 'Home')
   }, [])
 
-  const quickSearches = ['Important Questions', 'Model Papers', 'Question Papers', 'Answer Keys', 'Study Notes']
-
   return (
-    <div>
-      {/* Hero - Original gradient design */}
-      <section className="relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #17528C 0%, #0E3A66 50%, #1e1b4b 100%)' }}>
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-20 animate-pulse" style={{ background: 'radial-gradient(circle, #60a5fa, transparent)' }} />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full opacity-20 animate-pulse" style={{ background: 'radial-gradient(circle, #a78bfa, transparent)', animationDelay: '1s' }} />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, #818cf8, transparent)' }} />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20 md:py-24">
-          <div className="text-center">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-white/90 text-sm font-medium">Ravi's Tuition · Madurai · Since 1999</span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-              TN State Board
-              <span className="block mt-2" style={{ color: '#FCD34D' }}>
-                Study Materials
-              </span>
-            </h1>
-
-            <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-8 px-2">
-              Past papers are free. The papers that get you marks aren't. Shocking, I know.
-            </p>
-
-            {/* Search Bar */}
-            <div className="max-w-2xl mx-auto mb-8">
-              <form onSubmit={(e) => {
-                e.preventDefault()
-                if (searchQuery.trim()) {
-                  navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-                }
-              }} className="flex items-center bg-white rounded-2xl shadow-2xl p-2">
-                <Search className="w-5 h-5 ml-4" style={{ color: '#595959' }} />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search notes, papers, syllabus..."
-                  className="flex-1 px-4 py-3 text-gray-700 bg-transparent outline-none text-base"
-                  style={{ fontSize: '16px' }}
-                />
-                <button type="submit" className="text-white px-6 py-3 rounded-xl font-medium hover:shadow-lg transition-all" style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}>
-                  Search
-                </button>
-              </form>
-            </div>
-
-            {/* Quick search tags */}
-            <div className="flex flex-wrap justify-center gap-2 mb-10 px-2">
-              {quickSearches.map((tag) => (
-                <Link
-                  key={tag}
-                  to={`/search?q=${tag}`}
-                  className="px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white/90 rounded-full text-sm hover:bg-white/20 transition-colors"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Wave divider */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 80L60 70C120 60 240 40 360 35C480 30 600 40 720 45C840 50 960 50 1080 45C1200 40 1320 30 1380 25L1440 20V80H0Z" fill="#F5F8FC"/>
-          </svg>
-        </div>
-      </section>
-
-      {/* Classes Section - Original card design */}
-      <section className="py-10 sm:py-16" style={{ backgroundColor: '#F5F8FC' }}>
+    <div style={{ backgroundColor: '#F5F8FC' }}>
+      {/* Class Blocks - First Section */}
+      <section className="py-6 sm:py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8 sm:mb-12">
-            <div className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium mb-4" style={{ backgroundColor: '#EFF6FF', color: '#17528C' }}>
-              <BookOpen className="w-4 h-4" />
-              Samacheer Kalvi
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3" style={{ color: '#1A1A1A' }}>
-              Study Material for Class 8 to 12
-            </h2>
-            <p className="text-sm sm:text-base max-w-2xl mx-auto" style={{ color: '#595959' }}>
-              Tap any class to browse study materials, question papers & more
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
-            {CLASSES.map((cls) => {
-              const count = getRecordsByClass(cls.id).length
-              return (
-                <Link
-                  key={cls.id}
-                  to={`/class/${cls.id}`}
-                  className="group relative bg-white rounded-2xl p-5 sm:p-6 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border overflow-hidden"
-                  style={{ borderColor: '#C0C8D9' }}
-                >
-                  <div className={`absolute inset-0 bg-gradient-to-br ${cls.id === '12' ? 'from-emerald-500 to-teal-600' : cls.id === '11' ? 'from-violet-500 to-purple-600' : cls.id === '10' ? 'from-blue-600 to-indigo-700' : cls.id === '9' ? 'from-orange-500 to-red-500' : 'from-teal-500 to-cyan-600'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-                  <div className="relative z-10 text-center">
-                    <div className="text-3xl sm:text-4xl mb-2">{cls.icon}</div>
-                    <h3 className="font-bold text-sm sm:text-base group-hover:text-white transition-colors" style={{ color: '#1A1A1A' }}>
-                      {cls.name}
-                    </h3>
-                    <p className="text-xs mt-1 group-hover:text-white/80 transition-colors" style={{ color: '#595959' }}>
-                      {count} materials
-                    </p>
-                    <div className="mt-2 flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="text-white/90 text-xs">Browse</span>
-                      <ArrowRight className="w-3 h-3 text-white/90" />
-                    </div>
-                  </div>
-                </Link>
-              )
-            })}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+            {CLASSES.map((cls) => (
+              <Link
+                key={cls.id}
+                to={`/class/${cls.id}`}
+                className="group bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all border"
+                style={{ borderColor: '#C0C8D9' }}
+              >
+                <div className="text-center">
+                  <div className="text-2xl mb-1">{cls.icon}</div>
+                  <h3 className="font-semibold text-sm" style={{ color: '#1A1A1A' }}>
+                    {cls.name}
+                  </h3>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Plans Strip */}
-      <section className="py-10 sm:py-16" style={{ backgroundColor: '#F5F8FC' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3" style={{ color: '#1A1A1A' }}>
-              Three plans. One of them is actually free.
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
+      {/* Thin Plans Strip */}
+      <section className="py-6 bg-white border-t" style={{ borderColor: '#C0C8D9' }}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <Link
               to="/plans"
-              className="group bg-white rounded-2xl p-6 border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="flex items-center justify-between p-3 rounded-lg border hover:shadow-sm transition-all"
               style={{ borderColor: '#C0C8D9' }}
             >
-              <div className="text-center">
-                <div className="text-3xl mb-3">📚</div>
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>FREE</h3>
-                <div className="text-3xl font-bold mb-2" style={{ color: '#17528C' }}>₹0</div>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>Old question papers. Take them. We're not monsters.</p>
-                <div className="text-xs font-medium px-4 py-2 rounded-full inline-block" style={{ backgroundColor: '#EFF6FF', color: '#17528C' }}>
-                  Current Plan
-                </div>
+              <div>
+                <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>FREE</h3>
+                <p className="text-xs" style={{ color: '#595959' }}>Old question papers</p>
               </div>
+              <span className="text-xs font-medium px-2 py-1 rounded" style={{ backgroundColor: '#EFF6FF', color: '#17528C' }}>
+                ₹0
+              </span>
             </Link>
 
             <Link
               to="/plans"
-              className="group bg-white rounded-2xl p-6 border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 relative"
-              style={{ borderColor: '#D4AF37', boxShadow: '0 8px 24px rgba(212, 175, 55, 0.2)' }}
+              className="flex items-center justify-between p-3 rounded-lg border-2 hover:shadow-sm transition-all"
+              style={{ borderColor: '#D4AF37', backgroundColor: '#FFFBEB' }}
             >
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold text-white" style={{ backgroundColor: '#D4AF37' }}>
-                MOST POPULAR
+              <div>
+                <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>PRO</h3>
+                <p className="text-xs" style={{ color: '#595959' }}>ImpQ, models, keys</p>
               </div>
-              <div className="text-center">
-                <div className="text-3xl mb-3">⭐</div>
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>PRO</h3>
-                <div className="text-3xl font-bold mb-2" style={{ color: '#D4AF37' }}>₹499/year</div>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>ImpQ, models, keys, new files all year. Less than one tuition week.</p>
-                <div className="text-xs font-medium px-4 py-2 rounded-full inline-block text-white" style={{ backgroundColor: '#D4AF37' }}>
-                  Pay ₹499
-                </div>
-              </div>
+              <span className="text-xs font-bold px-2 py-1 rounded text-white" style={{ backgroundColor: '#D4AF37' }}>
+                ₹499/year
+              </span>
             </Link>
 
             <a
               href="https://wa.me/918610653352"
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-white rounded-2xl p-6 border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="flex items-center justify-between p-3 rounded-lg border hover:shadow-sm transition-all"
               style={{ borderColor: '#C0C8D9' }}
             >
-              <div className="text-center">
-                <div className="text-3xl mb-3">🎓</div>
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>CENTUM</h3>
-                <div className="text-2xl font-bold mb-2" style={{ color: '#17528C' }}>Opening soon</div>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>Recordings + a WhatsApp group that isn't 400 forwards. Don't pay.</p>
-                <div className="text-xs font-medium px-4 py-2 rounded-full inline-block text-white" style={{ backgroundColor: '#25D366' }}>
-                  WhatsApp 8610653352
-                </div>
+              <div>
+                <h3 className="font-bold text-sm" style={{ color: '#1A1A1A' }}>CENTUM</h3>
+                <p className="text-xs" style={{ color: '#595959' }}>Recordings + WhatsApp</p>
               </div>
+              <span className="text-xs font-medium px-2 py-1 rounded text-white" style={{ backgroundColor: '#25D366' }}>
+                Opening soon
+              </span>
             </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Recent Materials */}
-      <section className="py-10 sm:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-6 sm:mb-8">
-            <div>
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold" style={{ color: '#1A1A1A' }}>
-                Latest Materials
-              </h2>
-              <p className="text-sm mt-1" style={{ color: '#595959' }}>Freshly added study materials</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {catalogue.slice(0, 6).map((resource) => {
-              const classData = CLASSES.find(c => c.id === resource.class)
-              return (
-                <Link
-                  key={resource.id}
-                  to={`/resource/${resource.id}`}
-                  className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
-                  style={{ borderColor: '#C0C8D9' }}
-                >
-                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
-                    <FileText className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#17528C' }} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-                      {resource.title_en}
-                    </h4>
-                    <div className="flex flex-wrap items-center gap-1.5 mt-1">
-                      <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: '#EFF6FF', color: '#17528C' }}>
-                        {resource.resource_type}
-                      </span>
-                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{classData?.name}</span>
-                      <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.subject}</span>
-                    </div>
-                  </div>
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-full flex-shrink-0" style={{ backgroundColor: '#DCFCE7', color: '#15803D' }}>
-                    FREE
-                  </span>
-                </Link>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="py-10 sm:py-16" style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66, #1e1b4b)' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-            {[
-              { value: '5', label: 'Classes', icon: '📚' },
-              { value: `${catalogue.length}+`, label: 'Materials', icon: '📄' },
-              { value: '10+', label: 'Subjects', icon: '📖' },
-              { value: 'Free', label: 'Download', icon: '📥' },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-3xl mb-2">{stat.icon}</div>
-                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{stat.value}</div>
-                <p className="text-blue-200 text-xs sm:text-sm mt-1">{stat.label}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

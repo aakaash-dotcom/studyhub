@@ -51,8 +51,8 @@ export default function ClassPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>What are you looking for?</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {/* Question Papers */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          {/* Question Papers - Free Shelf */}
           <Link
             to={`/class/${classId}/subject/maths?type=QuestionPaper`}
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
@@ -67,37 +67,7 @@ export default function ClassPage() {
             </p>
           </Link>
 
-          {/* Model Questions */}
-          <Link
-            to={`/class/${classId}/subject/maths?type=ModelQuestionPaper`}
-            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
-            style={{ borderColor: '#C0C8D9' }}
-          >
-            <div className="text-4xl mb-3">📋</div>
-            <h3 className="font-bold text-lg mb-2 group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-              Model Questions
-            </h3>
-            <p className="text-sm" style={{ color: '#595959' }}>
-              Practice papers with marking scheme. Pro access.
-            </p>
-          </Link>
-
-          {/* Answer Keys */}
-          <Link
-            to={`/class/${classId}/subject/maths?type=AnswerKey`}
-            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
-            style={{ borderColor: '#C0C8D9' }}
-          >
-            <div className="text-4xl mb-3">✅</div>
-            <h3 className="font-bold text-lg mb-2 group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-              Answer Keys
-            </h3>
-            <p className="text-sm" style={{ color: '#595959' }}>
-              Detailed solutions and marking scheme. Pro access.
-            </p>
-          </Link>
-
-          {/* Topper Material */}
+          {/* Topper Material - Pro Shelf */}
           <Link
             to="/plans"
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
@@ -105,10 +75,10 @@ export default function ClassPage() {
           >
             <div className="text-4xl mb-3">👑</div>
             <h3 className="font-bold text-lg mb-2 text-white">
-              Topper Material
+              Topper Pack
             </h3>
             <p className="text-sm text-white/80">
-              Important questions, model papers, and topper notes. The stuff that actually gets you marks.
+              Important questions, model papers, and answer keys. The stuff that actually gets you marks.
             </p>
             <div className="mt-3 px-4 py-2 rounded-full text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
               PRO ACCESS
@@ -116,11 +86,40 @@ export default function ClassPage() {
           </Link>
         </div>
 
-        {/* Recent Materials */}
+        {/* Subject Grid */}
+        <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>Browse by Subject</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+          {(SUBJECTS[classId!] || []).map((subject) => {
+            const slug = subject.name.toLowerCase().replace(/\s+/g, '-')
+            const count = getRecordsByClass(classId!).filter(r => 
+              r.subject.toLowerCase() === subject.name.toLowerCase() && 
+              (r.resource_type === 'QuestionPaper' || r.id === '10-science-english-quarterlyimpq-2026-free')
+            ).length
+            return (
+              <Link
+                key={subject.name}
+                to={`/class/${classId}/subject/${slug}`}
+                className="group flex flex-col items-center text-center p-4 sm:p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+                style={{ borderColor: '#C0C8D9' }}
+              >
+                <div className="text-3xl sm:text-4xl mb-2">{subject.icon}</div>
+                <h3 className="font-bold text-sm sm:text-base group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
+                  {subject.name}
+                </h3>
+                <p className="text-xs mt-1" style={{ color: '#595959' }}>
+                  {count > 0 ? `${count} papers` : 'Coming soon'}
+                </p>
+              </Link>
+            )
+          })}
+        </div>
+
+        {/* Popular Materials - PYQ Only */}
         <div>
-          <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>🔥 Popular Materials</h2>
+          <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>🔥 Popular Question Papers</h2>
           <div className="space-y-3">
             {getRecordsByClass(classId!)
+              .filter(r => r.resource_type === 'QuestionPaper')
               .sort((a, b) => b.year - a.year)
               .slice(0, 5)
               .map((resource) => (
@@ -138,7 +137,7 @@ export default function ClassPage() {
                       {resource.title_en}
                     </h4>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.resource_type}</span>
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.exam} {resource.year}</span>
                       <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
                       <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
                     </div>
