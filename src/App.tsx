@@ -1,6 +1,7 @@
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Layout from './components/Layout'
+import ScrollToTop from './components/ScrollToTop'
 import HomePage from './pages/HomePage'
 import ClassPage from './pages/ClassPage'
 import CategoryPage from './pages/CategoryPage'
@@ -12,10 +13,16 @@ import SearchPage from './pages/SearchPage'
 import LegalPage from './pages/LegalPage'
 import AdminFunnel from './pages/AdminFunnel'
 
+// Disable browser scroll restoration
+if (typeof window !== 'undefined') {
+  window.history.scrollRestoration = 'manual'
+}
+
 function App() {
   return (
     <AuthProvider>
       <HashRouter>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
