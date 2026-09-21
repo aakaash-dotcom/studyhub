@@ -19,14 +19,20 @@
     "total_marks": 100,
     "question_count": 44,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Maths_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "10_maths_english_quarterlyimpq_2026",
     "drive_file_id": "14SYGSw0XAehR-4ruPyf1T_-Kq1oYtHf3",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "maths"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "maths",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -49,14 +55,20 @@
     "total_marks": 100,
     "question_count": 44,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Maths_English_ModelQP_2026_Paper1.pdf",
     "file_preview_base": "10_maths_english_modelqp_2026_paper1",
     "drive_file_id": "104uVUrJNalVMgdyg9_Xcvcvi2HPt8TM4",
     "apps_script_url": "",
-    "tags": ["quarterly", "model-paper", "2026", "maths"],
+    "tags": [
+      "quarterly",
+      "model-paper",
+      "2026",
+      "maths",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -79,14 +91,20 @@
     "total_marks": 100,
     "question_count": 44,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Maths_English_ModelQP_2026_Paper2.pdf",
     "file_preview_base": "10_maths_english_modelqp_2026_paper2",
     "drive_file_id": "1tG1JMCv4JnuX51iqC0obvSGjqDxrOPJJ",
     "apps_script_url": "",
-    "tags": ["quarterly", "model-paper", "2026", "maths"],
+    "tags": [
+      "quarterly",
+      "model-paper",
+      "2026",
+      "maths",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -109,14 +127,20 @@
     "total_marks": 100,
     "question_count": 44,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Maths_English_ModelQP_2026_Paper3.pdf",
     "file_preview_base": "10_maths_english_modelqp_2026_paper3",
     "drive_file_id": "18KHxl6uVIUVWnb94ykPrTOLamDHdx8dI",
     "apps_script_url": "",
-    "tags": ["quarterly", "model-paper", "2026", "maths"],
+    "tags": [
+      "quarterly",
+      "model-paper",
+      "2026",
+      "maths",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -139,14 +163,20 @@
     "total_marks": 75,
     "question_count": 35,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Science_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "10_science_english_quarterlyimpq_2026",
     "drive_file_id": "1X5heOjmzLwEO9eZ7yHGvnCp4nxk9fjKK",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "science"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "science",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -176,7 +206,13 @@
     "file_preview_base": "10_science_english_quarterlyimpq_2026_free",
     "drive_file_id": "13hLnlkiLYWpUUsXdVBpF6PPVccjtTVXM",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "science", "free"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "science",
+      "free"
+    ],
     "status": "published"
   },
   {
@@ -199,14 +235,20 @@
     "total_marks": 75,
     "question_count": 35,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Science_English_ModelQP_2026_Paper1.pdf",
     "file_preview_base": "10_science_english_modelqp_2026_paper1",
     "drive_file_id": "1pWGp74T4wsFWSg8KSiyjrGXP7U2iGiLd",
     "apps_script_url": "",
-    "tags": ["quarterly", "model-paper", "2026", "science"],
+    "tags": [
+      "quarterly",
+      "model-paper",
+      "2026",
+      "science",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -229,14 +271,20 @@
     "total_marks": 75,
     "question_count": 35,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Science_English_ModelQP_2026_Paper2.pdf",
     "file_preview_base": "10_science_english_modelqp_2026_paper2",
     "drive_file_id": "1OHnryNHWIShJbF1nr24bkdXo8wzo8ICg",
     "apps_script_url": "",
-    "tags": ["quarterly", "model-paper", "2026", "science"],
+    "tags": [
+      "quarterly",
+      "model-paper",
+      "2026",
+      "science",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -259,14 +307,20 @@
     "total_marks": 75,
     "question_count": 35,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "10_Science_English_ModelQP_2026_Paper3.pdf",
     "file_preview_base": "10_science_english_modelqp_2026_paper3",
     "drive_file_id": "1aSAiQUkIuPC4ydj2qUQqaMdFmgJLpw_H",
     "apps_script_url": "",
-    "tags": ["quarterly", "model-paper", "2026", "science"],
+    "tags": [
+      "quarterly",
+      "model-paper",
+      "2026",
+      "science",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -289,14 +343,20 @@
     "total_marks": 90,
     "question_count": 40,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "12_Maths_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "12_maths_english_quarterlyimpq_2026",
     "drive_file_id": "1MUceFiMIC2Fgwf0rm6x4pRAPTkcM5m48",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "maths"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "maths",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -319,14 +379,20 @@
     "total_marks": 70,
     "question_count": 30,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "12_Physics_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "12_physics_english_quarterlyimpq_2026",
     "drive_file_id": "1j7zt-IuA8z6GVHnWdw8gYQnbzLSgVGui",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "physics"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "physics",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -349,14 +415,20 @@
     "total_marks": 90,
     "question_count": 47,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "12_Commerce_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "12_commerce_english_quarterlyimpq_2026",
     "drive_file_id": "1kLHdgH17ifxp14FNXYiK_9VjiowzgtzR",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "commerce"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "commerce",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -379,14 +451,20 @@
     "total_marks": 90,
     "question_count": 40,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "12_Economics_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "12_economics_english_quarterlyimpq_2026",
     "drive_file_id": "1wPQhSEKB0nvyoPnm6-hsiGzfNojbM0va",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "economics"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "economics",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -409,14 +487,20 @@
     "total_marks": 70,
     "question_count": 30,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "12_Zoology_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "12_zoology_english_quarterlyimpq_2026",
     "drive_file_id": "1dp7XEN2gls578oF_sh9IfCrL2-tYwO6U",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "zoology"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "zoology",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -439,14 +523,20 @@
     "total_marks": 70,
     "question_count": 30,
     "duration": "3.00 hrs",
-    "price_tier": "free",
-    "price_inr": 0,
+    "price_tier": "premium",
+    "price_inr": 49,
     "preview_pages": 2,
     "file_pdf": "12_Computer_Science_English_QuarterlyImpQ_2026.pdf",
     "file_preview_base": "12_computer_science_english_quarterlyimpq_2026",
     "drive_file_id": "1g6tyciJFU3ACazKBh5uN8wXUrCfca2YP",
     "apps_script_url": "",
-    "tags": ["quarterly", "important-questions", "2026", "computer-science"],
+    "tags": [
+      "quarterly",
+      "important-questions",
+      "2026",
+      "computer-science",
+      "topper"
+    ],
     "status": "published"
   },
   {
@@ -464,7 +554,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் காலாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Maths quarterly exam question paper 2025.",
     "pages": 8,
-    "size": "2.1 MB",
+    "size": "1.3 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -472,11 +562,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Quarterly_2025.pdf",
+    "file_pdf": "10_Maths_English_Quarterly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1HJ1fkOhmoPnVEHTPe1jxdkMax2IGi1ha",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2025", "maths"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2025",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -494,7 +589,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் அரையாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Maths half-yearly exam question paper 2025.",
     "pages": 8,
-    "size": "2.0 MB",
+    "size": "1.6 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -502,11 +597,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Halfyearly_2025.pdf",
+    "file_pdf": "10_Maths_English_Half_Yearly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "16RXooUIStRWomJFk80G_pg0o2ecHDd3q",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2025", "maths"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2025",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -524,7 +624,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் ஆண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Maths annual public exam question paper 2025.",
     "pages": 8,
-    "size": "2.2 MB",
+    "size": "2.0 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -532,11 +632,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Annual_2025.pdf",
+    "file_pdf": "10_Maths_English_Annual_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1tBGNiAiKWQehaJ5UzhNCFBKuL2H-RGDo",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2025", "maths"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2025",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -554,7 +659,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் காலாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Science quarterly exam question paper 2025.",
     "pages": 7,
-    "size": "1.9 MB",
+    "size": "1.4 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -562,11 +667,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Quarterly_2025.pdf",
+    "file_pdf": "10_Science_English_Quarterly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1mnJBnGURJYEIPNYPxqO7853w6PJRJbmi",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2025", "science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2025",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -584,7 +694,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் அரையாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Science half-yearly exam question paper 2025.",
     "pages": 7,
-    "size": "1.8 MB",
+    "size": "1.7 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -592,11 +702,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Halfyearly_2025.pdf",
+    "file_pdf": "10_Science_English_Half_Yearly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1IP0SeofFHmMgyzET2IxLmuY-Ywh3cW9F",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2025", "science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2025",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -614,7 +729,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் ஆண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Science annual public exam question paper 2025.",
     "pages": 7,
-    "size": "2.0 MB",
+    "size": "0.5 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -622,11 +737,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Annual_2025.pdf",
+    "file_pdf": "10_Science_English_Annual_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "19qgaDRhXt6XiUjH3aia2LOeDOHjLRObN",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2025", "science"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2025",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -644,7 +764,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் காலாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th English quarterly exam question paper 2025.",
     "pages": 6,
-    "size": "1.5 MB",
+    "size": "3.2 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -652,11 +772,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Quarterly_2025.pdf",
+    "file_pdf": "10_English_English_Quarterly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1y6QuEKsMQfdfw6L21LyDfPEfxNOVt0R8",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2025", "english"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2025",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -674,7 +799,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் அரையாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th English half-yearly exam question paper 2025.",
     "pages": 6,
-    "size": "1.4 MB",
+    "size": "3.6 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -682,11 +807,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Halfyearly_2025.pdf",
+    "file_pdf": "10_English_English_Half_Yearly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1_-PTQx3QUbWZU1UyDHF0YC4HwGLcQvbX",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2025", "english"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2025",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -704,7 +834,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் ஆண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th English annual public exam question paper 2025.",
     "pages": 6,
-    "size": "1.6 MB",
+    "size": "7.0 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -712,11 +842,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Annual_2025.pdf",
+    "file_pdf": "10_English_English_Annual_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1tffTItBoniHHdbV6AIzNIpMVIiqawzPG",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2025", "english"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2025",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -746,8 +881,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2025", "tamil"],
-    "status": "published"
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2025",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-tamil-english-halfyearly-2025",
@@ -776,8 +916,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2025", "tamil"],
-    "status": "published"
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2025",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-tamil-english-annual-2025",
@@ -806,8 +951,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2025", "tamil"],
-    "status": "published"
+    "tags": [
+      "annual",
+      "question-paper",
+      "2025",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-social-science-english-quarterly-2025",
@@ -824,7 +974,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் காலாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Social Science quarterly exam question paper 2025.",
     "pages": 7,
-    "size": "1.8 MB",
+    "size": "1.5 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -832,11 +982,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Quarterly_2025.pdf",
+    "file_pdf": "10_Social_Science_English_Quarterly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1LqRyq_MpzOO4X9UQHIXLoM78FL1EUK3P",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2025", "social-science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2025",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -854,7 +1009,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் அரையாண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Social Science half-yearly exam question paper 2025.",
     "pages": 7,
-    "size": "1.7 MB",
+    "size": "2.0 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -862,11 +1017,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Halfyearly_2025.pdf",
+    "file_pdf": "10_Social_Science_English_Half_Yearly_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1UIzxZC5v7N1P7e8sZSJH9JBLQx3h9GLI",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2025", "social-science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2025",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -884,7 +1044,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் ஆண்டு வினாத்தாள் 2025",
     "description_en": "TN State Board 10th Social Science annual public exam question paper 2025.",
     "pages": 7,
-    "size": "1.9 MB",
+    "size": "1.0 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -892,11 +1052,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Annual_2025.pdf",
+    "file_pdf": "10_Social_English_Annual_2025_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1nbaXC_2GlIue2H2uJLO70w9lZgqrqMgH",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2025", "social-science"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2025",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -914,7 +1079,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் காலாண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th Maths quarterly exam question paper 2024.",
     "pages": 8,
-    "size": "2.1 MB",
+    "size": "3.5 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -922,11 +1087,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Quarterly_2024.pdf",
+    "file_pdf": "10_Maths_English_Quarterly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1mpwUs2yFo7zgGgJT9e4XA9XPUiwNPB2z",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2024", "maths"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2024",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -944,7 +1114,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் அரையாண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th Maths half-yearly exam question paper 2024.",
     "pages": 8,
-    "size": "2.0 MB",
+    "size": "2.1 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -952,11 +1122,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Halfyearly_2024.pdf",
+    "file_pdf": "10_Maths_English_Half_Yearly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1nACogZ6A3llzbjwgN2w2JsIWVTL-GmUM",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2024", "maths"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2024",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -974,7 +1149,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் ஆண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th Maths annual public exam question paper 2024.",
     "pages": 8,
-    "size": "2.2 MB",
+    "size": "1.8 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -982,11 +1157,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Annual_2024.pdf",
+    "file_pdf": "10_Maths_English_Annual_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1L-MDjBDCxn0herGDm_erY9tgcjFQ9nG9",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2024", "maths"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2024",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -1012,11 +1192,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Quarterly_2024.pdf",
+    "file_pdf": "10_Science_English_Quarterly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1A3AIjTB3dQT9Ptck-9MuR_2n_JXnCej5",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2024", "science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2024",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1034,7 +1219,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் அரையாண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th Science half-yearly exam question paper 2024.",
     "pages": 7,
-    "size": "1.8 MB",
+    "size": "1.7 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -1042,11 +1227,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Halfyearly_2024.pdf",
+    "file_pdf": "10_Science_English_Half_Yearly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1ojlkyVF5YEjO7k5ca4j5jBdONNISE90x",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2024", "science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2024",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1064,7 +1254,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் ஆண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th Science annual public exam question paper 2024.",
     "pages": 7,
-    "size": "2.0 MB",
+    "size": "0.5 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -1072,11 +1262,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Annual_2024.pdf",
+    "file_pdf": "10_Science_English_Annual_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1Fo0yQUfBoTHAW-Fz_1BNYP1mkGh-hdT3",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2024", "science"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2024",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1094,7 +1289,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் காலாண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th English quarterly exam question paper 2024.",
     "pages": 6,
-    "size": "1.5 MB",
+    "size": "4.3 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1102,11 +1297,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Quarterly_2024.pdf",
+    "file_pdf": "10_English_English_Quarterly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1-9x0I5XdKHCcwYt1LA9MNV4GzTwuEUSn",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2024", "english"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2024",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -1124,7 +1324,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் அரையாண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th English half-yearly exam question paper 2024.",
     "pages": 6,
-    "size": "1.4 MB",
+    "size": "3.7 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1132,11 +1332,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Halfyearly_2024.pdf",
+    "file_pdf": "10_English_English_Half_Yearly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1OJDOrKyrc_fsWCofkqdjosdv6a2qODoq",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2024", "english"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2024",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -1154,7 +1359,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் ஆண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th English annual public exam question paper 2024.",
     "pages": 6,
-    "size": "1.6 MB",
+    "size": "5.7 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1162,11 +1367,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Annual_2024.pdf",
+    "file_pdf": "10_English_English_Annual_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1E0MBYy__GG3OqDzhy_WKNZQXn_3putzO",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2024", "english"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2024",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -1196,8 +1406,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2024", "tamil"],
-    "status": "published"
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2024",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-tamil-english-halfyearly-2024",
@@ -1226,8 +1441,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2024", "tamil"],
-    "status": "published"
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2024",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-tamil-english-annual-2024",
@@ -1256,8 +1476,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2024", "tamil"],
-    "status": "published"
+    "tags": [
+      "annual",
+      "question-paper",
+      "2024",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-social-science-english-quarterly-2024",
@@ -1282,11 +1507,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Quarterly_2024.pdf",
+    "file_pdf": "10_Social_Science_English_Quarterly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1Z7htX-Saj2D4qZO22IEi3APoPa1pAJ-s",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2024", "social-science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2024",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -1304,7 +1534,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் அரையாண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th Social Science half-yearly exam question paper 2024.",
     "pages": 7,
-    "size": "1.7 MB",
+    "size": "1.6 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1312,11 +1542,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Halfyearly_2024.pdf",
+    "file_pdf": "10_Social_Science_English_Half_Yearly_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "19ZmSFBwiIUiwZ6TblHEYHSaQXjAtj-t6",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2024", "social-science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2024",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -1334,7 +1569,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் ஆண்டு வினாத்தாள் 2024",
     "description_en": "TN State Board 10th Social Science annual public exam question paper 2024.",
     "pages": 7,
-    "size": "1.9 MB",
+    "size": "1.0 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1342,11 +1577,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Annual_2024.pdf",
+    "file_pdf": "10_Social_English_Annual_2024_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "189PJhqhdibHqi2GMKm7gf1OU8lYa1CTR",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2024", "social-science"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2024",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -1364,7 +1604,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் காலாண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Maths quarterly exam question paper 2023.",
     "pages": 8,
-    "size": "2.1 MB",
+    "size": "2.0 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -1372,11 +1612,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Quarterly_2023.pdf",
+    "file_pdf": "10_Maths_English_Quarterly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1UYmtnerGNZqJmpXoSu42yke-rv4j6uUr",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2023", "maths"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2023",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -1402,11 +1647,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Halfyearly_2023.pdf",
+    "file_pdf": "10_Maths_English_Half_Yearly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1Y3hLmwDsn2_UB04ihGkR7VtJsWVjZJPf",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2023", "maths"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2023",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -1424,7 +1674,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் ஆண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Maths annual public exam question paper 2023.",
     "pages": 8,
-    "size": "2.2 MB",
+    "size": "1.2 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -1432,11 +1682,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Annual_2023.pdf",
+    "file_pdf": "10_Maths_English_Annual_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1d_2w4MRCqriYCgb1QzLwkfq9eTiGdIiJ",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2023", "maths"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2023",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -1454,7 +1709,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் காலாண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Science quarterly exam question paper 2023.",
     "pages": 7,
-    "size": "1.9 MB",
+    "size": "1.2 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -1462,11 +1717,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Quarterly_2023.pdf",
+    "file_pdf": "10_Science_English_Quarterly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1DIMaqEjoZWWWwTn1lBbOedImnYME8Y6n",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2023", "science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2023",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1484,7 +1744,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் அரையாண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Science half-yearly exam question paper 2023.",
     "pages": 7,
-    "size": "1.8 MB",
+    "size": "1.6 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -1492,11 +1752,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Halfyearly_2023.pdf",
+    "file_pdf": "10_Science_English_Half_Yearly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1EHWGK3ORuQ4Fx_5G2W1K4CU_-2Ps2o28",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2023", "science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2023",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1514,7 +1779,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் ஆண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Science annual public exam question paper 2023.",
     "pages": 7,
-    "size": "2.0 MB",
+    "size": "0.6 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -1522,11 +1787,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Annual_2023.pdf",
+    "file_pdf": "10_Science_English_Annual_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1UEFI0MhRXuAUey_CHB15L9a2OTWY1k-S",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2023", "science"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2023",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1544,7 +1814,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் காலாண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th English quarterly exam question paper 2023.",
     "pages": 6,
-    "size": "1.5 MB",
+    "size": "4.2 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1552,11 +1822,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Quarterly_2023.pdf",
+    "file_pdf": "10_English_English_Quarterly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1eIZlkklg72mh5KNYhCzHra_DcghQlJtm",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2023", "english"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2023",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -1574,7 +1849,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் அரையாண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th English half-yearly exam question paper 2023.",
     "pages": 6,
-    "size": "1.4 MB",
+    "size": "5.6 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1582,11 +1857,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Halfyearly_2023.pdf",
+    "file_pdf": "10_English_English_Half_Yearly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1Re0YvWlq-UMojeF9fl2E7p2ITvWANW_d",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2023", "english"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2023",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -1604,7 +1884,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் ஆண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th English annual public exam question paper 2023.",
     "pages": 6,
-    "size": "1.6 MB",
+    "size": "3.9 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1612,11 +1892,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Annual_2023.pdf",
+    "file_pdf": "10_English_English_Annual_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1Sy52HFdSDHuZkxZSywjh7hl2N69Lnqze",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2023", "english"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2023",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -1646,8 +1931,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2023", "tamil"],
-    "status": "published"
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2023",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-tamil-english-halfyearly-2023",
@@ -1676,8 +1966,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2023", "tamil"],
-    "status": "published"
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2023",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-tamil-english-annual-2023",
@@ -1706,8 +2001,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2023", "tamil"],
-    "status": "published"
+    "tags": [
+      "annual",
+      "question-paper",
+      "2023",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-social-science-english-quarterly-2023",
@@ -1724,7 +2024,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் காலாண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Social Science quarterly exam question paper 2023.",
     "pages": 7,
-    "size": "1.8 MB",
+    "size": "2.5 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1732,11 +2032,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Quarterly_2023.pdf",
+    "file_pdf": "10_Social_English_Quarterly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1xkTna6LIhYmx37nFlqnRXURjJuA3ns7P",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2023", "social-science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2023",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -1754,7 +2059,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் அரையாண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Social Science half-yearly exam question paper 2023.",
     "pages": 7,
-    "size": "1.7 MB",
+    "size": "0.4 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1762,11 +2067,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Halfyearly_2023.pdf",
+    "file_pdf": "10_Social_Science_English_Half_Yearly_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1fjiFpMrOiUqQqIN5f2ORPNId42V3i8BA",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2023", "social-science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2023",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -1784,7 +2094,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் ஆண்டு வினாத்தாள் 2023",
     "description_en": "TN State Board 10th Social Science annual public exam question paper 2023.",
     "pages": 7,
-    "size": "1.9 MB",
+    "size": "1.0 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1792,11 +2102,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Annual_2023.pdf",
+    "file_pdf": "10_Social_English_Annual_2023_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1JBheMWpHF2BeMJumaiEPS7dpfDGyYRCx",
     "apps_script_url": "",
-    "tags": ["annual", "question-paper", "2023", "social-science"],
+    "tags": [
+      "annual",
+      "question-paper",
+      "2023",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -1814,7 +2129,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் காலாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th Maths quarterly exam question paper 2022.",
     "pages": 8,
-    "size": "2.1 MB",
+    "size": "2.2 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -1822,11 +2137,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Quarterly_2022.pdf",
+    "file_pdf": "10_Maths_English_Quarterly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1ouxfsruCU3327PIWJMFbYRYtSEK-3jiH",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2022", "maths"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2022",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -1844,7 +2164,7 @@
     "title_ta": "10ம் வகுப்பு கணிதம் அரையாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th Maths half-yearly exam question paper 2022.",
     "pages": 8,
-    "size": "2.0 MB",
+    "size": "2.6 MB",
     "marks_pattern": "Part I 14x1 | Part II 10x2 | Part III 10x5 | Part IV 2x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 44,
@@ -1852,11 +2172,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Maths_English_Halfyearly_2022.pdf",
+    "file_pdf": "10_Maths_English_Half_Yearly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1fns_g97gvy4-likjbZykAvLE_YC7tR0n",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2022", "maths"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2022",
+      "maths"
+    ],
     "status": "published"
   },
   {
@@ -1874,7 +2199,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் காலாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th Science quarterly exam question paper 2022.",
     "pages": 7,
-    "size": "1.9 MB",
+    "size": "2.1 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -1882,11 +2207,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Quarterly_2022.pdf",
+    "file_pdf": "10_Science_English_Quarterly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1Kf4JmwoD6MOFS5q-xwPHzD3wJjyvP8ev",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2022", "science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2022",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1904,7 +2234,7 @@
     "title_ta": "10ம் வகுப்பு அறிவியல் அரையாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th Science half-yearly exam question paper 2022.",
     "pages": 7,
-    "size": "1.8 MB",
+    "size": "1.7 MB",
     "marks_pattern": "Part I 12x1 | Part II 7x2 | Part III 7x4 | Part IV 3x7 = 75 marks | 3.00 hrs",
     "total_marks": 75,
     "question_count": 35,
@@ -1912,11 +2242,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Science_English_Halfyearly_2022.pdf",
+    "file_pdf": "10_Science_English_Half_Yearly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "17vv9tpI7J6Uf2o3k3qs6mEUlf4HMMygN",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2022", "science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2022",
+      "science"
+    ],
     "status": "published"
   },
   {
@@ -1934,7 +2269,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் காலாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th English quarterly exam question paper 2022.",
     "pages": 6,
-    "size": "1.5 MB",
+    "size": "5.0 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1942,11 +2277,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Quarterly_2022.pdf",
+    "file_pdf": "10_English_English_Quarterly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1Rj8sayZ1KIeFlAi9Bm81yNp2FaNrmyFw",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2022", "english"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2022",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -1964,7 +2304,7 @@
     "title_ta": "10ம் வகுப்பு ஆங்கிலம் அரையாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th English half-yearly exam question paper 2022.",
     "pages": 6,
-    "size": "1.4 MB",
+    "size": "3.0 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -1972,11 +2312,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_English_English_Halfyearly_2022.pdf",
+    "file_pdf": "10_English_English_Half_Yearly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1nplKppFcIdO40FRz1FTnVThfmpWcZpiY",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2022", "english"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2022",
+      "english"
+    ],
     "status": "published"
   },
   {
@@ -2006,8 +2351,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2022", "tamil"],
-    "status": "published"
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2022",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-tamil-english-halfyearly-2022",
@@ -2036,8 +2386,13 @@
     "file_preview_base": "",
     "drive_file_id": "",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2022", "tamil"],
-    "status": "published"
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2022",
+      "tamil"
+    ],
+    "status": "draft"
   },
   {
     "id": "10-social-science-english-quarterly-2022",
@@ -2054,7 +2409,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் காலாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th Social Science quarterly exam question paper 2022.",
     "pages": 7,
-    "size": "1.8 MB",
+    "size": "1.7 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -2062,11 +2417,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Quarterly_2022.pdf",
+    "file_pdf": "10_Social_English_Quarterly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1-HR-xnq1CZ8kMPLLZDa_Cwk_C_l542aj",
     "apps_script_url": "",
-    "tags": ["quarterly", "question-paper", "2022", "social-science"],
+    "tags": [
+      "quarterly",
+      "question-paper",
+      "2022",
+      "social-science"
+    ],
     "status": "published"
   },
   {
@@ -2084,7 +2444,7 @@
     "title_ta": "10ம் வகுப்பு சமூக அறிவியல் அரையாண்டு வினாத்தாள் 2022",
     "description_en": "TN State Board 10th Social Science half-yearly exam question paper 2022.",
     "pages": 7,
-    "size": "1.7 MB",
+    "size": "0.4 MB",
     "marks_pattern": "Part I 15x1 | Part II 10x3 | Part III 5x5 | Part IV 3x8 = 100 marks | 3.00 hrs",
     "total_marks": 100,
     "question_count": 33,
@@ -2092,11 +2452,16 @@
     "price_tier": "free",
     "price_inr": 0,
     "preview_pages": 2,
-    "file_pdf": "10_Social_Science_English_Halfyearly_2022.pdf",
+    "file_pdf": "10_Social_Science_English_Half_Yearly_2022_A5.pdf",
     "file_preview_base": "",
-    "drive_file_id": "",
+    "drive_file_id": "1hsesiKBhg2gRVTAxU2DzIJv3eSOon7cx",
     "apps_script_url": "",
-    "tags": ["half-yearly", "question-paper", "2022", "social-science"],
+    "tags": [
+      "half-yearly",
+      "question-paper",
+      "2022",
+      "social-science"
+    ],
     "status": "published"
   }
 ]
