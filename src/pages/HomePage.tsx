@@ -1,13 +1,29 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Search, BookOpen, FileText, Award, ArrowRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import { CLASSES, RESOURCE_TYPES, getRecordsByClass, getPublishedRecords } from '../data/catalogue'
+import { CLASSES, RESOURCE_TYPES, getRecordsByClass, getPublishedRecords, isProItem } from '../data/catalogue'
 import { trackPageView } from '../lib/events'
+import LockModal from '../components/LockModal'
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('')
+  const [showLockModal, setShowLockModal] = useState(false)
   const navigate = useNavigate()
   const catalogue = getPublishedRecords()
+
+  // Check if user has pro plan
+  const hasProPlan = (() => {
+    try {
+      const plan = localStorage.getItem('ravi_plan')
+      if (plan) {
+        const planData = JSON.parse(plan)
+        return planData.plan === 'pro' && planData.valid_until > Date.now()
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+    return false
+  })()
 
   useEffect(() => {
     trackPageView('/', 'Home')
@@ -217,20 +233,37 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {catalogue.slice(0, 6).map((resource) => {
               const classData = CLASSES.find(c => c.id === resource.class)
+              const isPro = isProItem(resource)
+              
+              const handleClick = (e: React.MouseEvent) => {
+                if (isPro && !hasProPlan) {
+                  e.preventDefault()
+                  setShowLockModal(true)
+                }
+              }
+
               return (
                 <Link
                   key={resource.id}
                   to={`/resource/${resource.id}`}
+                  onClick={handleClick}
                   className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
-                  style={{ borderColor: '#C0C8D9' }}
+                  style={{ borderColor: isPro && !hasProPlan ? '#D4AF37' : '#C0C8D9' }}
                 >
                   <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
                     <FileText className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#17528C' }} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-                      {resource.title_en}
-                    </h4>
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
+                        {resource.title_en}
+                      </h4>
+                      {isPro && (
+                        <span className="flex-shrink-0 text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+                          👑 PRO
+                        </span>
+                      )}
+                    </div>
                     <div className="flex flex-wrap items-center gap-1.5 mt-1">
                       <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: '#EFF6FF', color: '#17528C' }}>
                         {resource.resource_type}
@@ -240,9 +273,6 @@ export default function HomePage() {
                       <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.subject}</span>
                     </div>
                   </div>
-                  <span className="text-xs font-medium px-2.5 py-1 rounded-full flex-shrink-0" style={{ backgroundColor: '#DCFCE7', color: '#15803D' }}>
-                    FREE
-                  </span>
                 </Link>
               )
             })}
@@ -269,6 +299,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Lock Modal */}
+      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }

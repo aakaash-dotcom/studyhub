@@ -1,12 +1,28 @@
 import { Link, useParams } from 'react-router-dom'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
-import { CLASSES, SUBJECTS, getRecordsByClass } from '../data/catalogue'
-import { useEffect } from 'react'
+import { CLASSES, SUBJECTS, getRecordsByClass, isProItem } from '../data/catalogue'
+import { useEffect, useState } from 'react'
 import { trackPageView } from '../lib/events'
+import LockModal from '../components/LockModal'
 
 export default function ClassPage() {
   const { classId } = useParams()
   const classData = CLASSES.find(c => c.id === classId)
+  const [showLockModal, setShowLockModal] = useState(false)
+
+  // Check if user has pro plan
+  const hasProPlan = (() => {
+    try {
+      const plan = localStorage.getItem('ravi_plan')
+      if (plan) {
+        const planData = JSON.parse(plan)
+        return planData.plan === 'pro' && planData.valid_until > Date.now()
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+    return false
+  })()
 
   useEffect(() => {
     if (classData) {
@@ -54,7 +70,7 @@ export default function ClassPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {/* Question Papers */}
           <Link
-            to={`/class/${classId}/subject/maths?type=QuestionPaper`}
+            to={`/class/${classId}?type=QuestionPaper`}
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
             style={{ borderColor: '#C0C8D9' }}
           >
@@ -69,7 +85,7 @@ export default function ClassPage() {
 
           {/* Model Questions */}
           <Link
-            to={`/class/${classId}/subject/maths?type=ModelQuestionPaper`}
+            to={`/class/${classId}?type=ModelQuestionPaper`}
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
             style={{ borderColor: '#C0C8D9' }}
           >
@@ -84,7 +100,7 @@ export default function ClassPage() {
 
           {/* Answer Keys */}
           <Link
-            to={`/class/${classId}/subject/maths?type=AnswerKey`}
+            to={`/class/${classId}?type=AnswerKey`}
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
             style={{ borderColor: '#C0C8D9' }}
           >
@@ -116,6 +132,31 @@ export default function ClassPage() {
           </Link>
         </div>
 
+        {/* Subject Grid */}
+        <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>Browse by Subject</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+          {(SUBJECTS[classId!] || []).map((subject) => {
+            const slug = subject.name.toLowerCase().replace(/\s+/g, '-')
+            const count = getRecordsByClass(classId!).filter(r => r.subject.toLowerCase() === subject.name.toLowerCase()).length
+            return (
+              <Link
+                key={subject.name}
+                to={`/class/${classId}/subject/${slug}`}
+                className="group flex flex-col items-center text-center p-4 sm:p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+                style={{ borderColor: '#C0C8D9' }}
+              >
+                <div className="text-3xl sm:text-4xl mb-2">{subject.icon}</div>
+                <h3 className="font-bold text-sm sm:text-base group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
+                  {subject.name}
+                </h3>
+                <p className="text-xs mt-1" style={{ color: '#595959' }}>
+                  {count > 0 ? `${count} materials` : 'Coming soon'}
+                </p>
+              </Link>
+            )
+          })}
+        </div>
+
         {/* Recent Materials */}
         <div>
           <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>🔥 Popular Materials</h2>
@@ -123,31 +164,53 @@ export default function ClassPage() {
             {getRecordsByClass(classId!)
               .sort((a, b) => b.year - a.year)
               .slice(0, 5)
-              .map((resource) => (
-                <Link
-                  key={resource.id}
-                  to={`/resource/${resource.id}`}
-                  className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
-                  style={{ borderColor: '#C0C8D9' }}
-                >
-                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
-                    <span className="text-xl sm:text-2xl">📄</span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
-                      {resource.title_en}
-                    </h4>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.resource_type}</span>
-                      <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
+              .map((resource) => {
+                const isPro = isProItem(resource)
+                
+                const handleClick = (e: React.MouseEvent) => {
+                  if (isPro && !hasProPlan) {
+                    e.preventDefault()
+                    setShowLockModal(true)
+                  }
+                }
+
+                return (
+                  <Link
+                    key={resource.id}
+                    to={`/resource/${resource.id}`}
+                    onClick={handleClick}
+                    className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
+                    style={{ borderColor: isPro && !hasProPlan ? '#D4AF37' : '#C0C8D9' }}
+                  >
+                    <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
+                      <span className="text-xl sm:text-2xl">📄</span>
                     </div>
-                  </div>
-                </Link>
-              ))}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
+                          {resource.title_en}
+                        </h4>
+                        {isPro && (
+                          <span className="flex-shrink-0 text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+                            👑 PRO
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.resource_type}</span>
+                        <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
+                        <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
           </div>
         </div>
       </div>
+
+      {/* Lock Modal */}
+      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }

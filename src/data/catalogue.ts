@@ -164,6 +164,11 @@ export function getRecordsByClassAndSubject(classNum: string, subject: string): 
   )
 }
 
+// Helper to check if a resource is premium (Pro) content
+export function isProItem(record: CatalogueRecord): boolean {
+  return record.price_tier === 'premium'
+}
+
 // Parse marks_pattern into structured data
 export function parseMarksPattern(pattern: string): { part: string; questions: string; marks_each: string; note?: string }[] {
   const parts: { part: string; questions: string; marks_each: string; note?: string }[] = []
