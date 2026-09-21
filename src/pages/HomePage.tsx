@@ -39,8 +39,8 @@ export default function HomePage() {
             </h1>
 
             <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-8 px-2">
-              Quarterly important questions, model papers & answer keys for Classes 8–12.
-              All materials from our Google Drive — browse, preview & download free.
+              Quarterly important questions and model papers for Classes 8–12.
+              Preview free. Full paper after free login.
             </p>
 
             {/* Search Bar */}
@@ -94,8 +94,8 @@ export default function HomePage() {
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto" style={{ backgroundColor: 'rgba(249,115,22,0.3)' }}>
                   <Award className="w-6 h-6 text-white" />
                 </div>
-                <h3 className="text-white font-semibold mb-2">Google Drive</h3>
-                <p className="text-blue-200 text-sm">Browse all files directly from our Drive folder</p>
+                <h3 className="text-white font-semibold mb-2">Free preview</h3>
+                <p className="text-blue-200 text-sm">Open any paper and read the first pages instantly</p>
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ export default function HomePage() {
               Study Material for Class 8 to 12
             </h2>
             <p className="text-sm sm:text-base max-w-2xl mx-auto" style={{ color: '#595959' }}>
-              Tap any class to browse study materials, question papers & more from our Google Drive
+              Tap any class to browse study materials, question papers & more
             </p>
           </div>
 
@@ -187,65 +187,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Google Drive Section */}
-      <section className="py-10 sm:py-16" style={{ backgroundColor: '#F5F8FC' }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl border p-6 sm:p-8 shadow-sm" style={{ borderColor: '#C0C8D9' }}>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#F5F8FC' }}>
-                <svg className="w-8 h-8" viewBox="0 0 87.3 78" fill="none">
-                  <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l16.75-28.95-17.15-29.7c-1.35.8-2.5 1.9-3.3 3.3l-13.4 23.2c-.8 1.4-1.2 3-1.2 4.6 0 1.6.4 3.2 1.2 4.6z" fill="#0066DA"/>
-                  <path d="m43.65 25-17.15-29.7c-1.35.8-2.5 1.9-3.3 3.3l-13.4 23.2c-.8 1.4-1.2 3-1.2 4.6 0 1.6.4 3.2 1.2 4.6l3.85 6.65z" fill="#00AC47" opacity=".7"/>
-                  <path d="m73.55 77.15c1.35-.8 2.5-1.9 3.3-3.3l1.9-3.3-16.6-28.85-17.25 29.95c1.35.8 2.9 1.2 4.5 1.2s3.15-.45 4.5-1.2z" fill="#EA4335" opacity=".7"/>
-                  <path d="m43.65 25 17.1 29.6c1.35-.8 2.5-1.9 3.3-3.3l1.9-3.3-16.6-28.85z" fill="#0066DA" opacity=".5"/>
-                  <path d="m59.2 10.15-15.55-9.15c-1.35-.8-2.9-1.2-4.5-1.2s-3.15.45-4.5 1.2l-15.55 9.15 17.15 29.7z" fill="#00AC47"/>
-                  <path d="m73.4 66.85 3.85-6.65c.8-1.4 1.2-3 1.2-4.6 0-1.6-.4-3.2-1.2-4.6l-13.4-23.2c-.8-1.4-1.95-2.5-3.3-3.3l-17.15 29.7 16.6 28.85c1.35-.8 2.5-1.9 3.3-3.3z" fill="#EA4335" opacity=".7"/>
-                </svg>
-              </div>
-              <div>
-                <h2 className="text-xl sm:text-2xl font-bold" style={{ color: '#1A1A1A' }}>
-                  Browse All Files on Google Drive
-                </h2>
-                <p className="text-sm mt-1" style={{ color: '#595959' }}>
-                  All our study materials are organized in Google Drive. Browse, preview and download directly.
-                </p>
-              </div>
-            </div>
-
-            {/* Drive Folder Embed */}
-            <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#C0C8D9' }}>
-              <div className="bg-gray-100 aspect-video flex items-center justify-center">
-                <div className="text-center p-6">
-                  <svg className="w-16 h-16 mx-auto mb-4" viewBox="0 0 87.3 78" fill="none">
-                    <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l16.75-28.95-17.15-29.7c-1.35.8-2.5 1.9-3.3 3.3l-13.4 23.2c-.8 1.4-1.2 3-1.2 4.6 0 1.6.4 3.2 1.2 4.6z" fill="#0066DA"/>
-                    <path d="m43.65 25-17.15-29.7c-1.35.8-2.5 1.9-3.3 3.3l-13.4 23.2c-.8 1.4-1.2 3-1.2 4.6 0 1.6.4 3.2 1.2 4.6l3.85 6.65z" fill="#00AC47" opacity=".7"/>
-                    <path d="m73.55 77.15c1.35-.8 2.5-1.9 3.3-3.3l1.9-3.3-16.6-28.85-17.25 29.95c1.35.8 2.9 1.2 4.5 1.2s3.15-.45 4.5-1.2z" fill="#EA4335" opacity=".7"/>
-                    <path d="m59.2 10.15-15.55-9.15c-1.35-.8-2.9-1.2-4.5-1.2s-3.15.45-4.5 1.2l-15.55 9.15 17.15 29.7z" fill="#00AC47"/>
-                    <path d="m73.4 66.85 3.85-6.65c.8-1.4 1.2-3 1.2-4.6 0-1.6-.4-3.2-1.2-4.6l-13.4-23.2c-.8-1.4-1.95-2.5-3.3-3.3l-17.15 29.7 16.6 28.85c1.35-.8 2.5-1.9 3.3-3.3z" fill="#EA4335" opacity=".7"/>
-                  </svg>
-                  <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>Google Drive Folder</h3>
-                  <p className="text-sm mb-4" style={{ color: '#595959' }}>
-                    Replace the folder ID below with your Google Drive folder ID to embed your materials here.
-                  </p>
-                  <p className="text-xs font-mono p-2 rounded-lg mb-4" style={{ backgroundColor: '#F5F8FC', color: '#17528C' }}>
-                    Set drive_folder_id in catalogue.ts → CLASSES
-                  </p>
-                  <a
-                    href="https://drive.google.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-xl text-sm font-medium"
-                    style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}
-                  >
-                    Open Google Drive →
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Recent Materials */}
       <section className="py-10 sm:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -254,7 +195,7 @@ export default function HomePage() {
               <h2 className="text-xl sm:text-2xl md:text-3xl font-bold" style={{ color: '#1A1A1A' }}>
                 Latest Materials
               </h2>
-              <p className="text-sm mt-1" style={{ color: '#595959' }}>Freshly added from our Google Drive</p>
+              <p className="text-sm mt-1" style={{ color: '#595959' }}>Freshly added study materials</p>
             </div>
           </div>
 

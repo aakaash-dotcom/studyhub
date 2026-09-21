@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { ChevronRight, ChevronLeft, ExternalLink } from 'lucide-react'
+import { ChevronRight, ChevronLeft } from 'lucide-react'
 import { CLASSES, RESOURCE_TYPES, getRecordsByClass, getRecordsByClassAndType } from '../data/catalogue'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
@@ -75,43 +75,6 @@ export default function ClassPage() {
             )
           })}
         </div>
-
-        {/* Google Drive Folder Embed */}
-        {classData.drive_folder_id && (
-          <div className="bg-white rounded-2xl border p-4 sm:p-6 shadow-sm mb-8" style={{ borderColor: '#C0C8D9' }}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <svg className="w-8 h-8" viewBox="0 0 87.3 78" fill="none">
-                  <path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l16.75-28.95-17.15-29.7c-1.35.8-2.5 1.9-3.3 3.3l-13.4 23.2c-.8 1.4-1.2 3-1.2 4.6 0 1.6.4 3.2 1.2 4.6z" fill="#0066DA"/>
-                  <path d="m43.65 25-17.15-29.7c-1.35.8-2.5 1.9-3.3 3.3l-13.4 23.2c-.8 1.4-1.2 3-1.2 4.6 0 1.6.4 3.2 1.2 4.6l3.85 6.65z" fill="#00AC47" opacity=".7"/>
-                  <path d="m73.55 77.15c1.35-.8 2.5-1.9 3.3-3.3l1.9-3.3-16.6-28.85-17.25 29.95c1.35.8 2.9 1.2 4.5 1.2s3.15-.45 4.5-1.2z" fill="#EA4335" opacity=".7"/>
-                  <path d="m59.2 10.15-15.55-9.15c-1.35-.8-2.9-1.2-4.5-1.2s-3.15.45-4.5 1.2l-15.55 9.15 17.15 29.7z" fill="#00AC47"/>
-                  <path d="m73.4 66.85 3.85-6.65c.8-1.4 1.2-3 1.2-4.6 0-1.6-.4-3.2-1.2-4.6l-13.4-23.2c-.8-1.4-1.95-2.5-3.3-3.3l-17.15 29.7 16.6 28.85c1.35-.8 2.5-1.9 3.3-3.3z" fill="#EA4335" opacity=".7"/>
-                </svg>
-                <div>
-                  <h3 className="font-bold text-base sm:text-lg" style={{ color: '#1A1A1A' }}>All {classData.name} Files</h3>
-                  <p className="text-xs" style={{ color: '#595959' }}>Browse directly from Google Drive</p>
-                </div>
-              </div>
-              <a
-                href={`https://drive.google.com/drive/folders/${classData.drive_folder_id}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-lg"
-                style={{ backgroundColor: '#F5F8FC', color: '#17528C' }}
-              >
-                Open in Drive <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
-            <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#C0C8D9' }}>
-              <iframe
-                src={`https://drive.google.com/embeddedfolderview?id=${classData.drive_folder_id}#grid`}
-                className="w-full h-96 sm:h-[500px] border-0"
-                title={`${classData.name} Google Drive Folder`}
-              />
-            </div>
-          </div>
-        )}
 
         {/* Recent Materials */}
         <div>
