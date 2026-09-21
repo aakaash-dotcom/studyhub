@@ -1,15 +1,9 @@
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { CLASSES, RESOURCE_TYPES, getRecordById, getPublishedRecords } from '../data/catalogue'
-import { useAuth } from '../context/AuthContext'
-import PageTile from '../components/PageTile'
-import { Lock, Download } from 'lucide-react'
-import { useState } from 'react'
+import ResourceReader from '../components/ResourceReader'
 
 export default function ResourcePage() {
   const { resourceId } = useParams()
-  const navigate = useNavigate()
-  const { isAuthenticated } = useAuth()
-  const [downloading, setDownloading] = useState(false)
 
   const resource = resourceId ? getRecordById(resourceId) : undefined
   const classData = resource ? CLASSES.find(c => c.id === resource.class) : null
@@ -23,19 +17,6 @@ export default function ResourcePage() {
         <Link to="/" className="text-sm" style={{ color: '#17528C' }}>← Go Home</Link>
       </div>
     )
-  }
-
-  const handleDownload = () => {
-    if (!isAuthenticated) {
-      navigate('/login', { state: { from: `/resource/${resource.id}` } })
-      return
-    }
-    setDownloading(true)
-    // Simulate download
-    setTimeout(() => {
-      setDownloading(false)
-      alert('Download started! (In production, this would download the actual PDF)')
-    }, 1500)
   }
 
   const relatedResources = getPublishedRecords()
@@ -74,68 +55,8 @@ export default function ResourcePage() {
           <p className="text-sm" style={{ color: '#595959' }}>{resource.description_en}</p>
         </div>
 
-        {/* Preview Pages */}
-        <div className="space-y-4 mb-6">
-          <h2 className="text-xl font-bold" style={{ color: '#1A1A1A' }}>📖 Preview</h2>
-          {Array.from({ length: Math.min(resource.preview_pages, resource.pages) }, (_, i) => (
-            <PageTile
-              key={i}
-              pageNumber={i + 1}
-              totalPages={resource.pages}
-              resource={resource}
-            />
-          ))}
-        </div>
-
-        {/* Download Gate */}
-        {!isAuthenticated ? (
-          <div className="bg-white border-2 rounded-xl p-6 text-center mb-6" style={{ borderColor: '#C0C8D9' }}>
-            <Lock className="w-12 h-12 mx-auto mb-3" style={{ color: '#17528C' }} />
-            <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>
-              Login to download the full paper
-            </h3>
-            <p className="text-sm mb-4" style={{ color: '#595959' }}>
-              You've seen {resource.preview_pages} of {resource.pages} pages. Login free to access the complete paper.
-            </p>
-            <button
-              onClick={() => navigate('/login', { state: { from: `/resource/${resource.id}` } })}
-              className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl font-medium"
-              style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}
-            >
-              <Lock className="w-4 h-4" /> Login to Download Free
-            </button>
-            <p className="text-xs mt-3" style={{ color: '#595959' }}>
-              Takes 30 seconds · No spam · DPDP compliant
-            </p>
-          </div>
-        ) : (
-          <div className="bg-white border-2 rounded-xl p-6 text-center mb-6" style={{ borderColor: '#15803D' }}>
-            <Download className="w-12 h-12 mx-auto mb-3" style={{ color: '#15803D' }} />
-            <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>
-              You've unlocked the full paper!
-            </h3>
-            <p className="text-sm mb-4" style={{ color: '#595959' }}>
-              Download the complete {resource.pages}-page paper now.
-            </p>
-            <button
-              onClick={handleDownload}
-              disabled={downloading}
-              className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl font-medium disabled:opacity-50"
-              style={{ background: 'linear-gradient(135deg, #15803D, #166534)' }}
-            >
-              {downloading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Preparing...
-                </>
-              ) : (
-                <>
-                  <Download className="w-4 h-4" /> Download Full Paper
-                </>
-              )}
-            </button>
-          </div>
-        )}
+        {/* Resource Reader with Drive Preview */}
+        <ResourceReader resource={resource} />
 
         {/* Related Materials */}
         {relatedResources.length > 0 && (
