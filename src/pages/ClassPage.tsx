@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
-import { CLASSES, RESOURCE_TYPES, getRecordsByClass, getRecordsByClassAndType } from '../data/catalogue'
+import { CLASSES, SUBJECTS, getRecordsByClass } from '../data/catalogue'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
 
@@ -47,30 +47,28 @@ export default function ClassPage() {
         </div>
       </div>
 
-      {/* Categories */}
+      {/* Subjects */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-        <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>📂 Browse by Category</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>📚 Browse by Subject</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-8">
-          {RESOURCE_TYPES.map((cat) => {
-            const count = getRecordsByClassAndType(classId!, cat.id).length
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+          {(SUBJECTS[classId!] || []).map((subject) => {
+            const slug = subject.name.toLowerCase().replace(/\s+/g, '-')
+            const count = getRecordsByClass(classId!).filter(r => r.subject.toLowerCase() === subject.name.toLowerCase()).length
             return (
               <Link
-                key={cat.id}
-                to={`/class/${classId}/${cat.id}`}
-                className="group flex items-center gap-4 p-4 sm:p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+                key={subject.name}
+                to={`/class/${classId}/subject/${slug}`}
+                className="group flex flex-col items-center text-center p-4 sm:p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
                 style={{ borderColor: '#C0C8D9' }}
               >
-                <div className="text-3xl sm:text-4xl flex-shrink-0">{cat.icon}</div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-base sm:text-lg group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-                    {cat.name}
-                  </h3>
-                  <p className="text-xs sm:text-sm mt-0.5" style={{ color: '#595959' }}>
-                    {count > 0 ? `${count} materials available` : 'Materials coming soon'}
-                  </p>
-                </div>
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform flex-shrink-0" style={{ color: '#595959' }} />
+                <div className="text-3xl sm:text-4xl mb-2">{subject.icon}</div>
+                <h3 className="font-bold text-sm sm:text-base group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
+                  {subject.name}
+                </h3>
+                <p className="text-xs mt-1" style={{ color: '#595959' }}>
+                  {count > 0 ? `${count} materials` : 'Coming soon'}
+                </p>
               </Link>
             )
           })}
@@ -80,28 +78,31 @@ export default function ClassPage() {
         <div>
           <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>🔥 Popular Materials</h2>
           <div className="space-y-3">
-            {getRecordsByClass(classId!).slice(0, 5).map((resource) => (
-              <Link
-                key={resource.id}
-                to={`/resource/${resource.id}`}
-                className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
-                style={{ borderColor: '#C0C8D9' }}
-              >
-                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
-                  <span className="text-xl sm:text-2xl">📄</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
-                    {resource.title_en}
-                  </h4>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.resource_type}</span>
-                    <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                    <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
+            {getRecordsByClass(classId!)
+              .sort((a, b) => b.year - a.year)
+              .slice(0, 5)
+              .map((resource) => (
+                <Link
+                  key={resource.id}
+                  to={`/resource/${resource.id}`}
+                  className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
+                  style={{ borderColor: '#C0C8D9' }}
+                >
+                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
+                    <span className="text-xl sm:text-2xl">📄</span>
                   </div>
-                </div>
-              </Link>
-            ))}
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
+                      {resource.title_en}
+                    </h4>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.resource_type}</span>
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
           </div>
         </div>
       </div>

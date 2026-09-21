@@ -1,20 +1,77 @@
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { getPublishedRecords, CLASSES } from '../data/catalogue'
+import { useState, useMemo } from 'react'
+
+const TYPE_OPTIONS = [
+  { label: 'All', value: '' },
+  { label: 'Question Papers', value: 'QuestionPaper' },
+  { label: 'Important Questions', value: 'ImportantQuestions' },
+  { label: 'Model Papers', value: 'ModelQuestionPaper' },
+  { label: 'Answer Keys', value: 'AnswerKey' },
+]
+
+const EXAM_OPTIONS = [
+  { label: 'All', value: '' },
+  { label: 'Quarterly', value: 'Quarterly' },
+  { label: 'Half-yearly', value: 'Half-yearly' },
+  { label: 'Annual', value: 'Annual' },
+]
+
+const YEAR_OPTIONS = [
+  { label: 'All', value: '' },
+  { label: '2026', value: '2026' },
+  { label: '2025', value: '2025' },
+  { label: '2024', value: '2024' },
+  { label: '2023', value: '2023' },
+  { label: '2022', value: '2022' },
+]
 
 export default function SearchPage() {
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const query = searchParams.get('q') || ''
   const allRecords = getPublishedRecords()
 
-  const results = query
-    ? allRecords.filter(r =>
+  const [typeFilter, setTypeFilter] = useState('')
+  const [examFilter, setExamFilter] = useState('')
+  const [yearFilter, setYearFilter] = useState('')
+  const [searchInput, setSearchInput] = useState(query)
+
+  const results = useMemo(() => {
+    if (!query) return []
+    
+    return allRecords.filter(r => {
+      // Text search
+      const matchesQuery = 
         r.title_en.toLowerCase().includes(query.toLowerCase()) ||
         r.subject.toLowerCase().includes(query.toLowerCase()) ||
         r.class.toLowerCase().includes(query.toLowerCase()) ||
         r.resource_type.toLowerCase().includes(query.toLowerCase())
-      )
-    : []
+      
+      if (!matchesQuery) return false
+      
+      // Chip filters
+      if (typeFilter && r.resource_type !== typeFilter) return false
+      if (examFilter && r.exam !== examFilter) return false
+      if (yearFilter && r.year !== parseInt(yearFilter)) return false
+      
+      return true
+    })
+  }, [query, allRecords, typeFilter, examFilter, yearFilter])
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchInput.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchInput.trim())}`)
+    }
+  }
+
+  const clearFilters = () => {
+    setTypeFilter('')
+    setExamFilter('')
+    setYearFilter('')
+  }
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -27,21 +84,106 @@ export default function SearchPage() {
         </p>
       </div>
 
-      <div className="mb-8">
-        <form onSubmit={(e) => { e.preventDefault() }} className="flex items-center bg-white rounded-xl border shadow-sm p-2" style={{ borderColor: '#C0C8D9' }}>
+      <div className="mb-6">
+        <form onSubmit={handleSearch} className="flex items-center bg-white rounded-xl border shadow-sm p-2" style={{ borderColor: '#C0C8D9' }}>
           <Search className="w-5 h-5 ml-3" style={{ color: '#595959' }} />
           <input
             type="text"
-            defaultValue={query}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Search for notes, papers, syllabus..."
             className="flex-1 px-4 py-2.5 text-sm bg-transparent outline-none"
             style={{ color: '#1A1A1A', fontSize: '16px' }}
           />
-          <button className="text-white px-4 py-2.5 rounded-lg text-sm font-medium" style={{ backgroundColor: '#17528C' }}>
+          <button type="submit" className="text-white px-4 py-2.5 rounded-lg text-sm font-medium" style={{ backgroundColor: '#17528C' }}>
             Search
           </button>
         </form>
       </div>
+
+      {/* Chip Filters */}
+      {query && (
+        <div className="bg-white rounded-2xl border p-4 sm:p-6 mb-6" style={{ borderColor: '#C0C8D9' }}>
+          {/* Type Chips */}
+          <div className="mb-4">
+            <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Type</p>
+            <div className="flex flex-wrap gap-2">
+              {TYPE_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setTypeFilter(option.value)}
+                  className="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
+                  style={{
+                    backgroundColor: typeFilter === option.value ? '#17528C' : 'white',
+                    color: typeFilter === option.value ? 'white' : '#1A1A1A',
+                    border: `1px solid ${typeFilter === option.value ? '#17528C' : '#C0C8D9'}`
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Exam Chips */}
+          <div className="mb-4">
+            <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Exam</p>
+            <div className="flex flex-wrap gap-2">
+              {EXAM_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setExamFilter(option.value)}
+                  className="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
+                  style={{
+                    backgroundColor: examFilter === option.value ? '#17528C' : 'white',
+                    color: examFilter === option.value ? 'white' : '#1A1A1A',
+                    border: `1px solid ${examFilter === option.value ? '#17528C' : '#C0C8D9'}`
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Year Chips */}
+          <div className="mb-4">
+            <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Year</p>
+            <div className="flex flex-wrap gap-2">
+              {YEAR_OPTIONS.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setYearFilter(option.value)}
+                  className="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
+                  style={{
+                    backgroundColor: yearFilter === option.value ? '#17528C' : 'white',
+                    color: yearFilter === option.value ? 'white' : '#1A1A1A',
+                    border: `1px solid ${yearFilter === option.value ? '#17528C' : '#C0C8D9'}`
+                  }}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Count */}
+          <div className="flex items-center justify-between pt-4 border-t" style={{ borderColor: '#C0C8D9' }}>
+            <p className="text-sm font-medium" style={{ color: '#1A1A1A' }}>
+              {results.length} {results.length === 1 ? 'material' : 'materials'}
+            </p>
+            {(typeFilter || examFilter || yearFilter) && (
+              <button
+                onClick={clearFilters}
+                className="text-xs font-medium"
+                style={{ color: '#17528C' }}
+              >
+                Clear filters
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="space-y-3">
         {results.map((resource) => {
