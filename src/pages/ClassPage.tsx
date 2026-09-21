@@ -47,31 +47,73 @@ export default function ClassPage() {
         </div>
       </div>
 
-      {/* Subjects */}
+      {/* Content Blocks */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
-        <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>📚 Browse by Subject</h2>
+        <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>What are you looking for?</h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
-          {(SUBJECTS[classId!] || []).map((subject) => {
-            const slug = subject.name.toLowerCase().replace(/\s+/g, '-')
-            const count = getRecordsByClass(classId!).filter(r => r.subject.toLowerCase() === subject.name.toLowerCase()).length
-            return (
-              <Link
-                key={subject.name}
-                to={`/class/${classId}/subject/${slug}`}
-                className="group flex flex-col items-center text-center p-4 sm:p-5 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
-                style={{ borderColor: '#C0C8D9' }}
-              >
-                <div className="text-3xl sm:text-4xl mb-2">{subject.icon}</div>
-                <h3 className="font-bold text-sm sm:text-base group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
-                  {subject.name}
-                </h3>
-                <p className="text-xs mt-1" style={{ color: '#595959' }}>
-                  {count > 0 ? `${count} materials` : 'Coming soon'}
-                </p>
-              </Link>
-            )
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {/* Question Papers */}
+          <Link
+            to={`/class/${classId}/subject/maths?type=QuestionPaper`}
+            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+            style={{ borderColor: '#C0C8D9' }}
+          >
+            <div className="text-4xl mb-3">📝</div>
+            <h3 className="font-bold text-lg mb-2 group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
+              Question Papers
+            </h3>
+            <p className="text-sm" style={{ color: '#595959' }}>
+              Past papers from 2022-2025. Free after login.
+            </p>
+          </Link>
+
+          {/* Model Questions */}
+          <Link
+            to={`/class/${classId}/subject/maths?type=ModelQuestionPaper`}
+            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+            style={{ borderColor: '#C0C8D9' }}
+          >
+            <div className="text-4xl mb-3">📋</div>
+            <h3 className="font-bold text-lg mb-2 group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
+              Model Questions
+            </h3>
+            <p className="text-sm" style={{ color: '#595959' }}>
+              Practice papers with marking scheme. Pro access.
+            </p>
+          </Link>
+
+          {/* Answer Keys */}
+          <Link
+            to={`/class/${classId}/subject/maths?type=AnswerKey`}
+            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+            style={{ borderColor: '#C0C8D9' }}
+          >
+            <div className="text-4xl mb-3">✅</div>
+            <h3 className="font-bold text-lg mb-2 group-hover:text-blue-700 transition-colors" style={{ color: '#1A1A1A' }}>
+              Answer Keys
+            </h3>
+            <p className="text-sm" style={{ color: '#595959' }}>
+              Detailed solutions and marking scheme. Pro access.
+            </p>
+          </Link>
+
+          {/* Topper Material */}
+          <Link
+            to="/plans"
+            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            style={{ backgroundColor: '#1e3a5f', borderColor: '#D4AF37' }}
+          >
+            <div className="text-4xl mb-3">👑</div>
+            <h3 className="font-bold text-lg mb-2 text-white">
+              Topper Material
+            </h3>
+            <p className="text-sm text-white/80">
+              Important questions, model papers, and topper notes. The stuff that actually gets you marks.
+            </p>
+            <div className="mt-3 px-4 py-2 rounded-full text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+              PRO ACCESS
+            </div>
+          </Link>
         </div>
 
         {/* Recent Materials */}

@@ -7,12 +7,12 @@ export default function PlansPage() {
       name: 'FREE',
       price: '₹0',
       period: 'forever',
-      description: 'Past question papers',
+      description: 'Old question papers. Take them. We\'re not monsters.',
       features: [
-        'TN State Board PYQs (2022-2025)',
+        'Past papers from 2022-2025',
         'Download after login',
         'All subjects',
-        'Basic preview'
+        'Preview first 2 pages'
       ],
       cta: 'Current Plan',
       ctaLink: '/class/10',
@@ -21,16 +21,17 @@ export default function PlansPage() {
     {
       name: 'PRO',
       price: '₹499',
-      period: '/ exam year',
-      description: 'All Ravi PDFs + updates + weekly test',
+      period: '/year',
+      description: 'ImpQ, models, keys, new files all year. Less than one tuition week.',
       features: [
         'Everything in FREE',
         'Important Questions (ImpQ)',
         'Model Question Papers',
+        'Answer Keys',
         'Topper Materials',
         'Weekly practice tests',
-        'Exam updates & alerts',
-        'Full year access'
+        'New files all year',
+        'Full download access'
       ],
       cta: 'Pay ₹499',
       ctaLink: '/pay/pro',
@@ -40,7 +41,7 @@ export default function PlansPage() {
       name: 'CENTUM',
       price: 'Opening soon',
       period: '',
-      description: 'Recordings + WhatsApp group + weekly live',
+      description: 'Recordings + a WhatsApp group that isn\'t 400 forwards. Don\'t pay.',
       features: [
         'Everything in PRO',
         'Video recordings',
@@ -60,10 +61,10 @@ export default function PlansPage() {
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-3xl sm:text-4xl font-bold mb-4" style={{ color: '#1A1A1A' }}>
-            Choose Your Plan
+            Three plans. One of them is actually free.
           </h1>
           <p className="text-lg" style={{ color: '#595959' }}>
-            Get access to premium study materials and ace your exams
+            Past papers are free. The papers that get you marks aren't. Shocking, I know.
           </p>
         </div>
 

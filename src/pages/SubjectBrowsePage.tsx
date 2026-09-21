@@ -1,17 +1,17 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
 import { CLASSES, SUBJECTS, getPublishedRecords } from '../data/catalogue'
 import { useState, useMemo } from 'react'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
+import LockModal from '../components/LockModal'
 
 const TYPE_OPTIONS = [
   { label: 'All', value: '' },
   { label: 'Question Papers', value: 'QuestionPaper' },
-  { label: 'Important Questions', value: 'ImportantQuestions' },
-  { label: 'Model Papers', value: 'ModelQuestionPaper' },
+  { label: 'Model Questions', value: 'ModelQuestionPaper' },
   { label: 'Answer Keys', value: 'AnswerKey' },
-  { label: 'Topper Materials', value: '__topper__' },
+  { label: 'Topper Material', value: '__topper__' },
 ]
 
 const EXAM_OPTIONS = [
@@ -35,12 +35,28 @@ const TYPE_ORDER = ['ImportantQuestions', 'ModelQuestionPaper', 'QuestionPaper',
 
 export default function SubjectBrowsePage() {
   const { classId, subject } = useParams()
+  const navigate = useNavigate()
   const classData = CLASSES.find(c => c.id === classId)
   const subjectData = SUBJECTS[classId!]?.find(s => s.name.toLowerCase().replace(/\s+/g, '-') === subject)
 
   const [typeFilter, setTypeFilter] = useState('')
   const [examFilter, setExamFilter] = useState('')
   const [yearFilter, setYearFilter] = useState('')
+  const [showLockModal, setShowLockModal] = useState(false)
+
+  // Check if user has pro plan
+  const hasProPlan = (() => {
+    try {
+      const plan = localStorage.getItem('ravi_plan')
+      if (plan) {
+        const planData = JSON.parse(plan)
+        return planData.plan === 'pro' && planData.valid_until > Date.now()
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+    return false
+  })()
 
   useEffect(() => {
     if (classData && subjectData) {
@@ -215,32 +231,55 @@ export default function SubjectBrowsePage() {
         {/* Results */}
         {filteredRecords.length > 0 ? (
           <div className="space-y-3">
-            {filteredRecords.map((resource) => (
-              <Link
-                key={resource.id}
-                to={`/resource/${resource.id}`}
-                className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
-                style={{ borderColor: '#C0C8D9' }}
-              >
-                <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
-                  <span className="text-xl sm:text-2xl">📄</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
-                    {resource.title_en}
-                  </h4>
-                  <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1">
-                    <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.medium}</span>
-                    <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                    <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
-                    <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
-                    <span className="text-[10px] sm:text-xs font-medium" style={{ color: resource.price_inr === 0 ? '#15803D' : '#B45309' }}>
-                      {resource.price_inr === 0 ? 'FREE' : `₹${resource.price_inr}`}
-                    </span>
+            {filteredRecords.map((resource) => {
+              const isPremium = resource.price_tier === 'premium'
+              
+              const handleClick = (e: React.MouseEvent) => {
+                if (isPremium && !hasProPlan) {
+                  e.preventDefault()
+                  setShowLockModal(true)
+                }
+              }
+
+              return (
+                <Link
+                  key={resource.id}
+                  to={`/resource/${resource.id}`}
+                  onClick={handleClick}
+                  className="group flex items-center gap-3 sm:gap-4 bg-white hover:bg-blue-50 rounded-xl p-3 sm:p-4 border transition-all shadow-sm hover:shadow-md"
+                  style={{ borderColor: isPremium && !hasProPlan ? '#D4AF37' : '#C0C8D9' }}
+                >
+                  <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: '#F5F8FC' }}>
+                    <span className="text-xl sm:text-2xl">📄</span>
                   </div>
-                </div>
-              </Link>
-            ))}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
+                        {resource.title_en}
+                      </h4>
+                      {isPremium && (
+                        <span className="flex-shrink-0 text-[10px] font-bold px-2 py-0.5 rounded" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+                          👑 PRO
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mt-1">
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.medium}</span>
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
+                      <span className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{resource.pages} pages</span>
+                      {!isPremium && (
+                        <>
+                          <span className="text-[10px] sm:text-xs" style={{ color: '#C0C8D9' }}>•</span>
+                          <span className="text-[10px] sm:text-xs font-medium" style={{ color: '#15803D' }}>
+                            FREE
+                          </span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
           </div>
         ) : (
           <div className="text-center py-12 bg-white rounded-2xl border" style={{ borderColor: '#C0C8D9' }}>
@@ -259,6 +298,9 @@ export default function SubjectBrowsePage() {
           </div>
         )}
       </div>
+
+      {/* Lock Modal */}
+      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }

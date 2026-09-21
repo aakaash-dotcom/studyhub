@@ -59,12 +59,20 @@ export default function Header() {
             )}
           </nav>
 
-          <button 
-            className="md:hidden"
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <Link 
+              to="/plans"
+              className="px-3 py-1.5 rounded-lg text-xs font-bold"
+              style={{ backgroundColor: '#D4AF37', color: 'white' }}
+            >
+              Plans
+            </Link>
+            <button 
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {menuOpen && (

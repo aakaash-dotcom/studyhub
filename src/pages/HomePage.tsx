@@ -35,13 +35,12 @@ export default function HomePage() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
               TN State Board
               <span className="block mt-2" style={{ color: '#FCD34D' }}>
-                Free Study Materials
+                Study Materials
               </span>
             </h1>
 
             <p className="text-base sm:text-lg md:text-xl text-blue-100 max-w-3xl mx-auto mb-8 px-2">
-              Quarterly important questions and model papers for Classes 8–12.
-              Preview free. Full paper after free login.
+              Past papers are free. The papers that get you marks aren't. Shocking, I know.
             </p>
 
             {/* Search Bar */}
@@ -78,31 +77,6 @@ export default function HomePage() {
                   {tag}
                 </Link>
               ))}
-            </div>
-
-            {/* Feature cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-colors">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto" style={{ backgroundColor: 'rgba(59,130,246,0.3)' }}>
-                  <BookOpen className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">Study Materials</h3>
-                <p className="text-blue-200 text-sm">Important questions, model papers & notes for all classes</p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-colors">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto" style={{ backgroundColor: 'rgba(168,85,247,0.3)' }}>
-                  <FileText className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">Question Papers</h3>
-                <p className="text-blue-200 text-sm">Previous year papers, model papers with answer keys</p>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition-colors">
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto" style={{ backgroundColor: 'rgba(249,115,22,0.3)' }}>
-                  <Award className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-white font-semibold mb-2">Free preview</h3>
-                <p className="text-blue-200 text-sm">Open any paper and read the first pages instantly</p>
-              </div>
             </div>
           </div>
         </div>
@@ -162,47 +136,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Categories Section */}
-      <section className="py-10 sm:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-3" style={{ color: '#1A1A1A' }}>
-              Browse by Category
-            </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#595959' }}>
-              All materials organized by type — tap to explore
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {RESOURCE_TYPES.map((cat) => (
-              <Link
-                key={cat.id}
-                to="/class/10"
-                className="group flex flex-col items-center text-center p-4 sm:p-5 rounded-2xl border bg-white hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
-                style={{ borderColor: '#C0C8D9' }}
-              >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform" style={{ backgroundColor: '#F5F8FC' }}>
-                  <span className="text-2xl sm:text-3xl">{cat.icon}</span>
-                </div>
-                <h3 className="font-semibold text-xs sm:text-sm mb-1" style={{ color: '#1A1A1A' }}>{cat.name}</h3>
-                <p className="text-[10px] sm:text-xs" style={{ color: '#595959' }}>{cat.name_ta}</p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Plans Strip */}
       <section className="py-10 sm:py-16" style={{ backgroundColor: '#F5F8FC' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold mb-3" style={{ color: '#1A1A1A' }}>
-              Upgrade to PRO
+              Three plans. One of them is actually free.
             </h2>
-            <p className="text-sm sm:text-base" style={{ color: '#595959' }}>
-              Get access to all premium materials for just ₹499/year
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-5xl mx-auto">
@@ -215,7 +155,7 @@ export default function HomePage() {
                 <div className="text-3xl mb-3">📚</div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>FREE</h3>
                 <div className="text-3xl font-bold mb-2" style={{ color: '#17528C' }}>₹0</div>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>Past question papers</p>
+                <p className="text-sm mb-4" style={{ color: '#595959' }}>Old question papers. Take them. We're not monsters.</p>
                 <div className="text-xs font-medium px-4 py-2 rounded-full inline-block" style={{ backgroundColor: '#EFF6FF', color: '#17528C' }}>
                   Current Plan
                 </div>
@@ -233,8 +173,8 @@ export default function HomePage() {
               <div className="text-center">
                 <div className="text-3xl mb-3">⭐</div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>PRO</h3>
-                <div className="text-3xl font-bold mb-2" style={{ color: '#D4AF37' }}>₹499</div>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>All Ravi PDFs + updates + weekly test</p>
+                <div className="text-3xl font-bold mb-2" style={{ color: '#D4AF37' }}>₹499/year</div>
+                <p className="text-sm mb-4" style={{ color: '#595959' }}>ImpQ, models, keys, new files all year. Less than one tuition week.</p>
                 <div className="text-xs font-medium px-4 py-2 rounded-full inline-block text-white" style={{ backgroundColor: '#D4AF37' }}>
                   Pay ₹499
                 </div>
@@ -252,7 +192,7 @@ export default function HomePage() {
                 <div className="text-3xl mb-3">🎓</div>
                 <h3 className="text-xl font-bold mb-2" style={{ color: '#1A1A1A' }}>CENTUM</h3>
                 <div className="text-2xl font-bold mb-2" style={{ color: '#17528C' }}>Opening soon</div>
-                <p className="text-sm mb-4" style={{ color: '#595959' }}>Recordings + WhatsApp group + weekly live</p>
+                <p className="text-sm mb-4" style={{ color: '#595959' }}>Recordings + a WhatsApp group that isn't 400 forwards. Don't pay.</p>
                 <div className="text-xs font-medium px-4 py-2 rounded-full inline-block text-white" style={{ backgroundColor: '#25D366' }}>
                   WhatsApp 8610653352
                 </div>

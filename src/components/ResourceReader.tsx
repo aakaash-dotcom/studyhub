@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { trackPreviewPage, trackLoginWallHit, trackDownload } from '../lib/events'
 import { Link, useNavigate } from 'react-router-dom'
 import { Lock, Download, ChevronLeft } from 'lucide-react'
+import LockModal from './LockModal'
 
 interface ResourceReaderProps {
   resource: CatalogueRecord
@@ -34,10 +35,14 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
 
   // Check if content is locked (premium but no pro plan)
   const isLocked = isPremium && !hasProPlan
+  const [showLockModal, setShowLockModal] = useState(isLocked)
 
   useEffect(() => {
     trackPreviewPage(resource.id, 1)
-  }, [resource.id])
+    if (isLocked) {
+      setShowLockModal(true)
+    }
+  }, [resource.id, isLocked])
 
   const handleDownload = () => {
     if (!isAuthenticated) {
@@ -228,6 +233,9 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
           )}
         </div>
       </div>
+
+      {/* Lock Modal */}
+      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }
