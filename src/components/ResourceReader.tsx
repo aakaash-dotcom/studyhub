@@ -15,6 +15,26 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
 
   const totalPages = resource.pages
 
+  // Check if user has pro plan
+  const hasProPlan = (() => {
+    try {
+      const plan = localStorage.getItem('ravi_plan')
+      if (plan) {
+        const planData = JSON.parse(plan)
+        return planData.plan === 'pro' && planData.valid_until > Date.now()
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+    return false
+  })()
+
+  // Check if resource is premium
+  const isPremium = resource.price_tier === 'premium'
+
+  // Check if content is locked (premium but no pro plan)
+  const isLocked = isPremium && !hasProPlan
+
   useEffect(() => {
     trackPreviewPage(resource.id, 1)
   }, [resource.id])
@@ -105,7 +125,27 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
       {/* Google Drive PDF Preview */}
       <div style={{ backgroundColor: '#F5F8FC' }}>
         <div className="max-w-4xl mx-auto py-4 px-3">
-          {resource.drive_file_id ? (
+          {isLocked ? (
+            <div className="bg-white rounded-xl border-2 p-8 text-center mb-4" style={{ borderColor: '#D4AF37' }}>
+              <Lock className="w-16 h-16 mx-auto mb-4" style={{ color: '#D4AF37' }} />
+              <h3 className="font-bold text-xl mb-2" style={{ color: '#1A1A1A' }}>
+                Premium Content
+              </h3>
+              <p className="text-sm mb-6" style={{ color: '#595959' }}>
+                This is a premium material. Upgrade to PRO to access all important questions, model papers, and topper materials.
+              </p>
+              <Link
+                to="/plans"
+                className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl font-medium"
+                style={{ backgroundColor: '#D4AF37' }}
+              >
+                Upgrade to PRO — ₹499/year
+              </Link>
+              <p className="text-xs mt-4" style={{ color: '#595959' }}>
+                Or WhatsApp us at <a href="https://wa.me/918610653352" className="font-medium" style={{ color: '#17528C' }}>86106 53352</a>
+              </p>
+            </div>
+          ) : resource.drive_file_id ? (
             <div className="bg-white shadow-lg rounded-lg overflow-hidden mb-4">
               <iframe
                 src={`https://drive.google.com/file/d/${resource.drive_file_id}/preview`}
@@ -120,6 +160,14 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
                 <span>{totalPages} pages</span>
                 <span>•</span>
                 <span>{resource.size}</span>
+                {isPremium && hasProPlan && (
+                  <>
+                    <span>•</span>
+                    <span className="px-2 py-0.5 rounded text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
+                      PRO
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           ) : (
@@ -136,46 +184,48 @@ export default function ResourceReader({ resource }: ResourceReaderProps) {
           )}
 
           {/* Download Button */}
-          <div className="bg-white rounded-xl border p-5 text-center mb-4" style={{ borderColor: '#C0C8D9' }}>
-            {isAuthenticated ? (
-              <>
-                <Download className="w-10 h-10 mx-auto mb-3" style={{ color: '#15803D' }} />
-                <button
-                  onClick={handleDownload}
-                  disabled={!resource.drive_file_id}
-                  className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{ background: 'linear-gradient(135deg, #15803D, #166534)' }}
-                >
-                  <Download className="w-4 h-4" /> Download PDF
-                </button>
-                <p className="text-xs mt-3" style={{ color: '#595959' }}>
-                  {resource.price_tier === 'premium'
-                    ? 'Preview free. Full Topper paper ₹49 — WhatsApp 86106 53352'
-                    : 'TN previous-year question paper. Free after login.'}
-                </p>
-              </>
-            ) : (
-              <>
-                <Lock className="w-10 h-10 mx-auto mb-3" style={{ color: '#17528C' }} />
-                <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>
-                  Login to download
-                </h3>
-                <Link
-                  to="/login"
-                  state={{ from: `/resource/${resource.id}` }}
-                  className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl text-sm font-medium"
-                  style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}
-                >
-                  <Lock className="w-4 h-4" /> Download PDF
-                </Link>
-                <p className="text-xs mt-3" style={{ color: '#595959' }}>
-                  {resource.price_tier === 'premium'
-                    ? 'Preview free. Full Topper paper ₹49 — WhatsApp 86106 53352'
-                    : 'TN previous-year question paper. Free after login.'}
-                </p>
-              </>
-            )}
-          </div>
+          {!isLocked && (
+            <div className="bg-white rounded-xl border p-5 text-center mb-4" style={{ borderColor: '#C0C8D9' }}>
+              {isAuthenticated ? (
+                <>
+                  <Download className="w-10 h-10 mx-auto mb-3" style={{ color: '#15803D' }} />
+                  <button
+                    onClick={handleDownload}
+                    disabled={!resource.drive_file_id}
+                    className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{ background: 'linear-gradient(135deg, #15803D, #166534)' }}
+                  >
+                    <Download className="w-4 h-4" /> Download PDF
+                  </button>
+                  <p className="text-xs mt-3" style={{ color: '#595959' }}>
+                    {isPremium
+                      ? 'PRO member download. Full access to premium materials.'
+                      : 'TN previous-year question paper. Free after login.'}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <Lock className="w-10 h-10 mx-auto mb-3" style={{ color: '#17528C' }} />
+                  <h3 className="font-bold text-lg mb-2" style={{ color: '#1A1A1A' }}>
+                    Login to download
+                  </h3>
+                  <Link
+                    to="/login"
+                    state={{ from: `/resource/${resource.id}` }}
+                    className="inline-flex items-center gap-2 text-white px-6 py-3 rounded-xl text-sm font-medium"
+                    style={{ background: 'linear-gradient(135deg, #17528C, #0E3A66)' }}
+                  >
+                    <Lock className="w-4 h-4" /> Download PDF
+                  </Link>
+                  <p className="text-xs mt-3" style={{ color: '#595959' }}>
+                    {isPremium
+                      ? 'Preview free. Upgrade to PRO for full access.'
+                      : 'TN previous-year question paper. Free after login.'}
+                  </p>
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
