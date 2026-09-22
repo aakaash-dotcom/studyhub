@@ -1,10 +1,10 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
 export interface UserPrefs {
-  lang: 'ta' | 'en'
+  lang: 'ta' | 'en' | 'hi'
   board: 'tn' | 'cbse'
   classId: string
-  medium: 'Tamil' | 'English'
+  medium: 'Tamil' | 'English' | 'Hindi'
 }
 
 interface PrefsContextType {

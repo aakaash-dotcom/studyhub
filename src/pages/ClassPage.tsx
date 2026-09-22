@@ -3,9 +3,11 @@ import { ChevronRight, ChevronLeft } from 'lucide-react'
 import { CLASSES, SUBJECTS, getRecordsByClass } from '../data/catalogue'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
+import { usePrefs } from '../context/PrefsContext'
 
 export default function ClassPage() {
   const { classId } = useParams()
+  const { prefs } = usePrefs()
   const classData = CLASSES.find(c => c.id === classId)
 
   useEffect(() => {
@@ -121,7 +123,11 @@ export default function ClassPage() {
           <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>🔥 Popular Question Papers</h2>
           <div className="space-y-3">
             {getRecordsByClass(classId!)
-              .filter(r => r.resource_type === 'QuestionPaper')
+              .filter(r => {
+                if (r.resource_type !== 'QuestionPaper') return false
+                if (prefs?.medium && r.medium !== prefs.medium) return false
+                return true
+              })
               .sort((a, b) => b.year - a.year)
               .slice(0, 5)
               .map((resource) => (

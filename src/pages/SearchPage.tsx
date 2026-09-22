@@ -2,6 +2,7 @@ import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { getPublishedRecords, CLASSES, isProItem } from '../data/catalogue'
 import { useState, useMemo } from 'react'
+import { usePrefs } from '../context/PrefsContext'
 
 const TYPE_OPTIONS = [
   { label: 'All', value: '' },
@@ -30,6 +31,7 @@ const YEAR_OPTIONS = [
 export default function SearchPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const { prefs } = usePrefs()
   const query = searchParams.get('q') || ''
   const allRecords = getPublishedRecords()
 
@@ -37,6 +39,17 @@ export default function SearchPage() {
   const [examFilter, setExamFilter] = useState('')
   const [yearFilter, setYearFilter] = useState('')
   const [searchInput, setSearchInput] = useState(query)
+
+  // Handle chip click - navigate for Topper, filter for others
+  const handleChipClick = (chipType: string) => {
+    if (chipType === '__topper__') {
+      // Navigate to topper page for the first class in results or default to 10
+      const firstClass = prefs?.classId || '10'
+      navigate(`/class/${firstClass}/topper`)
+    } else {
+      setTypeFilter(chipType)
+    }
+  }
 
   // Check if user has pro plan
   const hasProPlan = (() => {
@@ -66,9 +79,19 @@ export default function SearchPage() {
       
       if (!matchesQuery) return false
       
+      // Filter by medium (language) from prefs
+      if (prefs?.medium && r.medium !== prefs.medium) {
+        return false
+      }
+      
       // Filter out premium items for non-pro users (unless they specifically filter for topper material)
       if (!hasProPlan && typeFilter !== '__topper__' && isProItem(r)) {
         return false
+      }
+      
+      // For All/QP/Model/Keys views, never show ImpQ
+      if (typeFilter === '' || typeFilter === 'QuestionPaper' || typeFilter === 'ModelQuestionPaper' || typeFilter === 'AnswerKey') {
+        if (r.resource_type === 'ImportantQuestions') return false
       }
       
       // Chip filters
@@ -84,7 +107,7 @@ export default function SearchPage() {
       
       return true
     })
-  }, [query, allRecords, typeFilter, examFilter, yearFilter, hasProPlan])
+  }, [query, allRecords, typeFilter, examFilter, yearFilter, hasProPlan, prefs])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -137,7 +160,7 @@ export default function SearchPage() {
               {TYPE_OPTIONS.map((option) => (
                 <button
                   key={option.value}
-                  onClick={() => setTypeFilter(option.value)}
+                  onClick={() => handleChipClick(option.value)}
                   className="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
                   style={{
                     backgroundColor: typeFilter === option.value ? '#17528C' : 'white',

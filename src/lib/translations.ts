@@ -149,6 +149,8 @@ export const translations = {
 
 export type TranslationKey = keyof typeof translations.en
 
-export function t(key: TranslationKey, lang: 'en' | 'ta'): string {
-  return translations[lang][key] || translations.en[key]
+export function t(key: TranslationKey, lang: 'en' | 'ta' | 'hi'): string {
+  // Hindi uses English translations for now
+  const effectiveLang = lang === 'hi' ? 'en' : lang
+  return translations[effectiveLang][key] || translations.en[key]
 }
