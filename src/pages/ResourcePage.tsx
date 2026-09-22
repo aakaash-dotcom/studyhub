@@ -1,10 +1,12 @@
 import { useParams, Link } from 'react-router-dom'
-import { CLASSES, RESOURCE_TYPES, getRecordById, getPublishedRecords, isProItem } from '../data/catalogue'
+import { CLASSES, RESOURCE_TYPES, getRecordById, getPublishedRecords, isProItem, isFreeItem } from '../data/catalogue'
 import ResourceReader from '../components/ResourceReader'
 import LockModal from '../components/LockModal'
+import { usePrefs } from '../context/PrefsContext'
 
 export default function ResourcePage() {
   const { resourceId } = useParams()
+  const { prefs } = usePrefs()
 
   const resource = resourceId ? getRecordById(resourceId) : undefined
   const classData = resource ? CLASSES.find(c => c.id === resource.class) : null
@@ -24,8 +26,8 @@ export default function ResourcePage() {
     return false
   })()
 
-  // Check if resource is locked
-  const isLocked = resource && isProItem(resource) && !hasProPlan
+  // Check if resource is locked (only lock if it's premium AND not free)
+  const isLocked = resource && !isFreeItem(resource) && isProItem(resource) && !hasProPlan
 
   if (!resource || !classData || !categoryData) {
     return (
@@ -43,8 +45,10 @@ export default function ResourcePage() {
       if (r.id === resource.id) return false
       // Must be same class and subject
       if (r.class !== resource.class || r.subject !== resource.subject) return false
+      // Filter by medium
+      if (prefs?.medium && r.medium !== prefs.medium) return false
       // Filter out premium items for non-pro users
-      if (!hasProPlan && isProItem(r)) return false
+      if (!hasProPlan && isProItem(r) && !isFreeItem(r)) return false
       return true
     })
     .slice(0, 4)

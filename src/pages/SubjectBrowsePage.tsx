@@ -1,9 +1,10 @@
-import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Link, useParams, useSearchParams, useNavigate } from 'react-router-dom'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
 import { CLASSES, SUBJECTS, getPublishedRecords, isProItem } from '../data/catalogue'
 import { useState, useMemo } from 'react'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
+import { usePrefs } from '../context/PrefsContext'
 
 // All users see the same chips
 const TYPE_OPTIONS = [
@@ -36,6 +37,8 @@ const TYPE_ORDER = ['ImportantQuestions', 'ModelQuestionPaper', 'QuestionPaper',
 export default function SubjectBrowsePage() {
   const { classId, subject } = useParams()
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const { prefs } = usePrefs()
   const classData = CLASSES.find(c => c.id === classId)
   const subjectData = SUBJECTS[classId!]?.find(s => s.name.toLowerCase().replace(/\s+/g, '-') === subject)
 
@@ -44,6 +47,15 @@ export default function SubjectBrowsePage() {
   const [typeFilter, setTypeFilter] = useState(initialType)
   const [examFilter, setExamFilter] = useState('')
   const [yearFilter, setYearFilter] = useState('')
+
+  // Handle chip click - navigate for Topper, filter for others
+  const handleChipClick = (chipType: string) => {
+    if (chipType === '__topper__') {
+      navigate(`/class/${classId}/topper`)
+    } else {
+      setTypeFilter(chipType)
+    }
+  }
 
   // Check if user has pro plan
   const hasProPlan = (() => {
@@ -82,9 +94,19 @@ export default function SubjectBrowsePage() {
       r.subject.toLowerCase() === subjectName
     )
 
+    // Filter by medium (language) from prefs
+    if (prefs?.medium) {
+      records = records.filter(r => r.medium === prefs.medium)
+    }
+
     // Filter out premium items (ImpQ) for non-pro users, but keep Model/Keys as free
     if (!hasProPlan && typeFilter !== '__topper__') {
       records = records.filter(r => isFreeResource(r) || !isProItem(r))
+    }
+
+    // For All/QP/Model/Keys views, never show ImpQ
+    if (typeFilter === '' || typeFilter === 'QuestionPaper' || typeFilter === 'ModelQuestionPaper' || typeFilter === 'AnswerKey') {
+      records = records.filter(r => r.resource_type !== 'ImportantQuestions')
     }
 
     if (typeFilter) {
@@ -169,7 +191,7 @@ export default function SubjectBrowsePage() {
               {TYPE_OPTIONS.map((option) => (
                 <button
                   key={option.value}
-                  onClick={() => setTypeFilter(option.value)}
+                  onClick={() => handleChipClick(option.value)}
                   className="px-3 py-1.5 rounded-full text-sm font-medium transition-all"
                   style={{
                     backgroundColor: typeFilter === option.value ? '#17528C' : 'white',

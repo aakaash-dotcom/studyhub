@@ -3,8 +3,6 @@ import { ChevronLeft } from 'lucide-react'
 import { CLASSES, SUBJECTS } from '../data/catalogue'
 import { usePrefs } from '../context/PrefsContext'
 import { t } from '../lib/translations'
-import { useState } from 'react'
-import LockModal from '../components/LockModal'
 
 const TOPPER_BOXES = [
   {
@@ -34,7 +32,6 @@ export default function TopperSubjectPage() {
   const box = TOPPER_BOXES.find(b => b.id === boxId)
   const lang = prefs?.lang || 'en'
   const subjects = SUBJECTS[classId!] || []
-  const [showLockModal, setShowLockModal] = useState(false)
 
   if (!classData || !box) {
     return (
@@ -44,11 +41,6 @@ export default function TopperSubjectPage() {
         <Link to="/" className="text-sm" style={{ color: '#17528C' }}>← Go to Home</Link>
       </div>
     )
-  }
-
-  const handleTakeTest = () => {
-    // Check if user has Centum plan (for now, just show lock modal)
-    setShowLockModal(true)
   }
 
   return (
@@ -103,19 +95,18 @@ export default function TopperSubjectPage() {
         {/* One-word special button */}
         {box.id === 'one-word' && (
           <div className="mt-8 text-center">
-            <button
-              onClick={handleTakeTest}
+            <a
+              href="https://wa.me/918610653352?text=Centum%20waitlist"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium text-white"
               style={{ backgroundColor: '#D4AF37' }}
             >
               {t('takeAsTest', lang)}
-            </button>
+            </a>
           </div>
         )}
       </div>
-
-      {/* Lock Modal */}
-      <LockModal isOpen={showLockModal} onClose={() => setShowLockModal(false)} />
     </div>
   )
 }

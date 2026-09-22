@@ -18,7 +18,6 @@ import PlansPage from './pages/PlansPage'
 import PayProPage from './pages/PayProPage'
 import TopperPage from './pages/TopperPage'
 import TopperSubjectPage from './pages/TopperSubjectPage'
-import ConditionalWizard from './components/ConditionalWizard'
 
 // Disable browser scroll restoration
 if (typeof window !== 'undefined') {
@@ -31,7 +30,6 @@ function App() {
       <PrefsProvider>
         <HashRouter>
           <ScrollToTop />
-          <ConditionalWizard />
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<HomePage />} />
