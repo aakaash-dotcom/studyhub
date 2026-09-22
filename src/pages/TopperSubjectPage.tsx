@@ -1,8 +1,10 @@
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { ChevronLeft } from 'lucide-react'
 import { CLASSES, SUBJECTS } from '../data/catalogue'
 import { usePrefs } from '../context/PrefsContext'
 import { t } from '../lib/translations'
+import { useState, useEffect } from 'react'
+import LockModal from '../components/LockModal'
 
 const TOPPER_BOXES = [
   {
@@ -27,11 +29,41 @@ const TOPPER_BOXES = [
 
 export default function TopperSubjectPage() {
   const { classId, boxId } = useParams()
+  const navigate = useNavigate()
   const { prefs } = usePrefs()
   const classData = CLASSES.find(c => c.id === classId)
   const box = TOPPER_BOXES.find(b => b.id === boxId)
   const lang = prefs?.lang || 'en'
   const subjects = SUBJECTS[classId!] || []
+  
+  // Check if user has pro plan
+  const hasProPlan = (() => {
+    try {
+      const plan = localStorage.getItem('ravi_plan')
+      if (plan) {
+        const planData = JSON.parse(plan)
+        return planData.plan === 'pro' && planData.valid_until > Date.now()
+      }
+    } catch (e) {
+      // Ignore parse errors
+    }
+    return false
+  })()
+  
+  // Timer state for free users
+  const [showLockModal, setShowLockModal] = useState(false)
+  const [isBlurred, setIsBlurred] = useState(false)
+  
+  useEffect(() => {
+    if (!hasProPlan) {
+      const timer = setTimeout(() => {
+        setIsBlurred(true)
+        setShowLockModal(true)
+      }, 5000)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [hasProPlan])
 
   if (!classData || !box) {
     return (
@@ -73,7 +105,13 @@ export default function TopperSubjectPage() {
       </div>
 
       {/* Subject Cards */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 transition-all duration-500"
+        style={{ 
+          filter: isBlurred ? 'blur(8px)' : 'none',
+          pointerEvents: isBlurred ? 'none' : 'auto'
+        }}
+      >
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
           {subjects.map((subject) => (
             <div
@@ -107,6 +145,15 @@ export default function TopperSubjectPage() {
           </div>
         )}
       </div>
+
+      {/* Lock Modal for free users after 5s */}
+      <LockModal 
+        isOpen={showLockModal} 
+        onClose={() => {
+          setShowLockModal(false)
+          navigate('/plans')
+        }} 
+      />
     </div>
   )
 }

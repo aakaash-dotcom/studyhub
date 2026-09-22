@@ -80,7 +80,7 @@ export default function ClassPage() {
               Topper Pack
             </h3>
             <p className="text-sm text-white/80">
-              Important questions, model papers, and answer keys. The stuff that actually gets you marks.
+              One-word · slow learners · question bank
             </p>
             <div className="mt-3 px-4 py-2 rounded-full text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
               PRO ACCESS
