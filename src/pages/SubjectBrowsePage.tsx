@@ -5,12 +5,8 @@ import { useState, useMemo } from 'react'
 import { useEffect } from 'react'
 import { trackPageView } from '../lib/events'
 
-const TYPE_OPTIONS_FREE = [
-  { label: 'All', value: '' },
-  { label: 'Question Papers', value: 'QuestionPaper' },
-]
-
-const TYPE_OPTIONS_PRO = [
+// All users see the same chips
+const TYPE_OPTIONS = [
   { label: 'All', value: '' },
   { label: 'Question Papers', value: 'QuestionPaper' },
   { label: 'Model Questions', value: 'ModelQuestionPaper' },
@@ -69,6 +65,13 @@ export default function SubjectBrowsePage() {
     }
   }, [classId, subject, classData, subjectData])
 
+  // Helper to check if a resource is free (QuestionPaper, ModelQuestionPaper, or AnswerKey)
+  const isFreeResource = (r: any) => {
+    return r.resource_type === 'QuestionPaper' || 
+           r.resource_type === 'ModelQuestionPaper' || 
+           r.resource_type === 'AnswerKey'
+  }
+
   const filteredRecords = useMemo(() => {
     if (!classId || !subject) return []
 
@@ -79,14 +82,15 @@ export default function SubjectBrowsePage() {
       r.subject.toLowerCase() === subjectName
     )
 
-    // Filter out premium items for non-pro users (unless they specifically filter for topper material)
+    // Filter out premium items (ImpQ) for non-pro users, but keep Model/Keys as free
     if (!hasProPlan && typeFilter !== '__topper__') {
-      records = records.filter(r => !isProItem(r))
+      records = records.filter(r => isFreeResource(r) || !isProItem(r))
     }
 
     if (typeFilter) {
       if (typeFilter === '__topper__') {
-        records = records.filter(r => r.price_tier === 'premium')
+        // Topper material = premium items that are NOT free resources
+        records = records.filter(r => isProItem(r) && !isFreeResource(r))
       } else {
         records = records.filter(r => r.resource_type === typeFilter)
       }
@@ -162,7 +166,7 @@ export default function SubjectBrowsePage() {
           <div className="mb-4">
             <p className="text-xs font-medium mb-2" style={{ color: '#595959' }}>Type</p>
             <div className="flex flex-wrap gap-2">
-              {(hasProPlan ? TYPE_OPTIONS_PRO : TYPE_OPTIONS_FREE).map((option) => (
+              {TYPE_OPTIONS.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => setTypeFilter(option.value)}
@@ -242,7 +246,9 @@ export default function SubjectBrowsePage() {
         {filteredRecords.length > 0 ? (
           <div className="space-y-3">
             {filteredRecords.map((resource) => {
-              const isPro = hasProPlan && isProItem(resource)
+              // Only show crown on true premium items (ImpQ), not on Model/Keys
+              const isTruePremium = isProItem(resource) && !isFreeResource(resource)
+              const showCrown = hasProPlan && isTruePremium
               
               return (
                 <Link
@@ -259,7 +265,7 @@ export default function SubjectBrowsePage() {
                       <h4 className="font-medium text-sm sm:text-base truncate group-hover:text-blue-700" style={{ color: '#1A1A1A' }}>
                         {resource.title_en}
                       </h4>
-                      {isPro && (
+                      {showCrown && (
                         <span className="flex-shrink-0 text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
                           👑 PRO
                         </span>
