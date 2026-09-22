@@ -12,7 +12,7 @@ const TYPE_OPTIONS = [
   { label: 'Question Papers', value: 'QuestionPaper' },
   { label: 'Model Questions', value: 'ModelQuestionPaper' },
   { label: 'Answer Keys', value: 'AnswerKey' },
-  { label: 'Topper Material', value: '__topper__' },
+  { label: '👑 Topper Material', value: '__topper__' },
 ]
 
 const EXAM_OPTIONS = [
@@ -99,14 +99,14 @@ export default function SubjectBrowsePage() {
       records = records.filter(r => r.medium === prefs.medium)
     }
 
-    // Filter out premium items (ImpQ) for non-pro users, but keep Model/Keys as free
-    if (!hasProPlan && typeFilter !== '__topper__') {
-      records = records.filter(r => isFreeResource(r) || !isProItem(r))
-    }
-
     // For All/QP/Model/Keys views, never show ImpQ
     if (typeFilter === '' || typeFilter === 'QuestionPaper' || typeFilter === 'ModelQuestionPaper' || typeFilter === 'AnswerKey') {
       records = records.filter(r => r.resource_type !== 'ImportantQuestions')
+    }
+
+    // For non-pro users, hide premium items (but never hide free items)
+    if (!hasProPlan && typeFilter !== '__topper__') {
+      records = records.filter(r => !isProItem(r) || isFreeResource(r))
     }
 
     if (typeFilter) {

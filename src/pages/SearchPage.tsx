@@ -1,6 +1,6 @@
 import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import { Search } from 'lucide-react'
-import { getPublishedRecords, CLASSES, isProItem } from '../data/catalogue'
+import { getPublishedRecords, CLASSES, isProItem, isFreeItem } from '../data/catalogue'
 import { useState, useMemo } from 'react'
 import { usePrefs } from '../context/PrefsContext'
 
@@ -9,7 +9,7 @@ const TYPE_OPTIONS = [
   { label: 'Question Papers', value: 'QuestionPaper' },
   { label: 'Model Questions', value: 'ModelQuestionPaper' },
   { label: 'Answer Keys', value: 'AnswerKey' },
-  { label: 'Topper Material', value: '__topper__' },
+  { label: '👑 Topper Material', value: '__topper__' },
 ]
 
 const EXAM_OPTIONS = [
@@ -84,14 +84,16 @@ export default function SearchPage() {
         return false
       }
       
-      // Filter out premium items for non-pro users (unless they specifically filter for topper material)
-      if (!hasProPlan && typeFilter !== '__topper__' && isProItem(r)) {
-        return false
-      }
-      
       // For All/QP/Model/Keys views, never show ImpQ
       if (typeFilter === '' || typeFilter === 'QuestionPaper' || typeFilter === 'ModelQuestionPaper' || typeFilter === 'AnswerKey') {
         if (r.resource_type === 'ImportantQuestions') return false
+      }
+      
+      // For non-pro users, hide premium items (but never hide free items)
+      if (!hasProPlan && typeFilter !== '__topper__') {
+        if (isProItem(r) && !isFreeItem(r)) {
+          return false
+        }
       }
       
       // Chip filters
