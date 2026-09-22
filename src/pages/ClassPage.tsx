@@ -53,9 +53,9 @@ export default function ClassPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           {/* Question Papers - Free Shelf */}
-          <Link
-            to={`/class/${classId}/subject/maths?type=QuestionPaper`}
-            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white"
+          <a
+            href="#subject-grid"
+            className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 bg-white cursor-pointer"
             style={{ borderColor: '#C0C8D9' }}
           >
             <div className="text-4xl mb-3">📝</div>
@@ -65,11 +65,11 @@ export default function ClassPage() {
             <p className="text-sm" style={{ color: '#595959' }}>
               Past papers from 2022-2025. Free after login.
             </p>
-          </Link>
+          </a>
 
           {/* Topper Material - Pro Shelf */}
           <Link
-            to="/plans"
+            to={`/class/${classId}/topper`}
             className="group flex flex-col items-center text-center p-6 rounded-2xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
             style={{ backgroundColor: '#1e3a5f', borderColor: '#D4AF37' }}
           >
@@ -87,8 +87,9 @@ export default function ClassPage() {
         </div>
 
         {/* Subject Grid */}
-        <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>Browse by Subject</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+        <div id="subject-grid">
+          <h2 className="text-lg sm:text-xl font-bold mb-4 sm:mb-6" style={{ color: '#1A1A1A' }}>Browse by Subject</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
           {(SUBJECTS[classId!] || []).map((subject) => {
             const slug = subject.name.toLowerCase().replace(/\s+/g, '-')
             const count = getRecordsByClass(classId!).filter(r => 
@@ -112,6 +113,7 @@ export default function ClassPage() {
               </Link>
             )
           })}
+          </div>
         </div>
 
         {/* Popular Materials - PYQ Only */}

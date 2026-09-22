@@ -1,12 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Search, Menu, X } from 'lucide-react'
+import { Search, Menu, X, Settings } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { usePrefs } from '../context/PrefsContext'
+import { t } from '../lib/translations'
+import { CLASSES } from '../data/catalogue'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const { user, isAuthenticated } = useAuth()
+  const { prefs, clearPrefs } = usePrefs()
   const navigate = useNavigate()
 
   // Check if user has pro plan
@@ -31,6 +35,11 @@ export default function Header() {
     }
   }
 
+  const lang = prefs?.lang || 'en'
+  const classData = prefs?.classId ? CLASSES.find(c => c.id === prefs.classId) : null
+  const boardLabel = prefs?.board === 'tn' ? 'TN' : 'CBSE'
+  const mediumLabel = prefs?.medium === 'Tamil' ? 'தமிழ்' : 'EN'
+
   return (
     <header style={{ backgroundColor: '#17528C', color: 'white' }}>
       <div className="max-w-7xl mx-auto px-4 py-3">
@@ -44,6 +53,18 @@ export default function Header() {
               <p className="text-[10px] opacity-80">MADURAI · SINCE 1999</p>
             </div>
           </Link>
+
+          {/* Prefs indicator */}
+          {prefs && (
+            <button
+              onClick={clearPrefs}
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 hover:bg-white/20 transition-colors"
+              title="Change preferences"
+            >
+              <Settings className="w-3 h-3" />
+              <span>{classData?.name} · {boardLabel} · {mediumLabel}</span>
+            </button>
+          )}
 
           {/* Compact Search */}
           <form onSubmit={handleSearch} className="flex-1 max-w-md">
@@ -61,7 +82,7 @@ export default function Header() {
 
           <nav className="hidden md:flex items-center gap-4">
             <Link to="/plans" className="px-3 py-1.5 rounded-lg text-xs font-bold" style={{ backgroundColor: '#D4AF37', color: 'white' }}>
-              Plans
+              {t('plans', lang)}
             </Link>
             {isAuthenticated && user?.name ? (
               <div className="flex items-center gap-2">
@@ -76,18 +97,28 @@ export default function Header() {
               </div>
             ) : (
               <Link to="/login" className="bg-white px-3 py-1.5 rounded-lg text-sm font-medium" style={{ color: '#17528C' }}>
-                Login
+                {t('login', lang)}
               </Link>
             )}
           </nav>
 
           <div className="flex items-center gap-2 md:hidden">
+            {prefs && (
+              <button
+                onClick={clearPrefs}
+                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium bg-white/10"
+                title="Change preferences"
+              >
+                <Settings className="w-3 h-3" />
+                <span>{classData?.name} · {boardLabel}</span>
+              </button>
+            )}
             <Link 
               to="/plans"
               className="px-2.5 py-1.5 rounded-lg text-xs font-bold"
               style={{ backgroundColor: '#D4AF37', color: 'white' }}
             >
-              Plans
+              {t('plans', lang)}
             </Link>
             <button 
               onClick={() => setMenuOpen(!menuOpen)}
@@ -112,7 +143,7 @@ export default function Header() {
               </div>
             ) : (
               <Link to="/login" onClick={() => setMenuOpen(false)} className="bg-white px-3 py-1.5 rounded-lg text-sm font-medium text-center" style={{ color: '#17528C' }}>
-                Login
+                {t('login', lang)}
               </Link>
             )}
           </nav>
