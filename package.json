@@ -1,36 +1,35 @@
 {
-  "name": "sandbox-workspace",
+  "name": "centum-studio",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@dnd-kit/core": "^6.1.0",
-    "@dnd-kit/sortable": "^8.0.0",
-    "@dnd-kit/utilities": "^3.2.2",
-    "@supabase/supabase-js": "^2.98.0",
-    "canvas-confetti": "^1.9.3",
-    "date-fns": "^2.30.0",
-    "framer-motion": "^11.16.1",
-    "lucide-react": "^0.294.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.30.6",
-    "recharts": "^2.10.0",
-    "uuid": "^9.0.1"
+    "dev": "npm run dev -w @centum/studio",
+    "build": "npm run build -w @centum/studio",
+    "start": "npm run start -w @centum/studio",
+    "typecheck": "tsc -p apps/studio/tsconfig.json --noEmit",
+    "db:migrate": "node --env-file-if-exists=.env --import tsx packages/core/src/db/migrate-cli.ts",
+    "db:seed": "node --env-file-if-exists=.env --import tsx scripts/seed.ts",
+    "db:reset": "rm -rf .data && npm run db:migrate && npm run db:seed",
+    "test": "node --env-file-if-exists=.env --import tsx --test tests/*.test.ts",
+    "verify": "npm run typecheck && npm run test",
+    "session:dev": "node --env-file-if-exists=.env --import tsx scripts/dev-session.ts",
+    "demo:data": "node --env-file-if-exists=.env --import tsx scripts/demo-data.ts"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.1.7",
-    "@types/canvas-confetti": "^1.6.4",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@types/uuid": "^9.0.7",
-    "@vitejs/plugin-react": "^4.3.4",
-    "tailwindcss": "^4.1.7",
-    "typescript": "^5.7.0",
-    "vite": "^6.3.5"
+    "@types/node": "^26.6.5",
+    "drizzle-kit": "^0.31.11",
+    "pino-pretty": "^13.2.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@centum/core": "*",
+    "@centum/providers": "*",
+    "@centum/media": "*",
+    "@centum/notify": "*"
   }
 }
