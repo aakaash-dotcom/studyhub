@@ -6,6 +6,13 @@ const config: NextConfig = {
   // Native/wasm modules must not be bundled by the server compiler.
   serverExternalPackages: ["@electric-sql/pglite", "postgres", "pino", "pino-pretty", "aws4fetch"],
   typescript: { ignoreBuildErrors: false },
+  // The preview (and any tunnelled dev origin) must be allowed to load dev
+  // resources, otherwise the browser blocks /_next/* and the app half-works:
+  // forms submit but client-side navigation and HMR never arrive.
+  allowedDevOrigins: [
+    "*.e2b.app",
+    ...(process.env.PREVIEW_ALLOWED_ORIGINS?.split(/[\s,]+/).filter(Boolean) ?? []),
+  ],
   experimental: {
     // The hosted preview serves this app from a *.e2b.app proxy host. Next's
     // built-in Server Action origin check compares the Origin header with the

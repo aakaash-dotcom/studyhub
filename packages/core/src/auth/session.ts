@@ -73,3 +73,32 @@ export const sessionCookieOptions = {
   secure: process.env.NODE_ENV === "production",
   maxAge: SESSION_DAYS * 24 * 60 * 60,
 };
+
+/**
+ * Was this request made over https? Proxies (the hosted preview, Caddy on the
+ * VPS) announce it in x-forwarded-proto; anything else we infer from NODE_ENV.
+ */
+export function requestIsHttps(protoHeader?: string | null, fallback = process.env.NODE_ENV === "production"): boolean {
+  const proto = protoHeader?.split(",")[0]?.trim();
+  return proto ? proto === "https" : fallback;
+}
+
+/**
+ * Cookie posture is not cosmetic — get it wrong and sign-in silently loops.
+ *
+ * The hosted preview serves the studio inside a CROSS-SITE IFRAME. A
+ * `SameSite=Lax` cookie is stored in that context but never *sent back* on
+ * iframe requests, so the browser does: POST /login (303) → GET / → no cookie →
+ * redirect to /login. Forever.
+ *
+ * So: https ⇒ SameSite=None + Secure (sent in iframes and in normal tabs alike);
+ * plain http (localhost dev) ⇒ Lax, because browsers reject `None` without
+ * `Secure` and reject `Secure` cookies over http://localhost.
+ */
+export function cookieSecurity(https: boolean): { sameSite: "lax" | "none"; secure: boolean } {
+  return https ? { sameSite: "none", secure: true } : { sameSite: "lax", secure: false };
+}
+
+export function sessionCookieOptionsFor(https: boolean) {
+  return { ...sessionCookieOptions, ...cookieSecurity(https) };
+}

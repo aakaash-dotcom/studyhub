@@ -1,20 +1,14 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
-  SESSION_COOKIE,
   approvePost,
-  authenticate,
   createAccount,
   createBrand,
   createPost,
-  createSession,
-  destroySession,
   getAccount,
   listAccounts,
   recordEvent,
-  sessionCookieOptions,
   type PostState,
 } from "@centum/core";
 
@@ -26,26 +20,8 @@ import {
 export type ActionState = { error?: string; success?: string } | null;
 
 // ── auth ────────────────────────────────────────────────────────────────────
-export async function loginAction(_prev: ActionState, formData: FormData): Promise<ActionState> {
-  const email = String(formData.get("email") ?? "").trim();
-  const password = String(formData.get("password") ?? "");
-  if (!email || !password) return { error: "Enter your email and password." };
-
-  const user = await authenticate(email, password);
-  if (!user) return { error: "That email and password don't match." };
-
-  const { token } = await createSession(user.id);
-  const store = await cookies();
-  store.set(SESSION_COOKIE, token, sessionCookieOptions);
-  redirect("/");
-}
-
-export async function logoutAction(): Promise<void> {
-  const store = await cookies();
-  await destroySession(store.get(SESSION_COOKIE)?.value);
-  store.delete(SESSION_COOKIE);
-  redirect("/login");
-}
+// Sign-in and sign-out are plain HTTP route handlers (app/api/auth/*) on purpose:
+// see the note in apps/studio/app/api/auth/login/route.ts.
 
 // ── accounts (demo path until the real OAuth flows land in Sprint 2) ────────
 export async function connectDemoAccountAction(formData: FormData): Promise<void> {

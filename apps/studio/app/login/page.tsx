@@ -1,14 +1,34 @@
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { env } from "@centum/core";
+import { SESSION_COOKIE, env } from "@centum/core";
 import { LoginForm } from "./login-form";
 import { currentUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
-export default async function LoginPage() {
+const ERRORS: Record<string, string> = {
+  credentials: "That email and password don't match. Use the development sign-in details below.",
+  missing: "Enter both your email and your password.",
+};
+
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const user = await currentUser();
   if (user) redirect("/");
+  // A session cookie that no longer resolves means an expired or wiped session —
+  // say so instead of silently showing a blank login form.
+  const sessionExpired = Boolean((await cookies()).get(SESSION_COOKIE)?.value);
+  const { error } = await searchParams;
   const isDev = env().NODE_ENV !== "production";
+
+  // The hosted preview runs this page inside a cross-site iframe. Cookies work
+  // there now (SameSite=None + Secure over https), but if a browser or privacy
+  // extension refuses third-party cookies outright, sign-in cannot stick — so
+  // tell people the one thing that always fixes it: open the app in its own tab.
+  const requestHeaders = await headers();
+  const embedded = requestHeaders.get("sec-fetch-dest") === "iframe";
+  const host = requestHeaders.get("host");
+  const proto = requestHeaders.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? "http";
+  const standaloneUrl = host ? `${proto}://${host}/login` : null;
 
   return (
     <div className="grid min-h-screen place-items-center bg-canvas px-4">
@@ -22,8 +42,26 @@ export default async function LoginPage() {
         </div>
 
         <div className="card p-6">
-          <LoginForm />
+          {sessionExpired ? (
+            <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[13px] text-amber-800">
+              Your session expired. Sign in again to continue.
+            </p>
+          ) : null}
+          <LoginForm error={error ? (ERRORS[error] ?? "Sign-in failed. Try again.") : undefined} />
         </div>
+
+        {embedded && standaloneUrl ? (
+          <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-[12px] text-sky-900">
+            <p className="font-medium">Sign-in appears to work but bounces back?</p>
+            <p className="mt-0.5">
+              This preview is embedded in a frame. Open{" "}
+              <a className="underline" href={standaloneUrl} target="_blank" rel="noreferrer">
+                {standaloneUrl}
+              </a>{" "}
+              in a normal tab and sign in there — everything else still works the same.
+            </p>
+          </div>
+        ) : null}
 
         {isDev ? (
           <div className="mt-4 rounded-xl border border-dashed border-line bg-white/70 px-4 py-3 text-[12px] text-muted">

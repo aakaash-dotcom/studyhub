@@ -1,6 +1,5 @@
 import { LogOut, Radio } from "lucide-react";
 import { env } from "@centum/core";
-import { logoutAction } from "@/lib/actions";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import type { SessionUser } from "@centum/core";
@@ -27,7 +26,7 @@ export function Topbar({ user }: { user: SessionUser }) {
           <p className="text-[13px] font-medium text-ink">{user.name || user.email}</p>
           <p className="text-[11.5px] text-muted">{user.email}</p>
         </div>
-        <form action={logoutAction}>
+        <form action="/api/auth/logout" method="POST">
           <Button variant="secondary" size="sm" type="submit" title="Sign out">
             <LogOut className="h-3.5 w-3.5" />
             Sign out

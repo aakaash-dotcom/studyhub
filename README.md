@@ -43,6 +43,7 @@ platform, so every button works end to end before you own a Meta app.
 | `npm run db:reset` | Delete `.data`, migrate, seed — dev only |
 | `npm run demo:data` | Demo accounts + posts; proves the approve → queue path |
 | `npm run session:dev` | Print a login cookie for `curl` testing |
+| `npm run smoke:login` | Sign in exactly as a browser does and verify the session sticks (set `PROXY_HOST`/`PROXY_ORIGIN` to test the preview's iframe + https path) |
 | `npm run typecheck` | TypeScript, whole workspace |
 | `npm test` | Test suite (no network, no credentials needed) |
 | `npm run verify` | `typecheck` + `test` — the gate before every commit |
@@ -60,6 +61,24 @@ scripts/           seed, demo data, dev session
 tests/             node:test suite
 legacy/            the previous StudyHub app, archived (git tag legacy-studyhub-v1)
 ```
+
+## Troubleshooting
+
+**"Sign in" appears to work and then bounces back to the login page.**
+That is a cookie problem, never a password problem — the studio tells you which by
+answering at `/api/auth/ping` (reload it: `"state": "echoed"` means cookies work,
+`"set"` twice means the browser is refusing them) and `/api/health`
+(`"session": "present"`). Browsers drop cookies for apps shown inside a
+cross-site frame, so the cookie is `SameSite=None; Secure` whenever the studio is
+served over https, and the login screen offers a plain link to open the app in its
+own tab, which always works. Run `npm run smoke:login` to prove the whole path
+from the command line.
+
+**"Invalid Server Actions request" in the logs.** Next.js rejects Server Action
+POSTs whose `Origin` is not a known host. Behind the hosted preview or a tunnel,
+add the host to `PREVIEW_ALLOWED_ORIGINS` before `npm run dev`. Sign-in and
+sign-out do not use Server Actions at all (they are plain form endpoints under
+`/api/auth/`), so they keep working regardless.
 
 ## Status
 
