@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { completeOAuth, log, type OAuthPlatform } from "@centum/core";
-import { currentUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -13,12 +12,6 @@ export const dynamic = "force-dynamic";
  */
 export async function GET(request: NextRequest, ctx: { params: Promise<{ platform: string }> }) {
   const { platform } = await ctx.params;
-
-  // The callback lands here before we know who the user is; the sealed state is
-  // what proves this started from a signed-in click, so we check for a session
-  // first and keep the error page friendly either way.
-  const user = await currentUser();
-  if (!user) return redirect("/login");
 
   const params = request.nextUrl.searchParams;
   const platformError = params.get("error");

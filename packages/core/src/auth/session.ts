@@ -1,3 +1,12 @@
+/**
+ * Sessions, users and API keys.
+ *
+ * The studio itself has no login page — it runs as its owner (see auth/owner.ts),
+ * so nothing on the human path calls these functions any more. They stay because
+ * the Phase 2 agent surface needs them: an MCP/REST caller authenticates with an
+ * api_keys token, and the sessions table backs any future browser-side gate
+ * without a schema change.
+ */
 import { and, eq, gt } from "drizzle-orm";
 import { getDb } from "../db/client";
 import { sessions, users } from "../db/schema";
@@ -66,6 +75,14 @@ export async function authenticate(email: string, password: string): Promise<Ses
   return { id: user.id, email: user.email, name: user.name, role: user.role };
 }
 
+/** Was this request made over https? Proxies (VPS Caddy, the hosted preview)
+ *  announce it in x-forwarded-proto; /api/health reports it so a screenshot says
+ *  whether the deployment is on TLS. */
+export function requestIsHttps(protoHeader?: string | null, fallback = process.env.NODE_ENV === "production"): boolean {
+  const proto = protoHeader?.split(",")[0]?.trim();
+  return proto ? proto === "https" : fallback;
+}
+
 export const sessionCookieOptions = {
   httpOnly: true,
   sameSite: "lax" as const,
@@ -74,31 +91,3 @@ export const sessionCookieOptions = {
   maxAge: SESSION_DAYS * 24 * 60 * 60,
 };
 
-/**
- * Was this request made over https? Proxies (the hosted preview, Caddy on the
- * VPS) announce it in x-forwarded-proto; anything else we infer from NODE_ENV.
- */
-export function requestIsHttps(protoHeader?: string | null, fallback = process.env.NODE_ENV === "production"): boolean {
-  const proto = protoHeader?.split(",")[0]?.trim();
-  return proto ? proto === "https" : fallback;
-}
-
-/**
- * Cookie posture is not cosmetic — get it wrong and sign-in silently loops.
- *
- * The hosted preview serves the studio inside a CROSS-SITE IFRAME. A
- * `SameSite=Lax` cookie is stored in that context but never *sent back* on
- * iframe requests, so the browser does: POST /login (303) → GET / → no cookie →
- * redirect to /login. Forever.
- *
- * So: https ⇒ SameSite=None + Secure (sent in iframes and in normal tabs alike);
- * plain http (localhost dev) ⇒ Lax, because browsers reject `None` without
- * `Secure` and reject `Secure` cookies over http://localhost.
- */
-export function cookieSecurity(https: boolean): { sameSite: "lax" | "none"; secure: boolean } {
-  return https ? { sameSite: "none", secure: true } : { sameSite: "lax", secure: false };
-}
-
-export function sessionCookieOptionsFor(https: boolean) {
-  return { ...sessionCookieOptions, ...cookieSecurity(https) };
-}

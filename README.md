@@ -21,13 +21,16 @@ dashboard is not a wrapper around an agent API — both are clients of the same 
 
 ```bash
 npm install
-npm run db:seed        # creates .data/pglite, admin user, both brands
+npm run db:seed        # creates .data/pglite and both brands
 npm run demo:data      # optional: a demo account + two posts to click around
 npm run dev            # http://localhost:3000
 ```
 
-Sign in with `ravi@centum.local` / `centum-admin` (change these in `.env` before
-you expose the studio to the internet).
+**There is no login page.** This is a single-operator studio — it opens straight
+on the dashboard and runs as you, which also means no session cookie to lose and
+no way to get locked out. The trade-off is that anything that can reach the port
+can use it, so read [Exposing this to the internet](#exposing-this-to-the-internet)
+before you put it on a public hostname.
 
 No credentials are needed to start: `PROVIDER_MODE=mock` publishes to a fake
 platform, so every button works end to end before you own a Meta app.
@@ -39,11 +42,10 @@ platform, so every button works end to end before you own a Meta app.
 | `npm run dev` | Studio at `0.0.0.0:3000` (light theme) |
 | `npm run build` / `start` | Production build / serve |
 | `npm run db:migrate` | Apply pending migrations (append-only, tracked) |
-| `npm run db:seed` | Admin user + the three brands (idempotent) |
+| `npm run db:seed` | Owner record + the three brands (idempotent) |
 | `npm run db:reset` | Delete `.data`, migrate, seed — dev only |
 | `npm run demo:data` | Demo accounts + posts; proves the approve → queue path |
-| `npm run session:dev` | Print a login cookie for `curl` testing |
-| `npm run smoke:login` | Sign in exactly as a browser does and verify the session sticks (set `PROXY_HOST`/`PROXY_ORIGIN` to test the preview's iframe + https path) |
+| `npm run smoke:app` | Request every page and route with **no cookies** and assert 200 in one hop — fails if a login wall ever comes back |
 | `npm run smoke:oauth` | Run the real connect flow against fake Instagram/Google servers — proves the token exchange, PKCE, sealed state and account upsert without any credentials |
 | `npm run typecheck` | TypeScript, whole workspace |
 | `npm test` | Test suite (no network, no credentials needed) |
@@ -65,15 +67,9 @@ legacy/            the previous StudyHub app, archived (git tag legacy-studyhub-
 
 ## Troubleshooting
 
-**"Sign in" appears to work and then bounces back to the login page.**
-That is a cookie problem, never a password problem — the studio tells you which by
-answering at `/api/auth/ping` (reload it: `"state": "echoed"` means cookies work,
-`"set"` twice means the browser is refusing them) and `/api/health`
-(`"session": "present"`). Browsers drop cookies for apps shown inside a
-cross-site frame, so the cookie is `SameSite=None; Secure` whenever the studio is
-served over https, and the login screen offers a plain link to open the app in its
-own tab, which always works. Run `npm run smoke:login` to prove the whole path
-from the command line.
+**Something redirects to `/login`.** There is no login page any more — if a page
+bounces you, a cookie-era redirect survived a refactor. `npm run smoke:app`
+reports it immediately, by design.
 
 **"403 FORBIDDEN — MISSING TRAFFIC ACCESS TOKEN" (a dark page with an E2B logo).**
 That is the sandbox gateway, not this app: the preview URL is only served when the
@@ -83,19 +79,41 @@ directly — use the LIVE PREVIEW panel, not a copied link.
 
 **"Invalid Server Actions request" in the logs.** Next.js rejects Server Action
 POSTs whose `Origin` is not a known host. Behind the hosted preview or a tunnel,
-add the host to `PREVIEW_ALLOWED_ORIGINS` before `npm run dev`. Sign-in and
-sign-out do not use Server Actions at all (they are plain form endpoints under
-`/api/auth/`), so they keep working regardless.
+add the host to `PREVIEW_ALLOWED_ORIGINS` before `npm run dev`.
+
+## Exposing this to the internet
+
+The studio has no authentication. On `localhost` that is fine; on a public VPS it
+means anyone who learns the URL can publish to your accounts, connect new ones or
+read your database. Put the gate at the edge instead of in the app — no code
+changes, and 2 minutes of work when you deploy:
+
+```caddy
+studio.example.com {
+    basic_auth {
+        ravi <paste output of: caddy hash-password --plaintext 'your-password'>
+    }
+    reverse_proxy studio:3000
+}
+```
+
+Alternatives that need no password at all: keep the port closed and reach it over
+**Tailscale** or an **SSH tunnel** (`ssh -L 3000:localhost:3000 you@vps`).
+
+One thing that is guarded regardless: the **agent API** (Phase 2) authenticates
+every request with an API key, because a token can leak in ways a human session
+cannot. The WhatsApp approval links are single-use and time-boxed for the same
+reason.
 
 ## Status
 
 **Phase 1 — S1 done, S2 code done.** Studio runs, database migrates and seeds,
-seven screens render, auth works, accounts connect (mock today, real the moment
-credentials exist), mock publishing is wired, 27 tests green.
+seven screens render, no login wall anywhere, accounts connect (mock today, real
+the moment credentials exist), mock publishing is wired, tests green.
 
 | Sprint | Outcome | State |
 | --- | --- | --- |
-| S1 | Foundation: DB, auth, layout, mock providers, health check | **done** |
+| S1 | Foundation: DB, app shell, mock providers, health check, no-login access | **done** |
 | S2 | Connect accounts: Instagram Login + Google OAuth, 60-day token exchange, PKCE, sealed state | **code done** — needs your Meta/Google keys for live |
 | S3 | Media box: upload → ffprobe/normalise → R2 → public URL | |
 | S4 | Instagram publisher: container → poll → publish, carousels, stories | |

@@ -28,3 +28,11 @@ Everything else in this project is automated. These are the exceptions:
 2. **Click the OAuth consent screens** and accept the Instagram tester invites.
 
 After that, connecting accounts and publishing is entirely inside the studio.
+
+## No login page
+
+The studio is built for one operator, so it has no authentication: it opens
+straight onto the dashboard. That is deliberate — no session to expire, nothing to
+get locked out of, and no cookie for a browser to refuse inside the preview frame.
+Before it lives on a public hostname, put a password in front of it at the edge;
+see "Exposing this to the internet" in the README.

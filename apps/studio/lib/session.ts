@@ -1,16 +1,18 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { SESSION_COOKIE, getSessionUser, type SessionUser } from "@centum/core";
+import { ownerIdentity, type OwnerIdentity } from "@centum/core";
 
-/** Server-side session helpers. Every protected page calls requireUser(). */
+/**
+ * The studio runs as its owner — there is no login page (see @centum/core
+ * auth/owner.ts for why, and for what still has to be protected).
+ *
+ * These two helpers keep their names because they are called from the app shell
+ * and pages; they are the single place to put a gate back if this ever stops
+ * being a one-person tool.
+ */
 
-export async function currentUser(): Promise<SessionUser | null> {
-  const store = await cookies();
-  return getSessionUser(store.get(SESSION_COOKIE)?.value);
+export async function currentUser(): Promise<OwnerIdentity> {
+  return ownerIdentity();
 }
 
-export async function requireUser(): Promise<SessionUser> {
-  const user = await currentUser();
-  if (!user) redirect("/login");
-  return user;
+export async function requireUser(): Promise<OwnerIdentity> {
+  return ownerIdentity();
 }

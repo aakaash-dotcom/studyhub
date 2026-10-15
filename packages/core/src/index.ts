@@ -8,6 +8,7 @@ export * from "./db/client";
 export { schema } from "./db/schema";
 export * as tables from "./db/schema";
 export * from "./auth/session";
+export * from "./auth/owner";
 export * from "./services/brands";
 export * from "./services/accounts";
 export * from "./services/posts";

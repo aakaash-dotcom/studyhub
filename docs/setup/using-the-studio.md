@@ -3,6 +3,8 @@
 Seven screens. Here is what each one is for, and the three habits that keep the
 queue healthy.
 
+There is no sign-in step: the studio opens on the dashboard and runs as you.
+
 ## The screens
 
 | Screen | What you do there |

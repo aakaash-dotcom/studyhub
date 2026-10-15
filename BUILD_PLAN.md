@@ -82,8 +82,15 @@ studyhub/
 ## §D. Phase 1 build order — sprints, each with a hard exit test
 
 **S1 · Foundation — DONE** ✅
+**Decision (user, this session): no login page.** The studio is a single-operator
+tool; a login wall protected nothing and cost a cookie, a session lookup and a
+redirect on every request — and a cross-site iframe made that cookie genuinely
+hard to keep. The app now runs as its owner (`packages/core/src/auth/owner.ts`),
+and `npm run smoke:app` fails if a redirect to a login screen ever returns. What
+stays protected: Phase 2 agent API keys, and the edge gate on the VPS (Caddy basic
+auth / Tailscale — see README).
 Scaffold monorepo, env handling, Drizzle schema v1 + migrations, PGlite dev DB, session auth, app shell + empty screens, logging, `events` audit table, `.env.example`, README, CI-less `npm run verify` (typecheck + tests). Seven screens render with real data; 20 tests green. *(docker-compose moves to the deployment sprint, S8.)*
-*Exit:* app boots here, you log in, see an empty dashboard in a live preview. **Met** — plus the sign-in loop fix: auth is now plain HTTP routes (`/api/auth/*`), cookies are `SameSite=None; Secure` over https so they survive the cross-site preview iframe, and `npm run smoke:login` proves it.
+*Exit:* app boots here, you see the dashboard in a live preview. **Met** — plus the sign-in loop fix: auth is now plain HTTP routes (`/api/auth/*`), cookies are `SameSite=None; Secure` over https so they survive the cross-site preview iframe, and `npm run smoke:login` proves it.
 
 **S2 · Brands, accounts, OAuth — CODE DONE, awaiting your credentials for live** ✅
 Brand CRUD. Accounts list. OAuth start/callback routes for **Instagram Login** and **Google/YouTube**; Instagram's three-host dance (www → api → graph) with the short→60-day token exchange; Google `access_type=offline&prompt=consent` so a refresh token actually comes back; PKCE (S256) on both; sealed AES-GCM state token carrying the exact `redirect_uri` (kills the "invalid redirect_uri" class of bug); account upsert so reconnecting never duplicates; every failure surfaced as a readable note instead of a dead end. **Mock path** so Connect is clickable with no credentials at all. *(Facebook Pages and the nightly refresh job still to do — the refresh function exists and is tested, the cron that calls it lands with the worker in S6.)*

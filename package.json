@@ -16,10 +16,9 @@
     "db:reset": "rm -rf .data && npm run db:migrate && npm run db:seed",
     "test": "node --env-file-if-exists=.env --import tsx --test tests/*.test.ts",
     "verify": "npm run typecheck && npm run test",
-    "session:dev": "node --env-file-if-exists=.env --import tsx scripts/dev-session.ts",
     "demo:data": "node --env-file-if-exists=.env --import tsx scripts/demo-data.ts",
-    "smoke:login": "node --env-file-if-exists=.env --import tsx scripts/smoke-login.ts",
-    "smoke:oauth": "node --env-file-if-exists=.env --import tsx scripts/smoke-oauth.ts"
+    "smoke:oauth": "node --env-file-if-exists=.env --import tsx scripts/smoke-oauth.ts",
+    "smoke:app": "node --env-file-if-exists=.env --import tsx scripts/smoke-app.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",

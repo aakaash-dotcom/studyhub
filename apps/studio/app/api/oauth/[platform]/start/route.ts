@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { connectMockAccount, isPlatformConfigured, startOAuth, type OAuthPlatform } from "@centum/core";
-import { currentUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
@@ -14,9 +13,6 @@ const VALID: OAuthPlatform[] = ["instagram", "youtube", "facebook"];
  * through the same service so the studio stays fully clickable.
  */
 export async function GET(request: NextRequest, ctx: { params: Promise<{ platform: string }> }) {
-  const user = await currentUser();
-  if (!user) return redirect("/login");
-
   const { platform } = await ctx.params;
   if (!VALID.includes(platform as OAuthPlatform)) return redirect(`/accounts?error=${encodeURIComponent("Unknown platform.")}`);
   const target = platform as OAuthPlatform;
