@@ -26,9 +26,6 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   // tell people the one thing that always fixes it: open the app in its own tab.
   const requestHeaders = await headers();
   const embedded = requestHeaders.get("sec-fetch-dest") === "iframe";
-  const host = requestHeaders.get("host");
-  const proto = requestHeaders.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? "http";
-  const standaloneUrl = host ? `${proto}://${host}/login` : null;
 
   return (
     <div className="grid min-h-screen place-items-center bg-canvas px-4">
@@ -50,15 +47,14 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
           <LoginForm error={error ? (ERRORS[error] ?? "Sign-in failed. Try again.") : undefined} />
         </div>
 
-        {embedded && standaloneUrl ? (
+        {embedded ? (
           <div className="mt-4 rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-[12px] text-sky-900">
-            <p className="font-medium">Sign-in appears to work but bounces back?</p>
+            <p className="font-medium">Sign in bounces you straight back here?</p>
             <p className="mt-0.5">
-              This preview is embedded in a frame. Open{" "}
-              <a className="underline" href={standaloneUrl} target="_blank" rel="noreferrer">
-                {standaloneUrl}
-              </a>{" "}
-              in a normal tab and sign in there — everything else still works the same.
+              Your browser is refusing cookies inside this embedded frame (Safari and hardened privacy modes do that).
+              Use Chrome or Edge, or allow cookies for this site, and it will stick. Opening this address in a plain tab
+              can never work — the sandbox only serves it through the Arena preview panel, and it needs an access token
+              a browser tab has no way to send.
             </p>
           </div>
         ) : null}

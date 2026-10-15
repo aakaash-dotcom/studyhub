@@ -75,6 +75,12 @@ served over https, and the login screen offers a plain link to open the app in i
 own tab, which always works. Run `npm run smoke:login` to prove the whole path
 from the command line.
 
+**"403 FORBIDDEN — MISSING TRAFFIC ACCESS TOKEN" (a dark page with an E2B logo).**
+That is the sandbox gateway, not this app: the preview URL is only served when the
+request carries an `e2b-traffic-access-token` header, which the Arena preview panel
+adds. A browser tab cannot send that header, so the raw URL can never be opened
+directly — use the LIVE PREVIEW panel, not a copied link.
+
 **"Invalid Server Actions request" in the logs.** Next.js rejects Server Action
 POSTs whose `Origin` is not a known host. Behind the hosted preview or a tunnel,
 add the host to `PREVIEW_ALLOWED_ORIGINS` before `npm run dev`. Sign-in and
