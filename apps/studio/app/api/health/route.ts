@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     {
       ok,
       version: "0.1.0",
-      phase: "1 / sprint 1",
+      phase: "1 / sprint 2",
       database: db ? (e.DATABASE_URL ? "postgres" : "pglite") : "unreachable",
       providerMode: e.PROVIDER_MODE,
       configured,
