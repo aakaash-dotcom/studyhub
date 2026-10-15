@@ -39,13 +39,16 @@ for (const path of ["/login", "/api/auth/login", "/api/auth/logout", "/api/auth/
   check(`${path} removed`.padEnd(24), res.status === 404, `status ${res.status}`);
 }
 
-// 4. Connecting an account works unauthenticated (mock path).
-const start = await fetch(`${BASE}/api/oauth/instagram/start`, { redirect: "manual" });
-const location = start.headers.get("location") ?? "";
+// 4. The Connect button is wired, checked with ?probe=1 so it connects nothing.
+//    (A plain click really does connect an account — running that here left a
+//    duplicate @centum.app behind in the demo data. A smoke test must not mutate
+//    the database it is checking.)
+const probe = await fetch(`${BASE}/api/oauth/instagram/start?probe=1`, { redirect: "manual" });
+const probeBody = probe.status === 200 ? ((await probe.json()) as { ok?: boolean; mode?: string; detail?: string }) : null;
 check(
-  "Connect Instagram works with no session",
-  start.status === 303 && !location.includes("/login"),
-  `${start.status} → ${location.split("?")[0] || "(no redirect)"}`,
+  "Connect Instagram is wired",
+  Boolean(probeBody?.ok),
+  probeBody ? `mode=${probeBody.mode}${probeBody.detail ? ` (${probeBody.detail})` : ""}` : `status ${probe.status}`,
 );
 
 // 5. Health answers and reports the posture honestly.

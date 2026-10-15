@@ -11,6 +11,10 @@ const VALID: OAuthPlatform[] = ["instagram", "youtube", "facebook"];
  * Live: redirects to the platform's consent screen with a sealed state token.
  * Mock (no credentials yet, or PROVIDER_MODE=mock): connects a demo account
  * through the same service so the studio stays fully clickable.
+ *
+ * Add `?probe=1` for a dry run: it reports what a click WOULD do and connects
+ * nothing. Used by `npm run smoke:app` and handy after editing .env, because a
+ * health check should never mutate the database it is checking.
  */
 export async function GET(request: NextRequest, ctx: { params: Promise<{ platform: string }> }) {
   const { platform } = await ctx.params;
@@ -28,6 +32,16 @@ export async function GET(request: NextRequest, ctx: { params: Promise<{ platfor
     brandId,
     redirectUri: `${origin}/api/oauth/${target}/callback`,
   });
+
+  if (request.nextUrl.searchParams.get("probe") === "1") {
+    return NextResponse.json({
+      ok: true,
+      platform: target,
+      mode: result.mode,
+      wouldConnect: result.mode === "mock",
+      detail: result.mode === "live" ? "would redirect to the platform consent screen" : result.reason,
+    });
+  }
 
   if (result.mode === "live") return NextResponse.redirect(result.url);
 
