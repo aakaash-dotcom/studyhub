@@ -3,7 +3,9 @@
 import { redirect } from "next/navigation";
 import {
   approvePost,
+  cancelPost,
   createAccount,
+  deleteAccount,
   createBrand,
   createPost,
   getAccount,
@@ -106,6 +108,20 @@ export async function createPostAction(_prev: ActionState, formData: FormData): 
   });
 
   redirect(`/queue?note=created&post=${post.id}`);
+}
+
+export async function deleteAccountAction(formData: FormData): Promise<void> {
+  const accountId = String(formData.get("accountId") ?? "");
+  if (!accountId) redirect("/accounts?error=" + encodeURIComponent("That account no longer exists."));
+  await deleteAccount(accountId);
+  redirect("/accounts?note=" + encodeURIComponent("Account removed, along with its queue history."));
+}
+
+export async function cancelPostAction(formData: FormData): Promise<void> {
+  const postId = String(formData.get("postId") ?? "");
+  if (!postId) redirect("/queue?error=" + encodeURIComponent("That post no longer exists."));
+  await cancelPost(postId, "human:owner");
+  redirect("/queue?note=cancelled");
 }
 
 export async function approvePostAction(formData: FormData): Promise<void> {

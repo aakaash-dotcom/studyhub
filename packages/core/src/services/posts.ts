@@ -65,6 +65,24 @@ export async function createPost(input: CreatePostInput): Promise<PostWithTarget
     })
     .returning();
 
+  // Nothing may be publishable until it is actually approved. A post sent for
+  // review keeps its proposed time (the reviewer needs to see it) but must NOT
+  // get a publish job — otherwise the scheduler would post it while it is still
+  // waiting on a human.
+  const postState = input.state ?? "draft";
+  const publishable = postState === "queued" || postState === "approved";
+  const targetState: TargetState = publishable
+    ? postState === "approved"
+      ? "approved"
+      : "queued"
+    : postState === "needs_review"
+      ? "needs_review"
+      : postState === "failed" || postState === "partially_failed"
+        ? "failed"
+        : postState === "posted"
+          ? "posted"
+          : "draft";
+
   for (const target of input.targets) {
     const [row] = await db
       .insert(postTargets)
@@ -81,11 +99,12 @@ export async function createPost(input: CreatePostInput): Promise<PostWithTarget
         ytShorts: target.ytShorts ?? true,
         shareToFeed: target.shareToFeed ?? true,
         coverUrl: target.coverUrl ?? null,
-        state: input.scheduledAt ? "approved" : "draft",
+        state: targetState,
         scheduledAt: input.scheduledAt ?? null,
       })
       .returning();
-    if (input.scheduledAt && row) await upsertJob(row.id, input.scheduledAt);
+    // One job per target, and only for work that is allowed to run.
+    if (publishable && input.scheduledAt && row) await upsertJob(row.id, input.scheduledAt);
   }
 
   if (input.assetIds?.length) {

@@ -14,4 +14,5 @@ export * from "./services/accounts";
 export * from "./services/posts";
 export * from "./services/assets";
 export * from "./services/oauth";
+export * from "./services/analytics";
 export { seed } from "./seed";

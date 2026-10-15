@@ -132,6 +132,19 @@ export async function setAccountStatus(id: string, status: AccountState, lastErr
   await recordEvent({ type: "account.status", subject: id, payload: { status, lastError } });
 }
 
+/**
+ * Remove an account entirely, along with its targets, jobs and metrics.
+ *
+ * Disconnecting is deliberately NOT this — see disconnectAccount below: history
+ * is worth keeping, so a disconnected account stays as a disabled row. This is
+ * for synthetic rows (tests, smoke scripts) and for "that page is gone forever".
+ */
+export async function deleteAccount(id: string): Promise<void> {
+  const db = await getDb();
+  await db.delete(accounts).where(eq(accounts.id, id));
+  await recordEvent({ type: "account.deleted", subject: id, payload: {} });
+}
+
 export async function disconnectAccount(id: string): Promise<void> {
   const db = await getDb();
   await db

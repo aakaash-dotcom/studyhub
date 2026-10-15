@@ -2,12 +2,29 @@ import { Badge } from "@/components/ui/badge";
 import { BrandForm } from "@/components/brand-form";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { env, hasGoogleCredentials, hasMetaCredentials, hasR2Credentials, hasWhatsAppCredentials, listBrands } from "@centum/core";
+import { eq } from "drizzle-orm";
+import { env, getDb, hasGoogleCredentials, hasMetaCredentials, hasR2Credentials, hasWhatsAppCredentials, listBrands, tables } from "@centum/core";
 
 export const dynamic = "force-dynamic";
 
+async function demoDataInfo(): Promise<{ version: string; seededAt: string } | null> {
+  try {
+    const db = await getDb();
+    const rows = await db.select().from(tables.settings).where(eq(tables.settings.key, "demo.data")).limit(1);
+    const value = rows[0]?.value as { version?: string; seededAt?: string } | undefined;
+    return value?.version ? { version: value.version, seededAt: value.seededAt ?? "" } : null;
+  } catch {
+    return null;
+  }
+}
+
+/** True while `npm run demo:data` rows are in the database — the studio says so rather than pretending. */
+async function demoData(): Promise<{ version: string; seededAt: string } | null> {
+  return demoDataInfo();
+}
+
 export default async function SettingsPage() {
-  const brands = await listBrands();
+  const [brands, demo] = await Promise.all([listBrands(), demoData()]);
   const e = env();
 
   const checks: Array<{ label: string; ok: boolean; detail: string }> = [
@@ -35,7 +52,17 @@ export default async function SettingsPage() {
 
   return (
     <>
-      <PageHeader title="Settings" description="Brands, credentials and the studio's own configuration." />
+      <PageHeader
+        title="Settings"
+        description="Brands, credentials and the studio's own configuration."
+        action={
+          demo ? (
+            <Badge tone="info" className="h-7 px-3">
+              Demo data loaded (v{demo.version}) — clear it with npm run db:reset
+            </Badge>
+          ) : undefined
+        }
+      />
 
       <div className="mb-5 grid gap-5 lg:grid-cols-2">
         <Card>

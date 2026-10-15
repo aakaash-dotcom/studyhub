@@ -72,7 +72,7 @@ process.env.PROVIDER_MODE = "live"; // force the real code path
 const {
   connectMockAccount,
   completeOAuth,
-  disconnectAccount,
+  deleteAccount,
   listAccounts,
   openOAuthState,
   sealOAuthState,
@@ -132,9 +132,11 @@ check(
 );
 
 // cleanup so re-running is idempotent
-await disconnectAccount(ig.id);
-await disconnectAccount(yt.id);
-await disconnectAccount(mock.id);
+// Hard delete, not disconnect: these are synthetic rows and a disabled account
+// left behind would show up in the studio as clutter.
+await deleteAccount(ig.id);
+await deleteAccount(yt.id);
+await deleteAccount(mock.id);
 server.close();
 
 console.log(results.every((r) => r.startsWith("✓")) ? "\n✓ SPRINT 2 OAUTH PATH VERIFIED" : "\n✗ SOME CHECKS FAILED");

@@ -96,6 +96,33 @@ Scaffold monorepo, env handling, Drizzle schema v1 + migrations, PGlite dev DB, 
 Brand CRUD. Accounts list. OAuth start/callback routes for **Instagram Login** and **Google/YouTube**; Instagram's three-host dance (www → api → graph) with the short→60-day token exchange; Google `access_type=offline&prompt=consent` so a refresh token actually comes back; PKCE (S256) on both; sealed AES-GCM state token carrying the exact `redirect_uri` (kills the "invalid redirect_uri" class of bug); account upsert so reconnecting never duplicates; every failure surfaced as a readable note instead of a dead end. **Mock path** so Connect is clickable with no credentials at all. *(Facebook Pages and the nightly refresh job still to do — the refresh function exists and is tested, the cron that calls it lands with the worker in S6.)*
 *Exit:* connect a mock IG account and a mock YouTube channel; disconnect works. **Met in mock** — and the live path is verified against fake platform servers by `npm run smoke:oauth` (13 checks: token exchange, 60-day expiry, encrypted at rest, refresh token captured, idempotent reconnect). Live needs `META_APP_ID`/`META_APP_SECRET` and `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`.
 
+**UI pass (done alongside S2)** — the first build was honest but thin: a dashboard
+reading from two rows of data, no way back from a detail view, and no sense of
+what the app does. What changed:
+- **Dashboard** is now a real cockpit: needs-decision and failure banners, four
+  KPIs (scheduled next 7 days, published last 7 with a week-over-week delta and a
+  sparkline, reach, media count), a 14-day scheduled-vs-published bar chart, an
+  inline **Approve** list, today's plan, best-performing posts, per-account health
+  with daily-cap progress bars, platform donut, pipeline by state, brand cards,
+  and an activity feed built from the audit trail.
+- **Navigation**: a Back button that follows real history and falls back to the
+  parent screen on a deep link, breadcrumbs, a New-post action always in the top
+  bar, a grouped sidebar with live badges, and a mobile nav strip.
+- **Queue**: state filters with counts, search, per-row Approve/Cancel, and a
+  focused post view with per-target state, attempts, errors and permalinks.
+- **Media box**: R2/Drive/validation status, an upload panel that explains what
+  unlocks it, and asset cards with dimensions, duration, size, validation results
+  and mirror status.
+- **Accounts**: token countdown, daily-cap usage, next run, per-account queue
+  link, and a separate section for disconnected accounts (kept for their history,
+  removable permanently).
+- **`npm run demo:data`** builds three weeks of realistic history so every screen
+  shows what it looks like in use — and the Settings page says when demo data is
+  loaded rather than pretending.
+- Charts are hand-rolled SVG/CSS (no charting dependency), and the analytics
+  queries live in `packages/core/src/services/analytics.ts` where the agent API
+  will reuse them.
+
 **S3 · Media box**
 Upload endpoint (chunked), Drive OAuth + file pull, `ffprobe` validation, `ffmpeg` normalise (1080×1920 H.264/AAC faststart; PNG/HEIC→JPEG), R2 upload at random immutable paths, public-URL HEAD check, asset grid with validation results, lifecycle expiry.
 *Exit:* drop an MOV and a PNG from Drive; both come out as valid, publicly fetchable assets with the right specs.

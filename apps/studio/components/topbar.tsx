@@ -1,36 +1,37 @@
 import Link from "next/link";
-import { Radio, Settings } from "lucide-react";
+import { Plus, Radio, Settings } from "lucide-react";
 import { env } from "@centum/core";
+import { BackButton, Breadcrumbs } from "./nav-actions";
 import { Badge } from "./ui/badge";
 import { buttonClass } from "./ui/button";
 
 /**
- * No account switcher and no sign-out: this studio belongs to one operator and
- * opens straight onto the work. What the bar carries instead is the thing that
- * actually changes behaviour — whether publishing goes to real platforms.
+ * The bar carries the three things that should always be one click away: a way
+ * back, where you are, and "write a post". The publishing mode is here too,
+ * because whether a post really goes out is the one piece of context worth
+ * losing a row of pixels for.
  */
 export function Topbar() {
-  const mode = env().PROVIDER_MODE;
-  const live = mode === "live";
+  const live = env().PROVIDER_MODE === "live";
 
   return (
-    <header className="flex h-16 items-center justify-between gap-4 border-b border-line bg-white px-5">
-      <div className="min-w-0">
-        <p className="text-[13px] font-semibold text-ink">Centum Studio</p>
-        <p className="hidden text-[11.5px] text-muted sm:block">
-          Instagram &amp; YouTube for the tuition centre, Centum App and the funnel pages.
-        </p>
+    <header className="sticky top-0 z-20 flex h-16 items-center gap-3 border-b border-line bg-white/95 px-5 backdrop-blur">
+      <BackButton />
+      <div className="min-w-0 flex-1">
+        <Breadcrumbs />
       </div>
-      <div className="flex items-center gap-3">
-        <Badge tone={live ? "success" : "info"}>
-          <Radio className="h-3 w-3" />
-          {live ? "Live publishing" : "Mock publishers (safe mode)"}
-        </Badge>
-        <Link href="/settings" className={buttonClass("secondary", "sm")} title="Settings">
-          <Settings className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline">Settings</span>
-        </Link>
-      </div>
+      <Badge tone={live ? "success" : "info"} className="hidden md:inline-flex">
+        <Radio className="h-3 w-3" />
+        {live ? "Live publishing" : "Mock publishers"}
+      </Badge>
+      <Link href="/settings" className={buttonClass("secondary", "sm")} title="Settings">
+        <Settings className="h-3.5 w-3.5" />
+        <span className="hidden lg:inline">Settings</span>
+      </Link>
+      <Link href="/compose" className={buttonClass("primary", "sm")}>
+        <Plus className="h-3.5 w-3.5" />
+        New post
+      </Link>
     </header>
   );
 }

@@ -44,12 +44,24 @@ platform, so every button works end to end before you own a Meta app.
 | `npm run db:migrate` | Apply pending migrations (append-only, tracked) |
 | `npm run db:seed` | Owner record + the three brands (idempotent) |
 | `npm run db:reset` | Delete `.data`, migrate, seed — dev only |
-| `npm run demo:data` | Demo accounts + posts; proves the approve → queue path |
+| `npm run demo:data` | Three weeks of realistic history (accounts, media, published posts with metrics, scheduled posts, a failure and three posts awaiting review). Re-runnable; it clears only its own rows |
 | `npm run smoke:app` | Request every page and route with **no cookies** and assert 200 in one hop — fails if a login wall ever comes back |
 | `npm run smoke:oauth` | Run the real connect flow against fake Instagram/Google servers — proves the token exchange, PKCE, sealed state and account upsert without any credentials |
 | `npm run typecheck` | TypeScript, whole workspace |
 | `npm test` | Test suite (no network, no credentials needed) |
 | `npm run verify` | `typecheck` + `test` — the gate before every commit |
+
+### What is on each screen
+
+| Screen | What it is for |
+| --- | --- |
+| **Dashboard** | Whether anything needs you (approvals, failures), what is going out, reach for the week, per-account health with daily caps, the 14-day scheduled-vs-published chart, pipeline by state, brand cards and an activity feed from the audit trail. Posts waiting on approval can be approved right there. |
+| **Calendar** | A month grid in IST, one chip per post, click through to the queue for that post. |
+| **Queue** | Every target in run order, filterable by state with counts, searchable, with Approve/Cancel on the row and a focused view showing each account's state, attempts and error. |
+| **Compose** | Caption, hashtags, accounts, media, IST time, and a live preview built for 9:16. Three intents: save draft, send for review, schedule straight away. |
+| **Media box** | R2/Drive status, the validation rules each asset passed, dimensions/duration/size, and whether the file is publicly fetchable yet (Drive links never are). |
+| **Accounts** | Connect Instagram and YouTube, token countdown, daily-cap usage, next run per account, and disconnected accounts kept for their history. |
+| **Settings** | Credentials status, provider mode, brands, the sprint roadmap, and a badge when demo data is loaded. |
 
 ### Layout
 
@@ -70,6 +82,12 @@ legacy/            the previous StudyHub app, archived (git tag legacy-studyhub-
 **Something redirects to `/login`.** There is no login page any more — if a page
 bounces you, a cookie-era redirect survived a refactor. `npm run smoke:app`
 reports it immediately, by design.
+
+**The dashboard shows old data after `npm run demo:data` (or the reverse).**
+Embedded Postgres (PGlite) is single-process: the dev server keeps its own copy
+in memory, so rows written by a script are invisible until it restarts. Restart
+`npm run dev` after seeding, or set `DATABASE_URL` to a real Postgres where the
+studio and the worker are genuinely separate processes.
 
 **"403 FORBIDDEN — MISSING TRAFFIC ACCESS TOKEN" (a dark page with an E2B logo).**
 That is the sandbox gateway, not this app: the preview URL is only served when the

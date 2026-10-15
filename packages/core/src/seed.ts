@@ -44,7 +44,21 @@ export async function seed(): Promise<void> {
       pillars: ["Class updates", "Student results", "Parent info", "Admissions"],
       targetAudience: "Parents of school students in and around Madurai",
       toneGuide: "Warm, local, trustworthy. Speak to parents as much as students.",
-      hashtagSets: { default: ["#madurain tuition", "#tuitioncentre", "#tnschool", "#results"] },
+      hashtagSets: { default: ["#maduraituition", "#tuitioncentre", "#tnschool", "#results"] },
+    },
+    {
+      name: "Centum Shorts",
+      slug: "centum-shorts",
+      // The faceless funnel pages: no faces, no names, pure study value that
+      // sends people to the app. Every post here must be helpful on its own.
+      pillars: ["60-second concepts", "Mistake of the day", "Formula flash", "Exam countdown"],
+      targetAudience: "Students scrolling Shorts and Reels at 9pm — reach them with one useful idea",
+      toneGuide: "Fast, visual, zero fluff. One idea per clip, the answer revealed on screen, app named once at the end.",
+      hashtagSets: {
+        default: ["#centumapp", "#tnstudents", "#studytips", "#shorts"],
+        quickmaths: ["#mathstricks", "#tn10th", "#centumapp"],
+        neet: ["#neetprep", "#biology", "#tn12th"],
+      },
     },
   ];
 

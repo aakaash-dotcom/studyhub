@@ -71,6 +71,19 @@ async function createRuntime(): Promise<Runtime> {
 }
 
 /**
+ * ⚠ Embedded mode (no DATABASE_URL) is SINGLE-PROCESS.
+ *
+ * PGlite runs Postgres inside the calling process and keeps the database in
+ * memory, persisting to .data/pglite. Two processes therefore hold two copies:
+ * rows written by `npm run demo:data` are invisible to an already-running
+ * `npm run dev` until it restarts, and two writers can clobber each other.
+ *
+ * Consequences, both deliberate:
+ *   - dev: the worker/scheduler runs INSIDE the studio process (see the S6
+ *     worker entry), not as a second process.
+ *   - production: set DATABASE_URL to a real Postgres, where the studio and the
+ *     worker are separate processes and this does not apply.
+ *
  * Finds the workspace root so the embedded database always lives in the SAME
  * place, no matter which workspace the process was started from (Next dev runs
  * with cwd=apps/studio, the seed script with cwd=the repo root — both must open
