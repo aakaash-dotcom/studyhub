@@ -46,6 +46,15 @@ Open `/settings` in the studio: **Meta app configured** should flip to a green
 tick, then `/accounts → Connect Instagram`. The OAuth window asks the account to
 approve `instagram_business_basic` and `instagram_business_content_publish`.
 
+Before the keys exist, that same button connects a **demo account** instead — the
+composer, calendar and queue all work, they just publish to nothing real. The
+banner on `/accounts` tells you which mode you are in.
+
+Whichever URL you press Connect from is the URL Meta must have registered as the
+redirect URI: `<your-studio>/api/oauth/instagram/callback`. The studio builds it
+from the address in your browser and seals it into the state token, so a
+mismatch can only come from the Meta dashboard being out of date.
+
 ### Things that bite people
 
 - **The account must be a Professional (Business/Creator) account**, and the

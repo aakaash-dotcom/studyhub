@@ -23,29 +23,6 @@ export type ActionState = { error?: string; success?: string } | null;
 // Sign-in and sign-out are plain HTTP route handlers (app/api/auth/*) on purpose:
 // see the note in apps/studio/app/api/auth/login/route.ts.
 
-// ── accounts (demo path until the real OAuth flows land in Sprint 2) ────────
-export async function connectDemoAccountAction(formData: FormData): Promise<void> {
-  const platform = String(formData.get("platform") ?? "instagram") as "instagram" | "youtube";
-  const existing = await listAccounts();
-  if (existing.some((account) => account.platformAccountId.startsWith("demo_"))) {
-    redirect("/accounts?note=demo-exists");
-  }
-
-  const suffix = Math.random().toString(36).slice(2, 6);
-  await createAccount({
-    platform,
-    authPath: platform === "instagram" ? "instagram_login" : "google",
-    platformAccountId: `demo_${platform}_${suffix}`,
-    handle: platform === "instagram" ? `@demo.centum.${suffix}` : `Demo Centum Channel ${suffix}`,
-    displayName: platform === "instagram" ? "Centum App (demo)" : "Centum App Shorts (demo)",
-    accessToken: `demo-token-${suffix}`,
-    scopes: platform === "instagram" ? ["instagram_business_basic", "instagram_business_content_publish"] : ["youtube.upload"],
-    expiresAt: new Date(Date.now() + 60 * 864e5),
-    dailyCap: 10,
-  });
-  redirect("/accounts?note=demo-connected");
-}
-
 export async function disconnectAccountAction(formData: FormData): Promise<void> {
   const id = String(formData.get("accountId") ?? "");
   const account = await getAccount(id);

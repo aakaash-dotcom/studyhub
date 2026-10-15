@@ -7,7 +7,7 @@ import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
 import { Td, Th, Table, Tr } from "@/components/ui/table";
-import { connectDemoAccountAction, disconnectAccountAction } from "@/lib/actions";
+import { disconnectAccountAction } from "@/lib/actions";
 import { istDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -19,10 +19,21 @@ const notes: Record<string, { tone: "success" | "warning" | "danger"; text: stri
   "not-found": { tone: "danger", text: "That account no longer exists." },
 };
 
-export default async function AccountsPage({ searchParams }: { searchParams: Promise<{ note?: string }> }) {
-  const [{ note }, accounts, brands] = await Promise.all([searchParams, listSafeAccounts(), listBrands()]);
-  const banner = note ? notes[note] : undefined;
+export default async function AccountsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ note?: string; error?: string }>;
+}) {
+  const [{ note, error }, accounts, brands] = await Promise.all([searchParams, listSafeAccounts(), listBrands()]);
+  // The OAuth routes return free-text notes/explanations, older actions return
+  // known keys — support both so a message is never swallowed.
+  const banner = error
+    ? { tone: "danger" as const, text: `Could not connect: ${error}` }
+    : note
+      ? (notes[note] ?? { tone: "success" as const, text: note })
+      : undefined;
   const brandName = (id: string | null) => brands.find((b) => b.id === id)?.name ?? "Unassigned";
+  const configured = env().PROVIDER_MODE === "live" && (hasMetaCredentials() || hasGoogleCredentials());
 
   return (
     <>
@@ -31,18 +42,12 @@ export default async function AccountsPage({ searchParams }: { searchParams: Pro
         description="Every Instagram page and YouTube channel this studio can publish to. Tokens are encrypted at rest and refreshed automatically."
         action={
           <div className="flex gap-2">
-            <form action={connectDemoAccountAction}>
-              <input type="hidden" name="platform" value="instagram" />
-              <Button variant="secondary" size="md" type="submit">
-                <Camera className="h-4 w-4" /> Demo Instagram
-              </Button>
-            </form>
-            <form action={connectDemoAccountAction}>
-              <input type="hidden" name="platform" value="youtube" />
-              <Button variant="secondary" size="md" type="submit">
-                <MonitorPlay className="h-4 w-4" /> Demo YouTube
-              </Button>
-            </form>
+            <a className={buttonClass("secondary", "md")} href="/api/oauth/instagram/start">
+              <Camera className="h-4 w-4" /> Connect Instagram
+            </a>
+            <a className={buttonClass("secondary", "md")} href="/api/oauth/youtube/start">
+              <MonitorPlay className="h-4 w-4" /> Connect YouTube
+            </a>
           </div>
         }
       />
@@ -64,23 +69,14 @@ export default async function AccountsPage({ searchParams }: { searchParams: Pro
       <Card className="mb-5 border-indigo-200 bg-indigo-50/50">
         <CardBody className="flex flex-wrap items-start justify-between gap-4">
           <div className="max-w-2xl">
-            <p className="text-[13.5px] font-semibold text-indigo-900">Sprint 2 adds the real OAuth buttons</p>
-            <p className="mt-1 text-[12.5px] leading-relaxed text-indigo-900/80">
-              Instagram connects through <strong>Instagram Login</strong> — no Facebook Page needed, and no App Review while
-              the Meta app stays in Development Mode. YouTube connects through Google OAuth. Until those land, connect a{" "}
-              <strong>demo account</strong> to exercise the composer, calendar and queue end-to-end.
+            <p className="text-[13.5px] font-semibold text-indigo-900">How connecting works</p>
+          <p className="mt-1 text-[12.5px] leading-relaxed text-indigo-900/80">
+              Instagram connects through <strong>Instagram Login</strong> — no Facebook Page needed, and no App Review
+              while the Meta app stays in Development Mode (each account just has to accept the tester invite once).
+              YouTube connects through Google OAuth. Tokens are sealed with AES-256-GCM before they touch the database,
+              and the long-lived Instagram token is refreshed well before its 60-day expiry.
+              {configured ? null : " Until the credentials exist, Connect creates a mock account so you can exercise the composer, calendar and queue today."}
             </p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <Badge tone={hasMetaCredentials() ? "success" : "warning"}>
-                {hasMetaCredentials() ? "Meta app configured" : "Meta keys missing (.env)"}
-              </Badge>
-              <Badge tone={hasGoogleCredentials() ? "success" : "warning"}>
-                {hasGoogleCredentials() ? "Google OAuth configured" : "Google keys missing (.env)"}
-              </Badge>
-              <Badge tone={env().PROVIDER_MODE === "live" ? "success" : "info"}>
-                {env().PROVIDER_MODE === "live" ? "Live publishers" : "Mock publishers"}
-              </Badge>
-            </div>
           </div>
           <Link href="/settings" className={buttonClass("secondary", "sm")}>
             Setup status <Link2 className="h-3.5 w-3.5" />
@@ -157,7 +153,7 @@ export default async function AccountsPage({ searchParams }: { searchParams: Pro
         <EmptyState
           icon={<Link2 className="h-6 w-6" />}
           title="No accounts connected"
-          description="Connect a demo account to try the composer and calendar now; real Instagram and YouTube OAuth arrives in Sprint 2."
+          description="Connect Instagram or YouTube above. Without credentials the Connect buttons create a mock account, so the composer, calendar and queue all work today."
         />
       )}
     </>

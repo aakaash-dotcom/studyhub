@@ -6,3 +6,4 @@ export { createInstagramAdapter } from "./instagram";
 export { createYoutubeAdapter } from "./youtube";
 export { createFacebookAdapter } from "./facebook";
 export { resolvePublicUrl, redactToken } from "./helpers";
+export * from "./oauth";

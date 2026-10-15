@@ -33,7 +33,15 @@ the YouTube channel.
 | `GOOGLE_CLIENT_SECRET` | from step 1.5 |
 
 Restart, then `/settings` should show **Google configured**, and
-`/accounts → Connect YouTube` walks through the consent screen.
+`/accounts → Connect YouTube` walks through the consent screen. Without keys that
+button connects a demo channel instead, so nothing is blocked while you set the
+project up.
+
+The consent screen asks for three things, all of them on purpose: uploading to
+YouTube, reading the channel, and **read-only Drive** — the last one is for the
+Drive media bin, and asking once now is friendlier than a second consent later.
+If you have already connected YouTube before that scope was added, reconnect to
+grant it.
 
 ## 3. Submit the compliance audit
 

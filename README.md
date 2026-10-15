@@ -44,6 +44,7 @@ platform, so every button works end to end before you own a Meta app.
 | `npm run demo:data` | Demo accounts + posts; proves the approve → queue path |
 | `npm run session:dev` | Print a login cookie for `curl` testing |
 | `npm run smoke:login` | Sign in exactly as a browser does and verify the session sticks (set `PROXY_HOST`/`PROXY_ORIGIN` to test the preview's iframe + https path) |
+| `npm run smoke:oauth` | Run the real connect flow against fake Instagram/Google servers — proves the token exchange, PKCE, sealed state and account upsert without any credentials |
 | `npm run typecheck` | TypeScript, whole workspace |
 | `npm test` | Test suite (no network, no credentials needed) |
 | `npm run verify` | `typecheck` + `test` — the gate before every commit |
@@ -82,13 +83,14 @@ sign-out do not use Server Actions at all (they are plain form endpoints under
 
 ## Status
 
-**Phase 1 — S1 foundation: done.** Studio runs, database migrates and seeds,
-seven screens render, auth works, mock publishing is wired, 17 tests green.
+**Phase 1 — S1 done, S2 code done.** Studio runs, database migrates and seeds,
+seven screens render, auth works, accounts connect (mock today, real the moment
+credentials exist), mock publishing is wired, 27 tests green.
 
 | Sprint | Outcome | State |
 | --- | --- | --- |
 | S1 | Foundation: DB, auth, layout, mock providers, health check | **done** |
-| S2 | Connect accounts: Instagram Business Login + Google OAuth (`mock` first) | next |
+| S2 | Connect accounts: Instagram Login + Google OAuth, 60-day token exchange, PKCE, sealed state | **code done** — needs your Meta/Google keys for live |
 | S3 | Media box: upload → ffprobe/normalise → R2 → public URL | |
 | S4 | Instagram publisher: container → poll → publish, carousels, stories | |
 | S5 | YouTube publisher: resumable upload, private + `publishAt`, Shorts | |

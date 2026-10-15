@@ -81,13 +81,13 @@ studyhub/
 
 ## §D. Phase 1 build order — sprints, each with a hard exit test
 
-**S1 · Foundation**
-Scaffold monorepo, env handling, Drizzle schema v1 + migrations, PGlite dev DB, session auth, app shell + empty screens, logging, `events` audit table, `docker-compose.yml`, `.env.example`, README, CI-less `npm run verify` (typecheck + lint + tests).
-*Exit:* app boots here, you log in, see an empty dashboard in a live preview.
+**S1 · Foundation — DONE** ✅
+Scaffold monorepo, env handling, Drizzle schema v1 + migrations, PGlite dev DB, session auth, app shell + empty screens, logging, `events` audit table, `.env.example`, README, CI-less `npm run verify` (typecheck + tests). Seven screens render with real data; 20 tests green. *(docker-compose moves to the deployment sprint, S8.)*
+*Exit:* app boots here, you log in, see an empty dashboard in a live preview. **Met** — plus the sign-in loop fix: auth is now plain HTTP routes (`/api/auth/*`), cookies are `SameSite=None; Secure` over https so they survive the cross-site preview iframe, and `npm run smoke:login` proves it.
 
-**S2 · Brands, accounts, OAuth**
-Brand CRUD. Accounts list. OAuth start/callback routes for **Instagram Login**, **Facebook Login**, **Google/YouTube**; short→long-lived token exchange; AES-GCM encryption at rest; nightly refresh job; expiry countdown + reconnect flow. **Mock provider** so the entire flow is clickable in the sandbox without real credentials.
-*Exit:* connect a mock IG account and a mock YouTube channel; tokens refresh on demand; disconnect works.
+**S2 · Brands, accounts, OAuth — CODE DONE, awaiting your credentials for live** ✅
+Brand CRUD. Accounts list. OAuth start/callback routes for **Instagram Login** and **Google/YouTube**; Instagram's three-host dance (www → api → graph) with the short→60-day token exchange; Google `access_type=offline&prompt=consent` so a refresh token actually comes back; PKCE (S256) on both; sealed AES-GCM state token carrying the exact `redirect_uri` (kills the "invalid redirect_uri" class of bug); account upsert so reconnecting never duplicates; every failure surfaced as a readable note instead of a dead end. **Mock path** so Connect is clickable with no credentials at all. *(Facebook Pages and the nightly refresh job still to do — the refresh function exists and is tested, the cron that calls it lands with the worker in S6.)*
+*Exit:* connect a mock IG account and a mock YouTube channel; disconnect works. **Met in mock** — and the live path is verified against fake platform servers by `npm run smoke:oauth` (13 checks: token exchange, 60-day expiry, encrypted at rest, refresh token captured, idempotent reconnect). Live needs `META_APP_ID`/`META_APP_SECRET` and `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET`.
 
 **S3 · Media box**
 Upload endpoint (chunked), Drive OAuth + file pull, `ffprobe` validation, `ffmpeg` normalise (1080×1920 H.264/AAC faststart; PNG/HEIC→JPEG), R2 upload at random immutable paths, public-URL HEAD check, asset grid with validation results, lifecycle expiry.
