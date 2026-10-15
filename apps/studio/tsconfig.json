@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./*"],
+      "@centum/core": ["../../packages/core/src/index.ts"],
+      "@centum/core/*": ["../../packages/core/src/*"],
+      "@centum/providers": ["../../packages/providers/src/index.ts"],
+      "@centum/providers/*": ["../../packages/providers/src/*"],
+      "@centum/media": ["../../packages/media/src/index.ts"],
+      "@centum/notify": ["../../packages/notify/src/index.ts"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../../packages/*/src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
